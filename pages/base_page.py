@@ -1,15 +1,15 @@
-# from playwright.sync_api import Page
+from playwright.sync_api import Page
 
 
-# class LoginPage:
-#     def __init__(self, page):
-#         self.page = page
-#         self.page.goto("https://staging.m2m.eu/login")
-
-#         self.email_input = self.page.get_by_label("Email")
-#         self.password_input = self.page.locator("input[name='password']")
-
-#         self.login_btn = self.page.locator("button[type='submit']")
+class BasePage:
+    def __init__(self, page: Page):
+        self.page = page
+        
+        # Елементи меню
+        self.support_menu_btn = self.page.get_by_role("link", name="Підтримка")
+        self.doc_menu_btn = self.page.get_by_role("link", name="Документація")
+        self.profile_menu_btn = self.page.get_by_role("link", name="Профіль користувача")
+        self.exit_menu_btn = self.page.get_by_role("button", name="Вихід")
 
 
 #     def login(self, user_email, password):

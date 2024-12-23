@@ -1,9 +1,15 @@
 from playwright.sync_api import Page
+from pages.base_page import BasePage
+
 
 class SupportPage:
+    SUPPORT_URL = "https://staging.m2m.eu"
+    SUPPORT_PAGE_URL = f"{SUPPORT_URL}/support"
+
     def __init__(self, page: Page):
         self.page = page
-        self.page.goto("https://staging.m2m.eu")
+        self.base_page = BasePage(page) 
+        self.page.goto(self.SUPPORT_URL)
 
         # Лінки на форум і документацію
         self.forum_link = self.page.get_by_text("forum.m2m.eu")
@@ -12,50 +18,38 @@ class SupportPage:
         # Локатор для даних
         self.data_list = self.page.locator("main div p")
 
-        self.support_menu_btn = self.page.get_by_role("link", name="Підтримка")
-        self.doc_menu_btn = self.page.get_by_role("link", name="Документація")
- 
-        self.profile_menu_btn = self.page.get_by_role("link", name="Профіль користувача")
-        self.exit_menu_btn = self.page.get_by_role("button", name="Вихід")
 
-    
     def click_exit_button(self):
-        self.exit_menu_btn.click()
-    
+        self.base_page.exit_menu_btn.click()
 
     def open_profile_page(self):
-        self.profile_menu_btn.click()
-
+        self.base_page.profile_menu_btn.click()
 
     def open_doc_page(self):
-        self.doc_menu_btn.click()
-
+        self.base_page.doc_menu_btn.click()
 
     def open_forum_link(self):
-        # """Відкриває форум в новій вкладці"""
-        self.page.goto("https://staging.m2m.eu/support")
+        """Відкриває форум у новій вкладці."""
+        self.page.goto(self.SUPPORT_PAGE_URL)
         self.forum_link.click()
 
-
     def open_docs_link(self):
-        # """Відкриває документацію в новій вкладці"""
-        self.page.goto("https://staging.m2m.eu/support")
+        """Відкриває документацію у новій вкладці."""
+        self.page.goto(self.SUPPORT_PAGE_URL)
         self.docs_link.click()
 
-
     def get_contact_info(self):
-        self.support_menu_btn.click()
-
-        # """Повертає словник контактної інформації"""
+        """Повертає словник контактної інформації."""
+        self.base_page.support_menu_btn.click()
         paragraphs = self.data_list.all_inner_texts()
 
         data_dict = {}
         for item in paragraphs:
-            parts = item.split('\n')  # Розбиваємо за новим рядком
+            parts = item.split("\n")  # Розбиваємо за новим рядком
             if len(parts) == 2:  # Перевірка, що є два елементи
                 key, value = parts
-                data_dict[key] = value
+                data_dict[key.strip()] = value.strip()
             else:
-                data_dict[parts[0]] = ""  # Якщо немає другого елемента, присвоюємо порожнє значення
+                data_dict[parts[0].strip()] = ""  # Якщо немає другого елемента, присвоюємо порожнє значення
 
         return data_dict
