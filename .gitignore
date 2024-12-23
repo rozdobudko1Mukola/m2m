@@ -1,0 +1,26 @@
+# Python кеш
+__pycache__/
+*.py[cod]
+
+# pytest кеш
+.pytest_cache/
+.v/
+
+# Файли віртуального середовища
+venv/
+*.env
+*.venv
+.env/
+
+# Конфігурації IDE
+*.code-workspace
+*.idea/
+*.vscode/
+
+# JSON з даними авторизації
+storage_state.json
+
+# Системні файли
+.DS_Store
+Thumbs.db
+M2M.code-workspace
