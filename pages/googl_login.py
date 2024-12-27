@@ -2,44 +2,54 @@ from playwright.sync_api import sync_playwright, Page
 
 
 def get_token_from_email(page: Page):
-    # Відвідуємо google accounts
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(
+            slow_mo=2000,
+            args=["--disable-dev-shm-usage", "--disable-blink-features=AutomationControlled"],
+            ignore_default_args=['--disable-component-extensions-with-background-pages']
+        )
+        context = browser.new_context()
 
-    page.goto("https://workspace.google.com/intl/uk/gmail/")
+        # Створюємо нову сторінку в контексті
+        page = context.new_page()
 
-    page.locator("a.button:nth-of-type(2)").click()
+        # Відвідуємо google accounts
+        page.goto("https://workspace.google.com/intl/uk/gmail/")
 
-    # Вводимо адресу електронної пошти
-    email_input = page.locator("input[type='email']")
-    email_input.fill("m2m.test.auto@gmail.com")
+        page.locator("a.button:nth-of-type(2)").click()
 
-    try:
-        button_next = page.get_by_role("button", name="Далі")
-        button_next.click()
-    except:
-        button_next = page.get_by_role("button", name="Next")
-        button_next.click()
+        # Вводимо адресу електронної пошти
+        email_input = page.locator("input[type='email']")
+        email_input.fill("m2m.test.auto@gmail.com")
 
-    # Вводимо пароль
-    password_input = page.locator("input[type='password']")
-    password_input.fill("daIgK4tsyhPuLh5")
+        try:
+            button_next = page.get_by_role("button", name="Далі")
+            button_next.click()
+        except:
+            button_next = page.get_by_role("button", name="Next")
+            button_next.click()
 
-    try:
-        button_next = page.get_by_role("button", name="Далі")
-        button_next.click()
-    except:
-        button_next = page.get_by_role("button", name="Next")
-        button_next.click()
+        # Вводимо пароль
+        password_input = page.locator("input[type='password']")
+        password_input.fill("daIgK4tsyhPuLh5")
 
-    # Відвідуємо gmail
-    page.goto("https://gmail.com")
+        try:
+            button_next = page.get_by_role("button", name="Далі")
+            button_next.click()
+        except:
+            button_next = page.get_by_role("button", name="Next")
+            button_next.click()
 
-    # Перевірка нових листів
-    emails = page.locator("div.UI table tr").first
-    emails.click()
+        # Відвідуємо gmail
+        page.goto("https://gmail.com")
 
-    button = page.get_by_role("link", name="Підтвердити зміну/відновлення паролю").last
-    btn_attribut = button.get_attribute("href")
+        # Перевірка нових листів
+        emails = page.locator("div.UI table tr").first
+        emails.click()
 
-    browser.close()
+        button = page.get_by_role("link", name="Підтвердити зміну/відновлення паролю").last
+        btn_attribut = button.get_attribute("href")
 
-    return btn_attribut
+        browser.close()
+
+        return btn_attribut

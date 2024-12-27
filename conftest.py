@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from playwright.sync_api import Browser
+from playwright.sync_api import Browser, Page
 from pages.login import LoginPage
 
 
@@ -49,6 +49,7 @@ def authenticated_page(browser: Browser):
 
         login_page = LoginPage(page)
         login_page.login(user_email, password)
+        login_page.acsept_btn.click()
 
         # Зберігаємо стан
         context.storage_state(path=str(storage_state_path))
@@ -58,6 +59,7 @@ def authenticated_page(browser: Browser):
 
     # Завантажуємо збережений стан
     context = browser.new_context(storage_state=str(storage_state_path))
+    page = context.new_page()
 
     yield page
 

@@ -12,10 +12,13 @@ class BasePage:
         self.exit_menu_btn = self.page.get_by_role("button", name="Вихід")
 
         # Шапка сайту
-        avatar_btn = self.page.get_by_role("banner").get_by_role("button").nth(2)
+        self.avatar_btn = self.page.locator("header button").nth(4)
 
         self.user_email = self.page.locator("ul div span").nth(1)
 
+        # Помилки
+        self.red_fild_color = self.page.locator("fieldset")  # Червоний колір полів
+        self.mandatory_fields_msg = self.page.locator("form p") # Повідомлення про обов'язкові поля
 
 
 #     def login(self, user_email, password):
