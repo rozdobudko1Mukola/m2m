@@ -37,7 +37,7 @@ def gmail(browser: Browser):
 
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def authenticated_page(browser: Browser):
     """Фікстура для сесії із збереженим станом автентифікації."""
     storage_state_path = Path("utils/.auth/storage_state.json")

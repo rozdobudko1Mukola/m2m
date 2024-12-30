@@ -23,14 +23,6 @@ expected_dict = {
 }
 
 
-# M2M-1583 Натиснути на кнопку "Вихід" в бічному меню.
-def test_click_exit_button(authenticated_page: Page):
-    support_page = SupportPage(authenticated_page)
-    support_page.click_exit_button()
-
-    expect(authenticated_page).to_have_url(login_page_url)
-
-
 # M2M-1582 Перейти на сторінку "Профіль користувача"
 def test_open_profile_page(authenticated_page: Page):
     support_page = SupportPage(authenticated_page)
@@ -81,3 +73,11 @@ def test_contact_info(authenticated_page: Page):
     for key, expected_value in expected_dict.items():
         actual_value = contact_info.get(key, "")
         assert actual_value == expected_value, f"Невірне значення для '{key}': очікувалось '{expected_value}', але отримано '{actual_value}'"
+
+
+# M2M-1583 Натиснути на кнопку "Вихід" в бічному меню.
+def test_click_exit_button(authenticated_page: Page):
+    support_page = SupportPage(authenticated_page)
+    support_page.click_exit_button()
+
+    expect(authenticated_page).to_have_url(login_page_url)
