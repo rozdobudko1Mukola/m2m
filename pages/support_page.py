@@ -3,13 +3,12 @@ from pages.base_page import BasePage
 
 
 class SupportPage:
-    SUPPORT_URL = "https://staging.m2m.eu"
-    SUPPORT_PAGE_URL = f"{SUPPORT_URL}/support"
+    SUPPORT_PAGE_URL = "https://staging.m2m.eu/support"
 
     def __init__(self, page: Page):
         self.page = page
         self.base_page = BasePage(page) 
-        self.page.goto(self.SUPPORT_URL)
+        self.page.goto(self.SUPPORT_PAGE_URL)
 
         # Лінки на форум і документацію
         self.forum_link = self.page.get_by_text("forum.m2m.eu")
