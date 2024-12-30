@@ -235,7 +235,7 @@ def test_create_new_user_with_registered_data(page: Page):
     login_page.i_agree_checkbox.check()
     login_page.acsept_btn.click()
 
-    expect(login_page.user_is_exist_msg).to_have_text("Цей email вже зареєстровано")
+    expect(login_page.user_is_exist_msg).to_have_text("Такий користувач вже існує")
 
 
 # M2M-1312 View user password on the account creation page
