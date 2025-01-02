@@ -5,12 +5,17 @@ import re
 
 class ProfilePage:
 
-    PROFILE_PAGE_URL = "https://staging.m2m.eu/user"
+    BASE_URL = "https://staging.m2m.eu"
+    PROFILE_PAGE_URL = f"{BASE_URL}/user"
 
     def __init__(self, page: Page):
         self.page = page
         self.base_page = BasePage(page) 
         self.page.goto(self.PROFILE_PAGE_URL)
+
+        self.bg_color_locator = self.page.locator("body main")
+        self.black_bg_color = "rgb(12, 31, 55)"
+        self.white_bg_color = "rgb(245, 245, 245)"
 
     
     def switch_bg_color(self):
@@ -60,3 +65,8 @@ class ProfilePage:
         cleaned_text = re.sub(r"-?\d+(\.\d+)?\s*UAH", "", sidebar_text)
         return cleaned_text
         
+
+    def go_to_the_user_profile_page(self):
+        self.page.goto(self.BASE_URL)
+        self.base_page.avatar_btn.click()
+        self.base_page.user_dd_window.nth(3).click()

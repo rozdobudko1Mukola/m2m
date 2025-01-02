@@ -24,7 +24,7 @@ class BasePage:
 
         self.nav_sidebar = self.page.locator("nav")
 
-        self.user_email = self.page.locator("ul div span").nth(1)
+        self.user_dd_window = self.page.locator("ul div span")
 
         # Помилки
         self.red_fild_color = self.page.locator("fieldset")  # Червоний колір полів
