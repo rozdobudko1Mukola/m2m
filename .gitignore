@@ -29,3 +29,5 @@ M2M.code-workspace
 
 # Reports
 reports/
+
+pytest.ini

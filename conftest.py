@@ -49,7 +49,7 @@ def authenticated_page(browser: Browser):
 
         login_page = LoginPage(page)
         login_page.login(user_email, password)
-        login_page.acsept_btn.click(timeout=500)
+        login_page.acsept_btn.click()
 
         # Зберігаємо стан
         context.storage_state(path=str(storage_state_path))
