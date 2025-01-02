@@ -49,7 +49,7 @@ def authenticated_page(browser: Browser):
 
         login_page = LoginPage(page)
         login_page.login(user_email, password)
-        login_page.acsept_btn.click()
+        login_page.acsept_btn.click(timeout=500)
 
         # Зберігаємо стан
         context.storage_state(path=str(storage_state_path))
@@ -60,6 +60,21 @@ def authenticated_page(browser: Browser):
     # Завантажуємо збережений стан
     context = browser.new_context(storage_state=str(storage_state_path))
     page = context.new_page()
+
+    yield page
+
+    page.close()
+    context.close()
+
+
+@pytest.fixture(scope="session")
+def login_usere(browser: Browser):
+    context = browser.new_context()
+    page = context.new_page()
+
+    login_page = LoginPage(page)
+    login_page.login(user_email, password)
+    login_page.acsept_btn.click()
 
     yield page
 
