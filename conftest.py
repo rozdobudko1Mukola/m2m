@@ -12,9 +12,7 @@ password = "123456"
 def page(browser: Browser):
     """Фікстура для чистої сесії."""
     context = browser.new_context()
-    page = context.new_page(
-        timezone_id="Europe/Kiev"
-    )
+    page = context.new_page()
 
     yield page
 
@@ -28,9 +26,8 @@ def gmail(browser: Browser):
     context = browser.new_context(
             slow_mo=2000,
             args=["--disable-dev-shm-usage", "--disable-blink-features=AutomationControlled"],
-            ignore_default_args=['--disable-component-extensions-with-background-pages'],
-            timezone_id="Europe/Kiev"
-    )
+            ignore_default_args=['--disable-component-extensions-with-background-pages']
+        )
     page = context.new_page()
 
     yield page
@@ -47,9 +44,7 @@ def authenticated_page(browser: Browser):
 
     # Якщо файл стану не існує, створюємо його
     if not storage_state_path.exists():
-        context = browser.new_context(
-            timezone_id="Europe/Kiev"
-        )
+        context = browser.new_context()
 
         page = context.new_page()
 
@@ -64,10 +59,7 @@ def authenticated_page(browser: Browser):
         context.close()
 
     # Завантажуємо збережений стан
-    context = browser.new_context(
-        storage_state=str(storage_state_path),
-        timezone_id="Europe/Kiev"
-        )
+    context = browser.new_context(storage_state=str(storage_state_path))
 
     page = context.new_page()
 
@@ -80,9 +72,7 @@ def authenticated_page(browser: Browser):
 @pytest.fixture(scope="session")
 def login_usere(browser: Browser):
     context = browser.new_context()
-    page = context.new_page(
-        timezone_id="Europe/Kiev"
-    )
+    page = context.new_page()
 
     login_page = LoginPage(page)
     login_page.login(user_email, password)
