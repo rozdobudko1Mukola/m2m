@@ -13,6 +13,7 @@ class BasePage:
 
         # Шапка сайту
         self.avatar_btn = self.page.locator("header button").nth(4)
+        self.bg_color_switcher = self.page.locator("header input")
 
         self.user_email = self.page.locator("ul div span").nth(1)
 

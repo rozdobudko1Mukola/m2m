@@ -26,3 +26,6 @@ utils/.auth/gmail_state.json
 .DS_Store
 Thumbs.db
 M2M.code-workspace
+
+# Reports
+reports/
