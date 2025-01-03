@@ -18,18 +18,31 @@ class ProfilePage:
         self.white_bg_color = "rgb(245, 245, 245)"
 
         # /user page locators
-        self.replace_email_btn = self.page.get_by_role("button", name="Змінити email")
+        self.replace_email_btn = self.page.locator("//div[@id='panel1bh-content']/div/button")
         self.f_name_input = self.page.locator("input[name='firstName']")
         self.l_name_input = self.page.locator("input[name='lastName']")
         self.phone_input = self.page.locator("input[name='phone']")
         self.save_btn = self.page.locator("//div[@id='panel1bh-content']/div/div[7]/button")
         self.listbox = self.page.locator("//ul")
-        self.dd_language = self.page.locator("//div[@id='demo-simple-select']").nth(0)
-        self.dd_timezone = self.locator("//div[@id='demo-simple-select']").nth(1)
+        self.dd_language_timezone = self.page.locator("//div[@id='demo-simple-select']")
 
         # confirm popap locators
         self.new_email_input = self.page.locator("input[name='newEmail']")
-        self.submit_popup_btn = self.page.get_by_role("dialog").locator("button")
+        self.current_pass_input = self.page.locator("input[name='oldPassword']")
+        self.new_pass_input = self.page.locator("input[name='newPassword']")
+        self.repeat_pass_input = self.page.locator("input[name='repeatPassword']")
+        self.submit_popup_btn = self.page.locator("//div[@role='dialog']//button")
+
+        # dropdown list locator
+        self.dropdown_list = self.page.locator("ul")
+        self.main_dd_button = self.page.locator("//main//div[@role='button']")
+
+        # security tab locators
+        self.radio_group = self.page.get_by_role("radiogroup")
+        self.change_pass_btn = self.page.get_by_role("button", name="Змінити пароль")
+
+        # maps tab locators
+        self.gmaps_checkbox = self.page.get_by_text("Google Maps")
 
     
     def switch_bg_color(self):
@@ -110,10 +123,21 @@ class ProfilePage:
         self.submit_popup_btn.click()
 
 
-    def change_language(self, option: str):
-        self.dd_language.click()
+    def change_language(self, option: str, index: int) -> str:
+        self.dd_language_timezone.nth(index).click()
         self.listbox.locator(f"//li[text()='{option}']").click()
         self.save_btn.click()
         self.submit_popup_btn.click()
         return self.page.locator("header h1")
-        
+
+    
+    def change_password(self, current_pass: str, new_pass: str, repeat_pass) -> str:
+        self.page.goto(self.PROFILE_PAGE_URL)
+        self.page.get_by_text("Безпека").click()
+        self.change_pass_btn.click()
+        self.current_pass_input.fill(current_pass)
+        self.new_pass_input.fill(new_pass)
+        self.repeat_pass_input.fill(repeat_pass)
+        self.submit_popup_btn.click()
+        self.submit_popup_btn.click()
+

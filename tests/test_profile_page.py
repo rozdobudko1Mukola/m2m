@@ -2,6 +2,7 @@ import pytest
 from datetime import datetime
 from pages.support_page import SupportPage
 from pages.base_page import BasePage
+from pages.login import LoginPage
 from pages.profil_page import ProfilePage  
 from playwright.sync_api import Page, expect
 
@@ -13,13 +14,14 @@ show_sidebar_nav = "АналітикаМоніторингГеозониЗвіт
 
 user_window_data_check = f"{stage_user_email}Дані облікового запису:Ім'я: {stage_user_email}НалаштуванняВихід"
 
-profile_page_test_data = {
+test_data = {
     "invalid_email": "dkononenko1994ukr.net",
     "first user name": "test auto user name",
     "last user name": "test auto user last name",
-    "phone number": "+380123456789"
-}
-
+    "phone number": "+380123456789",
+    "login_current_pass": "m2m.test.auto@gmail.com",
+    "new pass": "qwerty123"
+    }
 
 
 # M2M-15 Change the background color of the site
@@ -104,38 +106,77 @@ def test_change_user_email_m2m_19(authenticated_page: Page):
 def test_replace_email_invalid_data_m2m_21(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
 
-    expect(profile_page.replace_email_invalid_data(profile_page_test_data['invalid_email'])).to_have_text("Введіть корекно Email") # Перевіряємо зміну email на невірний формат
+    expect(profile_page.replace_email_invalid_data(test_data['invalid_email'])).to_have_text("Введіть корекно Email") # Перевіряємо зміну email на невірний формат
     expect(profile_page.base_page.red_fild_color.last).to_have_css("border-color", profile_page.base_page.color_of_red) # Перевіряємо червоний колір поля
 
 
 # M2M-22 Replace the username
 def test_change_user_name_m2m_22(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
-    profile_page.repalce_username(f_name=profile_page_test_data['first user name'])
+    profile_page.repalce_username(f_name=test_data['first user name'])
 
-    expect(profile_page.f_name_input).to_have_value(profile_page_test_data["first user name"]) # Перевіряємо зміну імені користувача
+    expect(profile_page.f_name_input).to_have_value(test_data["first user name"]) # Перевіряємо зміну імені користувача
 
 
 # M2M-23 Replace the user's last name
 def test_change_user_last_name_m2m_23(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
-    profile_page.repalce_username(l_name=profile_page_test_data['last user name'])
+    profile_page.repalce_username(l_name=test_data['last user name'])
 
-    expect(profile_page.l_name_input).to_have_value(profile_page_test_data["last user name"]) # Перевіряємо зміну прізвища користувача
+    expect(profile_page.l_name_input).to_have_value(test_data["last user name"]) # Перевіряємо зміну прізвища користувача
 
 
 # M2M-24 Change the language of the site
 def test_change_site_language_m2m_24(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
 
-    expect(profile_page.change_language("English")).to_have_text("User") # Перевіряємо зміну мови на "English"
-    expect(profile_page.change_language("Українська")).to_have_text("Профіль користувача") # Перевіряємо зміну мови на "Українська"
-    expect(profile_page.change_language("Русский")).to_have_text("Профиль пользователя") # Перевіряємо зміну мови на "Русский"
-
+    expect(profile_page.change_language("English", 0)).to_have_text("User") # Перевіряємо зміну мови на "English"
+    expect(profile_page.change_language("Русский", 0)).to_have_text("Профиль пользователя") # Перевіряємо зміну мови на "Русский"
+    expect(profile_page.change_language("Українська", 0)).to_have_text("Профіль користувача") # Перевіряємо зміну мови на "Українська"
 
 # M2M-25 Change the phone number
 def test_change_phone_number_m2m_25(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
-    profile_page.repalce_username(phone=profile_page_test_data['phone number'])
+    profile_page.repalce_username(phone=test_data['phone number'])
 
-    expect(profile_page.phone_input).to_have_value(profile_page_test_data["phone number"]) # Перевіряємо зміну номера телефону
+    expect(profile_page.phone_input).to_have_value(test_data["phone number"]) # Перевіряємо зміну номера телефону
+
+
+# M2M-26 Replace user time zone
+def test_change_user_time_zone_m2m_26(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+    profile_page.change_language("Europe/Istanbul [+03:00] Turkey Time", 1)
+
+    expect(profile_page.dd_language_timezone.nth(1)).to_contain_text("Europe/Istanbul [+03:00] Turkey Time") # Перевіряємо зміну часового поясу
+    profile_page.change_language("Europe/Kyiv [+02:00] за східноєвропейським часом", 1) # Повертаємо часовий пояс на попередній
+
+
+# M2M-27 Switch between drop-down lists
+def test_switch_between_drop_down_lists_m2m_27(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    profile_page.main_dd_button.nth(0).click(timeout=500)
+    expect(profile_page.dd_language_timezone.nth(1)).not_to_be_visible() # Перевіряємо перехід між списками
+    profile_page.main_dd_button.nth(1).click(timeout=500)
+    expect(profile_page.radio_group).to_be_visible() # Перевіряємо перехід між списками
+    profile_page.main_dd_button.nth(2).click(timeout=500)
+    expect(profile_page.gmaps_checkbox).to_be_visible() # Перевіряємо перехід між списками
+
+
+# M2M-28 Change password to a new one using valid values
+def test_change_password_m2m_28(page: Page):    
+    login_page = LoginPage(page)
+    login_page.login(test_data['login_current_pass'], test_data['login_current_pass'])
+    login_page.acsept_btn.click()
+
+    profile_page = ProfilePage(page)
+    profile_page.change_password(test_data['login_current_pass'], test_data['new pass'], test_data['new pass'])
+    expect(page).to_have_url(f"{profile_page.BASE_URL}/login", timeout=15000) # Перевіряємо вихід з облікового запису
+
+    # Логінимося з новим паролем і повертаємо старий пароль назад
+    login_page.login(test_data['login_current_pass'], test_data['new pass'])
+    login_page.acsept_btn.click()
+    profile_page.change_password(test_data['new pass'], test_data['login_current_pass'], test_data['login_current_pass'])
+
+
+    expect(page).to_have_url(f"{profile_page.BASE_URL}/login", timeout=15000) # Перевіряємо вихід з облікового запису
