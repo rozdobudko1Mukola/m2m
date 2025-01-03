@@ -30,3 +30,4 @@ class BasePage:
         self.red_fild_color = self.page.locator("fieldset")  # Червоний колір полів
         self.mandatory_fields_msg = self.page.locator("form p") # Повідомлення про обов'язкові поля
 
+        self.color_of_red = "rgb(211, 47, 47)" # Червоний колір

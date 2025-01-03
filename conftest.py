@@ -4,8 +4,10 @@ from playwright.sync_api import Browser, Page
 from pages.login import LoginPage
 
 
-user_email = "dkononenko1994@ukr.net"
-password = "123456"
+stage_user_email = "dkononenko1994@ukr.net"
+stage_user_password = "123456"
+
+stage_test_user_email_pass = "m2m.test.auto@gmail.com"
 
 
 @pytest.fixture(scope="function")
@@ -49,7 +51,7 @@ def authenticated_page(browser: Browser):
         page = context.new_page()
 
         login_page = LoginPage(page)
-        login_page.login(user_email, password)
+        login_page.login(stage_user_email, stage_user_password)
         login_page.acsept_btn.click()
 
         # Зберігаємо стан
@@ -75,10 +77,38 @@ def login_usere(browser: Browser):
     page = context.new_page()
 
     login_page = LoginPage(page)
-    login_page.login(user_email, password)
+    login_page.login(stage_user_email, stage_user_password)
     login_page.acsept_btn.click()
 
     yield page
 
+    page.close()
+    context.close()
+
+
+@pytest.fixture(scope="function")
+def auth_new_test_user(browser: Browser):
+    new_test_user_stage_path = Path("utils/.auth/new_test_user_stage.json")
+
+    # Якщо файл стану не існує, створюємо його
+    if not new_test_user_stage_path.exists():
+        context = browser.new_context()
+
+        page = context.new_page()
+
+        login_page = LoginPage(page)
+        login_page.login(stage_test_user_email_pass, stage_test_user_email_pass)
+        login_page.acsept_btn.click()
+
+        # Зберігаємо стан
+        context.storage_state(path=str(new_test_user_stage_path))
+
+        page.close()
+        context.close()
+    
+    # Завантажуємо збережений стан
+    context = browser.new_context(storage_state=str(new_test_user_stage_path))
+    page = context.new_page()
+    yield page
     page.close()
     context.close()

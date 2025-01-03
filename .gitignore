@@ -18,9 +18,7 @@ venv/
 *.vscode/
 
 # JSON з даними авторизації
-storage_state.json
-utils/.auth/gmail_state.json
-/.auth
+utils/.auth/*.json
 
 # Системні файли
 .DS_Store

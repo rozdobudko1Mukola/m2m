@@ -8,10 +8,13 @@ from playwright.sync_api import Page, expect
 
 stage_user_email = "dkononenko1994@ukr.net"
 
+invalid_email = "dkononenko1994ukr.net"
+
 hide_sidebar_nav = "МоніторингЗвітиБаза данихБілінгБаланс: ПідтримкаДокументаціяПрофіль користувачаВихід"
 show_sidebar_nav = "АналітикаМоніторингГеозониЗвітиТрекиПовідомленняБаза данихБілінгБаланс: ПідтримкаДокументаціяПрофіль користувачаВихід"
 
 user_window_data_check = f"{stage_user_email}Дані облікового запису:Ім'я: {stage_user_email}НалаштуванняВихід"
+
 
 
 # M2M-15 Change the background color of the site
@@ -76,3 +79,32 @@ def test_go_to_the_user_profile_page_m2m_786(authenticated_page: Page):
 
     profile_page.go_to_the_user_profile_page()
     expect(authenticated_page.locator("header h1")).to_have_text("Профіль користувача") # Перевіряємо перехід на сторінку профілю користувача
+
+
+# M2M-787 Use the user window to log out of your account
+def test_logout_from_account_m2m_787(authenticated_page: Page):
+    profile_page = ProfilePage(authenticated_page)
+
+    profile_page.logout_use_user_window()
+    expect(authenticated_page).to_have_url(f"{profile_page.BASE_URL}/login") # Перевіряємо вихід з облікового запису
+
+
+# M2M-19 Replace user's email
+pytest.mark.skip(reason="Not implemented")
+def test_change_user_email_m2m_19(authenticated_page: Page):
+    pass
+
+
+# M2M-21 Replace user's email with invalid data
+def test_replace_email_invalid_data_m2m_21(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    expect(profile_page.replace_email_invalid_data(invalid_email)).to_have_text("Введіть корекно Email") # Перевіряємо зміну email на невірний формат
+    expect(profile_page.base_page.red_fild_color.last).to_have_css("border-color", profile_page.base_page.color_of_red) # Перевіряємо червоний колір поля
+
+
+# M2M-22 Replace the username
+def test_change_user_name_m2m_22(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    expect(profile_page.repalce_username(invalid_email)).to_have_value(invalid_email) # Перевіряємо зміну імені користувача

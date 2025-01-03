@@ -17,6 +17,18 @@ class ProfilePage:
         self.black_bg_color = "rgb(12, 31, 55)"
         self.white_bg_color = "rgb(245, 245, 245)"
 
+        # /user page locators
+        self.replace_email_btn = self.page.get_by_role("button", name="Змінити email")
+        self.f_name_input = self.page.locator("input[name='firstName']")
+        self.l_name_input = self.page.locator("input[name='lastName']")
+        self.language_time_select = self.page.get_by_test_id("demo-simple-select")
+        self.phone_input = self.page.locator("input[name='phone']")
+        self.save_btn = self.page.get_by_role("button", name="Зберегти")
+
+        # confirm popap locators
+        self.new_email_input = self.page.locator("input[name='newEmail']")
+        self.submit_popup_btn = self.page.get_by_role("dialog").locator("button")
+
     
     def switch_bg_color(self):
         self.base_page.bg_color_switcher.click()
@@ -70,3 +82,24 @@ class ProfilePage:
         self.page.goto(self.BASE_URL)
         self.base_page.avatar_btn.click()
         self.base_page.user_dd_window.nth(3).click()
+
+
+    def logout_use_user_window(self):
+        self.base_page.avatar_btn.click()
+        self.base_page.user_dd_window.nth(4).click()
+
+
+    def replace_email_invalid_data(self, new_email) -> str:
+        self.replace_email_btn.click()
+        self.new_email_input.fill(new_email)
+        self.submit_popup_btn.last.click()
+        self.err_msg = self.base_page.mandatory_fields_msg
+        return self.err_msgs
+
+
+    def repalce_username(self, f_name):
+        self.f_name_input.clear()
+        self.f_name_input.fill(f_name)
+        self.save_btn.click()
+        self.submit_popup_btn.click()
+        return self.f_name_input
