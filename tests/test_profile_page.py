@@ -8,12 +8,17 @@ from playwright.sync_api import Page, expect
 
 stage_user_email = "dkononenko1994@ukr.net"
 
-invalid_email = "dkononenko1994ukr.net"
-
 hide_sidebar_nav = "МоніторингЗвітиБаза данихБілінгБаланс: ПідтримкаДокументаціяПрофіль користувачаВихід"
 show_sidebar_nav = "АналітикаМоніторингГеозониЗвітиТрекиПовідомленняБаза данихБілінгБаланс: ПідтримкаДокументаціяПрофіль користувачаВихід"
 
 user_window_data_check = f"{stage_user_email}Дані облікового запису:Ім'я: {stage_user_email}НалаштуванняВихід"
+
+profile_page_test_data = {
+    "invalid_email": "dkononenko1994ukr.net",
+    "first user name": "test auto user name",
+    "last user name": "test auto user last name",
+    "phone number": "+380123456789"
+}
 
 
 
@@ -99,12 +104,38 @@ def test_change_user_email_m2m_19(authenticated_page: Page):
 def test_replace_email_invalid_data_m2m_21(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
 
-    expect(profile_page.replace_email_invalid_data(invalid_email)).to_have_text("Введіть корекно Email") # Перевіряємо зміну email на невірний формат
+    expect(profile_page.replace_email_invalid_data(profile_page_test_data['invalid_email'])).to_have_text("Введіть корекно Email") # Перевіряємо зміну email на невірний формат
     expect(profile_page.base_page.red_fild_color.last).to_have_css("border-color", profile_page.base_page.color_of_red) # Перевіряємо червоний колір поля
 
 
 # M2M-22 Replace the username
 def test_change_user_name_m2m_22(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
+    profile_page.repalce_username(f_name=profile_page_test_data['first user name'])
 
-    expect(profile_page.repalce_username(invalid_email)).to_have_value(invalid_email) # Перевіряємо зміну імені користувача
+    expect(profile_page.f_name_input).to_have_value(profile_page_test_data["first user name"]) # Перевіряємо зміну імені користувача
+
+
+# M2M-23 Replace the user's last name
+def test_change_user_last_name_m2m_23(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+    profile_page.repalce_username(l_name=profile_page_test_data['last user name'])
+
+    expect(profile_page.l_name_input).to_have_value(profile_page_test_data["last user name"]) # Перевіряємо зміну прізвища користувача
+
+
+# M2M-24 Change the language of the site
+def test_change_site_language_m2m_24(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    expect(profile_page.change_language("English")).to_have_text("User") # Перевіряємо зміну мови на "English"
+    expect(profile_page.change_language("Українська")).to_have_text("Профіль користувача") # Перевіряємо зміну мови на "Українська"
+    expect(profile_page.change_language("Русский")).to_have_text("Профиль пользователя") # Перевіряємо зміну мови на "Русский"
+
+
+# M2M-25 Change the phone number
+def test_change_phone_number_m2m_25(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+    profile_page.repalce_username(phone=profile_page_test_data['phone number'])
+
+    expect(profile_page.phone_input).to_have_value(profile_page_test_data["phone number"]) # Перевіряємо зміну номера телефону

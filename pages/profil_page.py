@@ -21,9 +21,11 @@ class ProfilePage:
         self.replace_email_btn = self.page.get_by_role("button", name="Змінити email")
         self.f_name_input = self.page.locator("input[name='firstName']")
         self.l_name_input = self.page.locator("input[name='lastName']")
-        self.language_time_select = self.page.get_by_test_id("demo-simple-select")
         self.phone_input = self.page.locator("input[name='phone']")
-        self.save_btn = self.page.get_by_role("button", name="Зберегти")
+        self.save_btn = self.page.locator("//div[@id='panel1bh-content']/div/div[7]/button")
+        self.listbox = self.page.locator("//ul")
+        self.dd_language = self.page.locator("//div[@id='demo-simple-select']").nth(0)
+        self.dd_timezone = self.locator("//div[@id='demo-simple-select']").nth(1)
 
         # confirm popap locators
         self.new_email_input = self.page.locator("input[name='newEmail']")
@@ -94,12 +96,24 @@ class ProfilePage:
         self.new_email_input.fill(new_email)
         self.submit_popup_btn.last.click()
         self.err_msg = self.base_page.mandatory_fields_msg
-        return self.err_msgs
+        return self.err_msg
 
 
-    def repalce_username(self, f_name):
+    def repalce_username(self, f_name="", l_name="", phone="") -> str:
         self.f_name_input.clear()
         self.f_name_input.fill(f_name)
+        self.l_name_input.clear()
+        self.l_name_input.fill(l_name)
+        self.phone_input.clear()
+        self.phone_input.fill(phone)
         self.save_btn.click()
         self.submit_popup_btn.click()
-        return self.f_name_input
+
+
+    def change_language(self, option: str):
+        self.dd_language.click()
+        self.listbox.locator(f"//li[text()='{option}']").click()
+        self.save_btn.click()
+        self.submit_popup_btn.click()
+        return self.page.locator("header h1")
+        

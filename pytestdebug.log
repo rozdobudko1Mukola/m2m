@@ -1,0 +1,816 @@
+versions pytest-8.3.4, python-3.13.0.final.0
+invocation_dir=/Users/mykolarozdobudko/Documents/M2M
+cwd=/Users/mykolarozdobudko/Documents/M2M
+args=('-s', '-v', '--headed', '--slowmo=1000', 'tests/test_profile_page.py::test_change_site_language_m2m_24', '--debug')
+
+  pytest_cmdline_main [hook]
+      config: <_pytest.config.Config object at 0x1040b63c0>
+    pytest_plugin_registered [hook]
+        plugin: <Session  exitstatus='<UNSET>' testsfailed=0 testscollected=0>
+        plugin_name: session
+        manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+    finish pytest_plugin_registered --> [] [hook]
+    pytest_configure [hook]
+        config: <_pytest.config.Config object at 0x1040b63c0>
+    early skip of rewriting module: plistlib [assertion]
+    early skip of rewriting module: xml.parsers [assertion]
+    early skip of rewriting module: xml.parsers.expat [assertion]
+      pytest_metadata [hook]
+          metadata: {'Python': '3.13.0', 'Platform': 'macOS-15.2-arm64-arm-64bit-Mach-O', 'Packages': {'pytest': '8.3.4', 'pluggy': '1.5.0'}, 'Plugins': {'html': '4.1.1', 'metadata': '3.1.1', 'playwright': '0.6.2', 'reporter-html1': '0.9.2', 'base-url': '2.1.0', 'reporter': '0.5.3', 'xdist': '3.6.1'}}
+          config: <_pytest.config.Config object at 0x1040b63c0>
+      finish pytest_metadata --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.LFPlugin object at 0x1053f96a0>
+          plugin_name: lfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.NFPlugin object at 0x1053f9940>
+          plugin_name: nfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <pytest_reporter_html1.plugin.TemplatePlugin object at 0x1053f97f0>
+          plugin_name: 4383021040
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+    early skip of rewriting module: faulthandler [assertion]
+      pytest_plugin_registered [hook]
+          plugin: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+          plugin_name: legacypath-tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+    early skip of rewriting module: pdb [assertion]
+    early skip of rewriting module: cmd [assertion]
+    early skip of rewriting module: code [assertion]
+    early skip of rewriting module: codeop [assertion]
+    early skip of rewriting module: rlcompleter [assertion]
+    early skip of rewriting module: readline [assertion]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.PytestPluginManager object at 0x103f47770>
+          plugin_name: 4361320304
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.Config object at 0x1040b63c0>
+          plugin_name: pytestconfig
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.mark' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/mark/__init__.py'>
+          plugin_name: mark
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.main' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/main.py'>
+          plugin_name: main
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.runner' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/runner.py'>
+          plugin_name: runner
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.fixtures' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/fixtures.py'>
+          plugin_name: fixtures
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.helpconfig' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/helpconfig.py'>
+          plugin_name: helpconfig
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/python.py'>
+          plugin_name: python
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.terminal' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/terminal.py'>
+          plugin_name: terminal
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.debugging' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/debugging.py'>
+          plugin_name: debugging
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unittest' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/unittest.py'>
+          plugin_name: unittest
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.capture' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/capture.py'>
+          plugin_name: capture
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.skipping' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/skipping.py'>
+          plugin_name: skipping
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.legacypath' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/legacypath.py'>
+          plugin_name: legacypath
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.tmpdir' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/tmpdir.py'>
+          plugin_name: tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.monkeypatch' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/monkeypatch.py'>
+          plugin_name: monkeypatch
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.recwarn' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/recwarn.py'>
+          plugin_name: recwarn
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.pastebin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/pastebin.py'>
+          plugin_name: pastebin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.assertion' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/assertion/__init__.py'>
+          plugin_name: assertion
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.junitxml' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/junitxml.py'>
+          plugin_name: junitxml
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.doctest' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/doctest.py'>
+          plugin_name: doctest
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.cacheprovider' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/cacheprovider.py'>
+          plugin_name: cacheprovider
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.freeze_support' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/freeze_support.py'>
+          plugin_name: freeze_support
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setuponly' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/setuponly.py'>
+          plugin_name: setuponly
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setupplan' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/setupplan.py'>
+          plugin_name: setupplan
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.stepwise' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/stepwise.py'>
+          plugin_name: stepwise
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.warnings' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/warnings.py'>
+          plugin_name: warnings
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.logging' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/logging.py'>
+          plugin_name: logging
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.reports' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/reports.py'>
+          plugin_name: reports
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python_path' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/python_path.py'>
+          plugin_name: python_path
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unraisableexception' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/unraisableexception.py'>
+          plugin_name: unraisableexception
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.threadexception' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/threadexception.py'>
+          plugin_name: threadexception
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.faulthandler' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/faulthandler.py'>
+          plugin_name: faulthandler
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_html.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_html/plugin.py'>
+          plugin_name: html
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_html.fixtures' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_html/fixtures.py'>
+          plugin_name: html_fixtures
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_metadata.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_metadata/plugin.py'>
+          plugin_name: metadata
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_playwright.pytest_playwright' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_playwright/pytest_playwright.py'>
+          plugin_name: playwright
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_reporter_html1.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_reporter_html1/plugin.py'>
+          plugin_name: reporter_html1
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_base_url.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_base_url/plugin.py'>
+          plugin_name: base_url
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_reporter.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_reporter/plugin.py'>
+          plugin_name: reporter
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'xdist.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/xdist/plugin.py'>
+          plugin_name: xdist
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'xdist.looponfail' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/xdist/looponfail.py'>
+          plugin_name: xdist.looponfail
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <CaptureManager _method='no' _global_capturing=<MultiCapture out=None err=None in_=None _state='suspended' _in_suspended=False> _capture_fixture=None>
+          plugin_name: capturemanager
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'conftest' from '/Users/mykolarozdobudko/Documents/M2M/conftest.py'>
+          plugin_name: /Users/mykolarozdobudko/Documents/M2M/conftest.py
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+          plugin_name: session
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.LFPlugin object at 0x1053f96a0>
+          plugin_name: lfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.NFPlugin object at 0x1053f9940>
+          plugin_name: nfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <pytest_reporter_html1.plugin.TemplatePlugin object at 0x1053f97f0>
+          plugin_name: 4383021040
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+          plugin_name: legacypath-tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.terminal.TerminalReporter object at 0x1053fae40>
+          plugin_name: terminalreporter
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.logging.LoggingPlugin object at 0x1053fb380>
+          plugin_name: logging-plugin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+    finish pytest_configure --> [] [hook]
+    pytest_sessionstart [hook]
+        session: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.PytestPluginManager object at 0x103f47770>
+          plugin_name: 4361320304
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.config.Config object at 0x1040b63c0>
+          plugin_name: pytestconfig
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.mark' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/mark/__init__.py'>
+          plugin_name: mark
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.main' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/main.py'>
+          plugin_name: main
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.runner' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/runner.py'>
+          plugin_name: runner
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.fixtures' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/fixtures.py'>
+          plugin_name: fixtures
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.helpconfig' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/helpconfig.py'>
+          plugin_name: helpconfig
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/python.py'>
+          plugin_name: python
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.terminal' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/terminal.py'>
+          plugin_name: terminal
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.debugging' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/debugging.py'>
+          plugin_name: debugging
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unittest' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/unittest.py'>
+          plugin_name: unittest
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.capture' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/capture.py'>
+          plugin_name: capture
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.skipping' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/skipping.py'>
+          plugin_name: skipping
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.legacypath' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/legacypath.py'>
+          plugin_name: legacypath
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.tmpdir' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/tmpdir.py'>
+          plugin_name: tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.monkeypatch' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/monkeypatch.py'>
+          plugin_name: monkeypatch
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.recwarn' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/recwarn.py'>
+          plugin_name: recwarn
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.pastebin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/pastebin.py'>
+          plugin_name: pastebin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.assertion' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/assertion/__init__.py'>
+          plugin_name: assertion
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.junitxml' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/junitxml.py'>
+          plugin_name: junitxml
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.doctest' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/doctest.py'>
+          plugin_name: doctest
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.cacheprovider' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/cacheprovider.py'>
+          plugin_name: cacheprovider
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.freeze_support' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/freeze_support.py'>
+          plugin_name: freeze_support
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setuponly' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/setuponly.py'>
+          plugin_name: setuponly
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.setupplan' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/setupplan.py'>
+          plugin_name: setupplan
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.stepwise' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/stepwise.py'>
+          plugin_name: stepwise
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.warnings' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/warnings.py'>
+          plugin_name: warnings
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.logging' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/logging.py'>
+          plugin_name: logging
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.reports' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/reports.py'>
+          plugin_name: reports
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.python_path' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/python_path.py'>
+          plugin_name: python_path
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.unraisableexception' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/unraisableexception.py'>
+          plugin_name: unraisableexception
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.threadexception' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/threadexception.py'>
+          plugin_name: threadexception
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module '_pytest.faulthandler' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/_pytest/faulthandler.py'>
+          plugin_name: faulthandler
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_html.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_html/plugin.py'>
+          plugin_name: html
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_html.fixtures' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_html/fixtures.py'>
+          plugin_name: html_fixtures
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_metadata.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_metadata/plugin.py'>
+          plugin_name: metadata
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_playwright.pytest_playwright' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_playwright/pytest_playwright.py'>
+          plugin_name: playwright
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_reporter_html1.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_reporter_html1/plugin.py'>
+          plugin_name: reporter_html1
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_base_url.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_base_url/plugin.py'>
+          plugin_name: base_url
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'pytest_reporter.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_reporter/plugin.py'>
+          plugin_name: reporter
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'xdist.plugin' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/xdist/plugin.py'>
+          plugin_name: xdist
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'xdist.looponfail' from '/Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/xdist/looponfail.py'>
+          plugin_name: xdist.looponfail
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <CaptureManager _method='no' _global_capturing=<MultiCapture out=None err=None in_=None _state='suspended' _in_suspended=False> _capture_fixture=None>
+          plugin_name: capturemanager
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <module 'conftest' from '/Users/mykolarozdobudko/Documents/M2M/conftest.py'>
+          plugin_name: /Users/mykolarozdobudko/Documents/M2M/conftest.py
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+          plugin_name: session
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.LFPlugin object at 0x1053f96a0>
+          plugin_name: lfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.cacheprovider.NFPlugin object at 0x1053f9940>
+          plugin_name: nfplugin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <pytest_reporter_html1.plugin.TemplatePlugin object at 0x1053f97f0>
+          plugin_name: 4383021040
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+          plugin_name: legacypath-tmpdir
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.terminal.TerminalReporter object at 0x1053fae40>
+          plugin_name: terminalreporter
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.logging.LoggingPlugin object at 0x1053fb380>
+          plugin_name: logging-plugin
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_plugin_registered [hook]
+          plugin: <_pytest.fixtures.FixtureManager object at 0x1053fbcb0>
+          plugin_name: funcmanage
+          manager: <_pytest.config.PytestPluginManager object at 0x103f47770>
+      finish pytest_plugin_registered --> [] [hook]
+      pytest_report_header [hook]
+          config: <_pytest.config.Config object at 0x1040b63c0>
+          start_path: /Users/mykolarozdobudko/Documents/M2M
+          startdir: /Users/mykolarozdobudko/Documents/M2M
+      finish pytest_report_header --> [['rootdir: /Users/mykolarozdobudko/Documents/M2M', 'configfile: pytest.ini', 'plugins: html-4.1.1, metadata-3.1.1, playwright-0.6.2, reporter-html1-0.9.2, base-url-2.1.0, reporter-0.5.3, xdist-3.6.1'], "metadata: {'Python': '3.13.0', 'Platform': 'macOS-15.2-arm64-arm-64bit-Mach-O', 'Packages': {'pytest': '8.3.4', 'pluggy': '1.5.0'}, 'Plugins': {'html': '4.1.1', 'metadata': '3.1.1', 'playwright': '0.6.2', 'reporter-html1': '0.9.2', 'base-url': '2.1.0', 'reporter': '0.5.3', 'xdist': '3.6.1'}, 'Base URL': ''}", 'cachedir: .pytest_cache', ['using: pytest-8.3.4', 'registered third-party plugins:', '  pytest-html-4.1.1 at /Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_html/plugin.py', '  pytest-html-4.1.1 at /Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_html/fixtures.py', '  pytest-metadata-3.1.1 at /Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_metadata/plugin.py', '  pytest-playwright-0.6.2 at /Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_playwright/pytest_playwright.py', '  pytest-reporter-html1-0.9.2 at /Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_reporter_html1/plugin.py', '  pytest-base-url-2.1.0 at /Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_base_url/plugin.py', '  pytest-reporter-0.5.3 at /Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/pytest_reporter/plugin.py', '  pytest-xdist-3.6.1 at /Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/xdist/plugin.py', '  pytest-xdist-3.6.1 at /Users/mykolarozdobudko/Documents/M2M/venv/lib/python3.13/site-packages/xdist/looponfail.py']] [hook]
+    finish pytest_sessionstart --> [] [hook]
+    pytest_collection [hook]
+        session: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+    perform_collect <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0> ['tests/test_profile_page.py::test_change_site_language_m2m_24'] [collection]
+        pytest_collectstart [hook]
+            collector: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+        finish pytest_collectstart --> [] [hook]
+        pytest_make_collect_report [hook]
+            collector: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+        processing argument CollectionArgument(path=PosixPath('/Users/mykolarozdobudko/Documents/M2M/tests/test_profile_page.py'), parts=['test_change_site_language_m2m_24'], module_name=None) [collection]
+            pytest_collect_directory [hook]
+                path: /Users/mykolarozdobudko/Documents/M2M
+                parent: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+            finish pytest_collect_directory --> <Dir M2M> [hook]
+            pytest_collectstart [hook]
+                collector: <Dir M2M>
+            finish pytest_collectstart --> [] [hook]
+            pytest_make_collect_report [hook]
+                collector: <Dir M2M>
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/.DS_Store
+                  path: /Users/mykolarozdobudko/Documents/M2M/.DS_Store
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir M2M>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/.DS_Store
+                  path: /Users/mykolarozdobudko/Documents/M2M/.DS_Store
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/.git
+                  path: /Users/mykolarozdobudko/Documents/M2M/.git
+              finish pytest_ignore_collect --> True [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/.gitignore
+                  path: /Users/mykolarozdobudko/Documents/M2M/.gitignore
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir M2M>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/.gitignore
+                  path: /Users/mykolarozdobudko/Documents/M2M/.gitignore
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/.pytest_cache
+                  path: /Users/mykolarozdobudko/Documents/M2M/.pytest_cache
+              finish pytest_ignore_collect --> True [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/M2M.code-workspace
+                  path: /Users/mykolarozdobudko/Documents/M2M/M2M.code-workspace
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir M2M>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/M2M.code-workspace
+                  path: /Users/mykolarozdobudko/Documents/M2M/M2M.code-workspace
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/__pycache__
+                  path: /Users/mykolarozdobudko/Documents/M2M/__pycache__
+              finish pytest_ignore_collect --> True [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/conftest.py
+                  path: /Users/mykolarozdobudko/Documents/M2M/conftest.py
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir M2M>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/conftest.py
+                  path: /Users/mykolarozdobudko/Documents/M2M/conftest.py
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/pages
+                  path: /Users/mykolarozdobudko/Documents/M2M/pages
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_directory [hook]
+                  path: /Users/mykolarozdobudko/Documents/M2M/pages
+                  parent: <Dir M2M>
+              finish pytest_collect_directory --> <Package pages> [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/pytest.ini
+                  path: /Users/mykolarozdobudko/Documents/M2M/pytest.ini
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir M2M>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/pytest.ini
+                  path: /Users/mykolarozdobudko/Documents/M2M/pytest.ini
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/pytestdebug.log
+                  path: /Users/mykolarozdobudko/Documents/M2M/pytestdebug.log
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Dir M2M>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/pytestdebug.log
+                  path: /Users/mykolarozdobudko/Documents/M2M/pytestdebug.log
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/reports
+                  path: /Users/mykolarozdobudko/Documents/M2M/reports
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_directory [hook]
+                  path: /Users/mykolarozdobudko/Documents/M2M/reports
+                  parent: <Dir M2M>
+              finish pytest_collect_directory --> <Dir reports> [hook]
+              pytest_collect_directory [hook]
+                  path: /Users/mykolarozdobudko/Documents/M2M/tests
+                  parent: <Dir M2M>
+              finish pytest_collect_directory --> <Package tests> [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/utils
+                  path: /Users/mykolarozdobudko/Documents/M2M/utils
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_directory [hook]
+                  path: /Users/mykolarozdobudko/Documents/M2M/utils
+                  parent: <Dir M2M>
+              finish pytest_collect_directory --> <Dir utils> [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/venv
+                  path: /Users/mykolarozdobudko/Documents/M2M/venv
+              finish pytest_ignore_collect --> True [hook]
+            finish pytest_make_collect_report --> <CollectReport '.' lenresult=4 outcome='passed'> [hook]
+            pytest_collectstart [hook]
+                collector: <Package tests>
+            finish pytest_collectstart --> [] [hook]
+            pytest_make_collect_report [hook]
+                collector: <Package tests>
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/tests/__init__.py
+                  path: /Users/mykolarozdobudko/Documents/M2M/tests/__init__.py
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Package tests>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/tests/__init__.py
+                  path: /Users/mykolarozdobudko/Documents/M2M/tests/__init__.py
+              finish pytest_collect_file --> [] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/tests/__pycache__
+                  path: /Users/mykolarozdobudko/Documents/M2M/tests/__pycache__
+              finish pytest_ignore_collect --> True [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/tests/support_page_test.py
+                  path: /Users/mykolarozdobudko/Documents/M2M/tests/support_page_test.py
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Package tests>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/tests/support_page_test.py
+                  path: /Users/mykolarozdobudko/Documents/M2M/tests/support_page_test.py
+                pytest_pycollect_makemodule [hook]
+                    parent: <Package tests>
+                    module_path: /Users/mykolarozdobudko/Documents/M2M/tests/support_page_test.py
+                    path: /Users/mykolarozdobudko/Documents/M2M/tests/support_page_test.py
+                finish pytest_pycollect_makemodule --> <Module support_page_test.py> [hook]
+              finish pytest_collect_file --> [<Module support_page_test.py>] [hook]
+              pytest_ignore_collect [hook]
+                  config: <_pytest.config.Config object at 0x1040b63c0>
+                  collection_path: /Users/mykolarozdobudko/Documents/M2M/tests/test_login_signin_page.py
+                  path: /Users/mykolarozdobudko/Documents/M2M/tests/test_login_signin_page.py
+              finish pytest_ignore_collect --> None [hook]
+              pytest_collect_file [hook]
+                  parent: <Package tests>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/tests/test_login_signin_page.py
+                  path: /Users/mykolarozdobudko/Documents/M2M/tests/test_login_signin_page.py
+                pytest_pycollect_makemodule [hook]
+                    parent: <Package tests>
+                    module_path: /Users/mykolarozdobudko/Documents/M2M/tests/test_login_signin_page.py
+                    path: /Users/mykolarozdobudko/Documents/M2M/tests/test_login_signin_page.py
+                finish pytest_pycollect_makemodule --> <Module test_login_signin_page.py> [hook]
+              finish pytest_collect_file --> [<Module test_login_signin_page.py>] [hook]
+              pytest_collect_file [hook]
+                  parent: <Package tests>
+                  file_path: /Users/mykolarozdobudko/Documents/M2M/tests/test_profile_page.py
+                  path: /Users/mykolarozdobudko/Documents/M2M/tests/test_profile_page.py
+                pytest_pycollect_makemodule [hook]
+                    parent: <Package tests>
+                    module_path: /Users/mykolarozdobudko/Documents/M2M/tests/test_profile_page.py
+                    path: /Users/mykolarozdobudko/Documents/M2M/tests/test_profile_page.py
+                finish pytest_pycollect_makemodule --> <Module test_profile_page.py> [hook]
+              finish pytest_collect_file --> [<Module test_profile_page.py>] [hook]
+            finish pytest_make_collect_report --> <CollectReport 'tests' lenresult=3 outcome='passed'> [hook]
+            pytest_collectstart [hook]
+                collector: <Module test_profile_page.py>
+            finish pytest_collectstart --> [] [hook]
+            pytest_make_collect_report [hook]
+                collector: <Module test_profile_page.py>
+            early skip of rewriting module: tests [assertion]
+            find_module called for: tests.test_profile_page [assertion]
+            matched test file (was specified on cmdline): '/Users/mykolarozdobudko/Documents/M2M/tests/test_profile_page.py' [assertion]
+            found cached rewritten pyc for /Users/mykolarozdobudko/Documents/M2M/tests/test_profile_page.py [assertion]
+            early skip of rewriting module: pages.support_page [assertion]
+            early skip of rewriting module: pages.base_page [assertion]
+            early skip of rewriting module: pages.profil_page [assertion]
+            finish pytest_make_collect_report --> <CollectReport 'tests/test_profile_page.py' lenresult=0 outcome='failed'> [hook]
+            pytest_exception_interact [hook]
+                node: <Module test_profile_page.py>
+                call: <CallInfo when='collect' excinfo=<ExceptionInfo NameError("name 'self' is not defined") tblen=17>>
+                report: <CollectReport 'tests/test_profile_page.py' lenresult=0 outcome='failed'>
+            finish pytest_exception_interact --> [] [hook]
+            pytest_collectreport [hook]
+                report: <CollectReport 'tests/test_profile_page.py' lenresult=0 outcome='failed'>
+            finish pytest_collectreport --> [] [hook]
+        finish pytest_make_collect_report --> <CollectReport '' lenresult=0 outcome='passed'> [hook]
+        pytest_collectreport [hook]
+            report: <CollectReport '' lenresult=0 outcome='passed'>
+        finish pytest_collectreport --> [] [hook]
+      pytest_collection_finish [hook]
+          session: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=1 testscollected=0>
+        pytest_report_collectionfinish [hook]
+            config: <_pytest.config.Config object at 0x1040b63c0>
+            items: []
+            start_path: /Users/mykolarozdobudko/Documents/M2M
+            startdir: /Users/mykolarozdobudko/Documents/M2M
+        finish pytest_report_collectionfinish --> [] [hook]
+      finish pytest_collection_finish --> [] [hook]
+    pytest_sessionfinish [hook]
+        session: <Session  exitstatus=<ExitCode.USAGE_ERROR: 4> testsfailed=1 testscollected=0>
+        exitstatus: 4
+      pytest_terminal_summary [hook]
+          terminalreporter: <_pytest.terminal.TerminalReporter object at 0x1053fae40>
+          exitstatus: 4
+          config: <_pytest.config.Config object at 0x1040b63c0>
+      early skip of rewriting module: pygments [assertion]
+      early skip of rewriting module: pygments [assertion]
+      early skip of rewriting module: pygments [assertion]
+        pytest_report_teststatus [hook]
+            report: <CollectReport 'tests/test_profile_page.py' lenresult=0 outcome='failed'>
+            config: <_pytest.config.Config object at 0x1040b63c0>
+        finish pytest_report_teststatus --> ('error', 'E', 'ERROR') [hook]
+      finish pytest_terminal_summary --> [] [hook]
+    finish pytest_sessionfinish --> [] [hook]
+    pytest_unconfigure [hook]
+        config: <_pytest.config.Config object at 0x1040b63c0>
+    finish pytest_unconfigure --> [] [hook]
