@@ -221,7 +221,6 @@ def test_change_password_invalid_repeat_pass_m2m_788(auth_new_test_user: Page):
     expect(profile_page.red_fild_err_border.last).to_have_css("border-color", profile_page.base_page.color_of_red) # Перевіряємо червоний колір поля
 
 
-@pytest.mark.skip(reason="Not implemented")
 # M2M-34 Change lock and change notifications
 def test_change_notifications_m2m_34(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
