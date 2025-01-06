@@ -20,7 +20,9 @@ test_data = {
     "last user name": "test auto user last name",
     "phone number": "+380123456789",
     "login_current_pass": "m2m.test.auto@gmail.com",
-    "new pass": "qwerty123"
+    "new pass": "qwerty123",
+    "invalid_new_pass": "123",
+    "invalid_current_pass": "invalid_o1d_pass"
     }
 
 
@@ -166,17 +168,66 @@ def test_switch_between_drop_down_lists_m2m_27(auth_new_test_user: Page):
 # M2M-28 Change password to a new one using valid values
 def test_change_password_m2m_28(page: Page):    
     login_page = LoginPage(page)
+    profile_page = ProfilePage(page)
+    base_page = BasePage(page)
+
+
     login_page.login(test_data['login_current_pass'], test_data['login_current_pass'])
     login_page.acsept_btn.click()
 
-    profile_page = ProfilePage(page)
+    
+    base_page.profile_menu_btn.click()
     profile_page.change_password(test_data['login_current_pass'], test_data['new pass'], test_data['new pass'])
+    profile_page.submit_popup_btn.click()
+
     expect(page).to_have_url(f"{profile_page.BASE_URL}/login", timeout=15000) # Перевіряємо вихід з облікового запису
 
     # Логінимося з новим паролем і повертаємо старий пароль назад
     login_page.login(test_data['login_current_pass'], test_data['new pass'])
     login_page.acsept_btn.click()
-    profile_page.change_password(test_data['new pass'], test_data['login_current_pass'], test_data['login_current_pass'])
 
+    base_page.profile_menu_btn.click()
+    profile_page.change_password(test_data['new pass'], test_data['login_current_pass'], test_data['login_current_pass'])
+    profile_page.submit_popup_btn.click()
 
     expect(page).to_have_url(f"{profile_page.BASE_URL}/login", timeout=15000) # Перевіряємо вихід з облікового запису
+
+
+# M2M-30 Change the password to a new one using invalid values of the old password
+def test_change_password_invalid_old_pass_m2m_30(auth_new_test_user: Page):    
+    profile_page = ProfilePage(auth_new_test_user)
+
+    profile_page.change_password(test_data['invalid_current_pass'], test_data['new pass'], test_data['new pass'])
+    expect(profile_page.base_page.mandatory_fields_msg).to_have_text("Поточний пароль не співпадає") # Перевіряємо вивід повідомлення про невірний пароль
+
+
+# M2M-31 Change the password to a new one using invalid values of the new password
+def test_change_password_invalid_new_pass_m2m_31(auth_new_test_user: Page):    
+    profile_page = ProfilePage(auth_new_test_user)
+
+    profile_page.change_password(test_data['login_current_pass'], test_data['invalid_new_pass'], test_data['new pass'])
+
+    expect(profile_page.base_page.mandatory_fields_msg.first).to_have_text("Мінімум 6 сиволів") # Перевіряємо вивід повідомлення про невірний пароль
+    expect(profile_page.base_page.mandatory_fields_msg.last).to_have_text("Цей пароль не відповідає паролю, який ви ввели раніше") # Перевіряємо вивід повідомлення про невірний пароль
+
+
+# M2M-788 Change the password to a new one using invalid values in the "Enter new password again" input field
+def test_change_password_invalid_repeat_pass_m2m_788(auth_new_test_user: Page):    
+    profile_page = ProfilePage(auth_new_test_user)
+
+    profile_page.change_password(test_data['login_current_pass'], test_data['new pass'], test_data['invalid_new_pass'])
+
+    expect(profile_page.base_page.mandatory_fields_msg).to_have_text("Цей пароль не відповідає паролю, який ви ввели раніше") # Перевіряємо вивід повідомлення про невірний пароль
+    expect(profile_page.red_fild_err_border.last).to_have_css("border-color", profile_page.base_page.color_of_red) # Перевіряємо червоний колір поля
+
+
+@pytest.mark.skip(reason="Not implemented")
+# M2M-34 Change lock and change notifications
+def test_change_notifications_m2m_34(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    expect(profile_page.notification_radio_group(2)).to_be_checked() # Перевіряємо стан радіо кнопки
+
+
+
+

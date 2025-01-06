@@ -16,6 +16,7 @@ class ProfilePage:
         self.bg_color_locator = self.page.locator("body main")
         self.black_bg_color = "rgb(12, 31, 55)"
         self.white_bg_color = "rgb(245, 245, 245)"
+        self.red_fild_err_border = self.page.locator("form fieldset")
 
         # /user page locators
         self.replace_email_btn = self.page.locator("//div[@id='panel1bh-content']/div/button")
@@ -25,6 +26,7 @@ class ProfilePage:
         self.save_btn = self.page.locator("//div[@id='panel1bh-content']/div/div[7]/button")
         self.listbox = self.page.locator("//ul")
         self.dd_language_timezone = self.page.locator("//div[@id='demo-simple-select']")
+        self.sequrety_save_btn = self.page.get_by_role("button", name="Зберегти")
 
         # confirm popap locators
         self.new_email_input = self.page.locator("input[name='newEmail']")
@@ -40,6 +42,7 @@ class ProfilePage:
         # security tab locators
         self.radio_group = self.page.get_by_role("radiogroup")
         self.change_pass_btn = self.page.get_by_role("button", name="Змінити пароль")
+        self.radio_msg_onmail = self.page.locator("//input[@type='radio']")
 
         # maps tab locators
         self.gmaps_checkbox = self.page.get_by_text("Google Maps")
@@ -132,12 +135,25 @@ class ProfilePage:
 
     
     def change_password(self, current_pass: str, new_pass: str, repeat_pass) -> str:
-        self.page.goto(self.PROFILE_PAGE_URL)
         self.page.get_by_text("Безпека").click()
         self.change_pass_btn.click()
         self.current_pass_input.fill(current_pass)
         self.new_pass_input.fill(new_pass)
         self.repeat_pass_input.fill(repeat_pass)
         self.submit_popup_btn.click()
+
+    
+    def notification_radio_group(self, index) -> str:
+        self.page.get_by_text("Безпека").click()
+        self.radio_msg_onmail.nth(index).click()
+        self.sequrety_save_btn.nth(1).click()
         self.submit_popup_btn.click()
+        return self.radio_msg_onmail.nth(index)
+
+
+
+    
+
+    
+
 

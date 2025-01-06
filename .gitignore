@@ -29,3 +29,4 @@ M2M.code-workspace
 reports/
 
 pytest.ini
+pytestdebug.log

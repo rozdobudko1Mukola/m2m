@@ -22,6 +22,7 @@ def page(browser: Browser):
     context.close()
 
 
+# Authenticated gmail page fixture with saved state
 @pytest.fixture(scope="function")
 def gmail(browser: Browser):
     """Фікстура для чистої сесії."""
@@ -38,7 +39,7 @@ def gmail(browser: Browser):
     context.close()
 
 
-
+# Authenticated page fixture with saved state user
 @pytest.fixture(scope="function")
 def authenticated_page(browser: Browser):
     """Фікстура для сесії із збереженим станом автентифікації."""
@@ -86,6 +87,7 @@ def login_usere(browser: Browser):
     context.close()
 
 
+# Authenticated page fixture with saved state user m2m.test.auto@gmail.com
 @pytest.fixture(scope="function")
 def auth_new_test_user(browser: Browser):
     new_test_user_stage_path = Path("utils/.auth/new_test_user_stage.json")
