@@ -40,9 +40,8 @@ class ProfilePage:
         self.main_dd_button = self.page.locator("//main//div[@role='button']")
 
         # security tab locators
-        self.radio_group = self.page.get_by_role("radiogroup")
         self.change_pass_btn = self.page.get_by_role("button", name="Змінити пароль")
-        self.radio_msg_onmail = self.page.locator("//input[@type='radio']")
+        self.radio_btn = self.page.locator("//input[@type='radio']")
 
         # maps tab locators
         self.gmaps_checkbox = self.page.get_by_text("Google Maps")
@@ -143,12 +142,14 @@ class ProfilePage:
         self.submit_popup_btn.click()
 
     
-    def notification_radio_group(self, index) -> str:
-        self.page.get_by_text("Безпека").click()
-        self.radio_msg_onmail.nth(index).click()
-        self.sequrety_save_btn.nth(1).click()
+    def radio_group(self, index_input) -> str:
+        self.radio_btn.nth(index_input).click()
+        self.sequrety_save_btn.click()
         self.submit_popup_btn.click()
-        return self.radio_msg_onmail.nth(index)
+
+
+    
+  
 
 
 

@@ -225,7 +225,15 @@ def test_change_password_invalid_repeat_pass_m2m_788(auth_new_test_user: Page):
 def test_change_notifications_m2m_34(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
 
-    expect(profile_page.notification_radio_group(2)).to_be_checked() # Перевіряємо стан радіо кнопки
+    if profile_page.radio_btn.nth(0).is_checked():
+        profile_page.radio_group(1)
+
+        expect(profile_page.radio_btn.nth(1)).to_be_checked() # Перевіряємо стан радіо кнопки
+    else:
+        profile_page.radio_btn.nth(0).is_checked()
+        profile_page.radio_group(0)
+
+        expect(profile_page.radio_btn.nth(0)).to_be_checked()
 
 
 
