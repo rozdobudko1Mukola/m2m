@@ -17,6 +17,7 @@ class ProfilePage:
         self.black_bg_color = "rgb(12, 31, 55)"
         self.white_bg_color = "rgb(245, 245, 245)"
         self.red_fild_err_border = self.page.locator("form fieldset")
+        self.alert_map_msg = self.page.locator("//div[contains(@class, 'btn-layers')]/div[@role='alert']")
 
         # /user page locators
         self.replace_email_btn = self.page.locator("//div[@id='panel1bh-content']/div/button")
@@ -35,6 +36,8 @@ class ProfilePage:
         self.repeat_pass_input = self.page.locator("input[name='repeatPassword']")
         self.submit_popup_btn = self.page.locator("//div[@role='dialog']//button")
 
+        self.apiKey_input = self.page.locator("//div[@role='presentation']//input")
+
         # dropdown list locator
         self.dropdown_list = self.page.locator("ul")
         self.main_dd_button = self.page.locator("//main//div[@role='button']")
@@ -45,9 +48,19 @@ class ProfilePage:
 
         # maps tab locators
         self.gmaps_checkbox = self.page.get_by_text("Google Maps")
+        self.mapLatitude_input = self.page.locator("input[name='mapLatitude']")
+        self.mapLongitude_input = self.page.locator("input[name='mapLongitude']")
+        self.mapZoom_input = self.page.locator("input[name='mapZoom']")
+        self.checkboxes = self.page.locator("input[type='checkbox']")
+
+        # map layers locators
+        self.map_layers = self.page.locator("//div[contains(@class, 'btn-layers')]")
+        self.gmap = self.page.locator("//div[contains(@class, 'btn-layers')]//input")
 
     
     def switch_bg_color(self):
+        if self.bg_color_locator.evaluate("element => getComputedStyle(element).backgroundColor") == self.black_bg_color:
+            self.base_page.bg_color_switcher.click()
         self.base_page.bg_color_switcher.click()
 
 
@@ -148,8 +161,59 @@ class ProfilePage:
         self.submit_popup_btn.click()
 
 
+    def input_coordinat_filds(self, mapLatitude, mapLongitude, mapZoom) -> str:
+        self.mapLatitude_input.clear()
+        self.mapLatitude_input.fill(mapLatitude)
+        self.mapLongitude_input.clear()
+        self.mapLongitude_input.fill(mapLongitude)
+        self.mapZoom_input.clear()
+        self.mapZoom_input.fill(mapZoom)
+
+
+    def position_on_map_by_coordinate(self, mapLatitude, mapLongitude, mapZoom) -> str:
+        self.main_dd_button.last.click()
+        if self.mapLatitude_input.is_visible() == False:
+            self.radio_btn.nth(3).click()
+        self.radio_btn.nth(2).click(timeout=500)
+        
+        self.input_coordinat_filds(mapLatitude, mapLongitude, mapZoom)
+        self.sequrety_save_btn.click()
+
     
-  
+    def position_by_browser(self):
+        self.main_dd_button.last.click()
+        self.radio_btn.nth(3).click()
+        self.sequrety_save_btn.click()
+        self.submit_popup_btn.click()
+        return self.mapLatitude_input
+
+
+    def disable_googlemaps_chackbox(self) -> str:
+        self.main_dd_button.last.click()
+
+        if self.page.get_by_text("Використати приватний ключ Google").is_visible():
+            self.checkboxes.last.click()
+            self.sequrety_save_btn.click()
+            self.submit_popup_btn.click()
+            self.main_dd_button.last.click()
+
+
+    def google_maps_privet_key(self, key) -> str:
+        self.checkboxes.last.click()
+        self.apiKey_input.fill(key)
+        self.submit_popup_btn.last.click()
+        self.sequrety_save_btn.click()
+        self.submit_popup_btn.click()
+
+
+    def logout_use_dd_profile(self):
+        self.base_page.avatar_btn.click()
+        self.base_page.user_dd_window.nth(4).click()
+
+
+
+
+
 
 
 

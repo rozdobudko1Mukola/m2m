@@ -236,5 +236,88 @@ def test_change_notifications_m2m_34(auth_new_test_user: Page):
         expect(profile_page.radio_btn.nth(0)).to_be_checked()
 
 
+# M2M-35 Change position on the map "at the coordinates"
+def test_change_map_position_m2m_35(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    profile_page.position_on_map_by_coordinate("51.4501", "20.5234", "4")
+    self.submit_popup_btn.click()
+
+
+# M2M-1464 Change position on the map "at the coordinates" using invalid values
+def test_invalid_change_map_position_m2m_1464(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    profile_page.position_on_map_by_coordinate("91", "181", "19")
+
+    expect(profile_page.base_page.mandatory_fields_msg.nth(0)).to_have_text("Максимальне значення 90") # Перевіряємо вивід повідомлення про невірні координати
+    expect(profile_page.base_page.mandatory_fields_msg.nth(1)).to_have_text("Максимальне значення 180") # Перевіряємо вивід повідомлення про невірні координати
+    expect(profile_page.base_page.mandatory_fields_msg.nth(2)).to_have_text("Максимальне значення 18") # Перевіряємо вивід повідомлення про невірні координати
+
+
+# M2M-36 Change the position on the map using the " Through the browser" method
+def test_change_map_position_through_browser_m2m_36(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+    
+    expect(profile_page.position_by_browser()).not_to_be_visible() # Перевіряємо відсутність вікна вибору координат
+
+
+# M2M-38 In the map settings, specify the private key
+def test_input_private_key_m2m_38(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    profile_page.disable_googlemaps_chackbox()
+
+    profile_page.google_maps_privet_key("test_key")
+    profile_page.main_dd_button.last.click()
+
+    expect(profile_page.checkboxes.last).to_be_checked() # Перевіряємо стан чекбокса
+
+
+# M2M-1460 In the map settings, specify the invalid private key
+# M2M-1461 In the map settings, specify the empty value private key
+@pytest.mark.parametrize(
+    "invalid_key, expected_message", [
+        ("invalid_key", "Щось пішло не так з ключем Google map API"),
+        ("", "Щось пішло не так з ключем Google map API"),
+        # Додайте інші значення ключів і очікувані повідомлення за потреби
+    ]
+)
+def test_input_invalid_private_key_m2m_1460_1461(auth_new_test_user: Page, invalid_key, expected_message):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    profile_page.disable_googlemaps_chackbox()
+    profile_page.google_maps_privet_key(invalid_key)
+
+    auth_new_test_user.goto(f"{profile_page.BASE_URL}/monitoring")
+    profile_page.map_layers.hover()
+    profile_page.gmap.nth(1).click()
+
+    expect(profile_page.alert_map_msg).to_have_text(expected_message) # Перевіряємо вивід повідомлення про невірний ключ
+
+
+@pytest.mark.skip(reason="Not implemented")
+# M2M-1462 In the map settings, specify the private key and then delete it
+def test_delete_private_key_m2m_1462(auth_new_test_user: Page):
+    pass
+
+
+@pytest.mark.skip(reason="Not implemented")
+# M2M-1463 In the map settings, specify the private key and then change it
+def test_change_private_key_m2m_1463(auth_new_test_user: Page):
+    pass
+
+
+# M2M-39 Log out of the system
+def test_logout_m2m_39(auth_new_test_user: Page):
+    profile_page = ProfilePage(auth_new_test_user)
+
+    profile_page.logout_use_dd_profile()
+    expect(auth_new_test_user).to_have_url(f"{profile_page.BASE_URL}/login") # Перевіряємо вихід з облікового запису
+
+
+
+
+
 
 
