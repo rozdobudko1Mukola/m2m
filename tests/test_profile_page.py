@@ -27,12 +27,12 @@ test_data = {
 
 
 # M2M-15 Change the background color of the site
-pytest.mark.skip(reason="Not implemented")
 def test_bg_color_switcher_m2m_15(authenticated_page: Page):
     profile_page = ProfilePage(authenticated_page)    
     profile_page.switch_bg_color()
 
     expect(profile_page.bg_color_locator).to_have_css("background-color", profile_page.black_bg_color) # Перевіряємо зміну кольору фону
+    profile_page.base_page.bg_color_switcher.click()
 
 
 
@@ -47,8 +47,8 @@ def test_open_close_notifications_m2m_781(authenticated_page: Page):
     expect(authenticated_page.locator("ul div span").nth(0)).not_to_be_visible() # Перевіряємо закриття вікна сповіщень
 
 
-# M2M-782 Clear notifications in the Notifications window
 pytest.mark.skip(reason="Not implemented")
+# M2M-782 Clear notifications in the Notifications window
 def test_clear_notifications_m2m_782(authenticated_page: Page):
     pass
 
@@ -98,8 +98,8 @@ def test_logout_from_account_m2m_787(authenticated_page: Page):
     expect(authenticated_page).to_have_url(f"{profile_page.BASE_URL}/login") # Перевіряємо вихід з облікового запису
 
 
-# M2M-19 Replace user's email
 pytest.mark.skip(reason="Not implemented")
+# M2M-19 Replace user's email
 def test_change_user_email_m2m_19(authenticated_page: Page):
     pass
 
@@ -160,11 +160,11 @@ def test_switch_between_drop_down_lists_m2m_27(auth_new_test_user: Page):
     profile_page.main_dd_button.nth(0).click(timeout=500)
     expect(profile_page.dd_language_timezone.nth(1)).not_to_be_visible() # Перевіряємо перехід між списками
     profile_page.main_dd_button.nth(1).click(timeout=500)
-    expect(profile_page.radio_group).to_be_visible() # Перевіряємо перехід між списками
+    expect(profile_page.change_pass_btn).to_be_visible() # Перевіряємо перехід між списками
     profile_page.main_dd_button.nth(2).click(timeout=500)
     expect(profile_page.gmaps_checkbox).to_be_visible() # Перевіряємо перехід між списками
 
-
+@pytest.mark.skip(reason="тест ломає передумову аутентифікації у інших тестах. Потрібно переробити")
 # M2M-28 Change password to a new one using valid values
 def test_change_password_m2m_28(page: Page):    
     login_page = LoginPage(page)
@@ -224,6 +224,7 @@ def test_change_password_invalid_repeat_pass_m2m_788(auth_new_test_user: Page):
 # M2M-34 Change lock and change notifications
 def test_change_notifications_m2m_34(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
+    profile_page.main_dd_button.nth(1).click(   )
 
     if profile_page.radio_btn.nth(0).is_checked():
         profile_page.radio_group(1)
@@ -241,7 +242,7 @@ def test_change_map_position_m2m_35(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
 
     profile_page.position_on_map_by_coordinate("51.4501", "20.5234", "4")
-    self.submit_popup_btn.click()
+    profile_page.submit_popup_btn.click()
 
 
 # M2M-1464 Change position on the map "at the coordinates" using invalid values
