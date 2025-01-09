@@ -276,7 +276,7 @@ def test_create_new_user(page: Page):
 
     expect(page.locator("body h1")).to_have_text("Реєстрацію завершено")
 
-
+@pytest.mark.skip("Not implemented")
 # M2M-1603 Authorisation with new user data
 def test_login_new_user(page: Page):
     pass

@@ -271,7 +271,7 @@ def test_input_private_key_m2m_38(auth_new_test_user: Page):
 
     profile_page.google_maps_privet_key("test_key")
     profile_page.main_dd_button.last.click()
-
+    
     expect(profile_page.checkboxes.last).to_be_checked() # Перевіряємо стан чекбокса
 
 

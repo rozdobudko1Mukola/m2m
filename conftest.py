@@ -41,7 +41,7 @@ def page(browser: Browser, request):
     """Fixture for a clean session."""
     context = browser.new_context(locale=LOCALE, timezone_id=TIMEZONE_ID)
     page = context.new_page()
-    trace_file_path = start_tracing(context)
+    trace_file_path = start_tracing(context, request.node.name)
 
     yield page
 
@@ -87,7 +87,7 @@ def authenticated_page(browser: Browser, request):
 
     context = browser.new_context(storage_state=str(AUTH_STORAGE_PATH), locale=LOCALE, timezone_id=TIMEZONE_ID)
     page = context.new_page()
-    trace_file_path = start_tracing(context)
+    trace_file_path = start_tracing(context, request.node.name)
 
     yield page
 
@@ -132,7 +132,7 @@ def auth_new_test_user(browser: Browser, request):
 
     context = browser.new_context(storage_state=str(NEW_TEST_USER_STAGE_PATH), locale=LOCALE, timezone_id=TIMEZONE_ID)
     page = context.new_page()
-    trace_file_path = start_tracing(context)
+    trace_file_path = start_tracing(context, request.node.name)
 
     yield page
 
