@@ -77,7 +77,7 @@ class LoginPage:
         try:
             # Отримуємо текст заголовка
             header_text = self.page.locator("header h1").first.text_content()
-            return header_text == "Моніторинг"
+            return header_text == "Моніторинг" or header_text == "Monitoring"
         except:
             # Якщо заголовок не знайдено або виникла помилка, користувач вважається вилогіненим
             return False
