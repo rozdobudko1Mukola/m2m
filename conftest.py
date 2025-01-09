@@ -3,165 +3,142 @@ from pathlib import Path
 from playwright.sync_api import Browser, Page
 from pages.login import LoginPage
 
+# Constants
+STAGE_USER_EMAIL = "dkononenko1994@ukr.net"
+STAGE_USER_PASSWORD = "123456"
+STAGE_TEST_USER_EMAIL_PASS = "m2m.test.auto@gmail.com"
+LOCALE = 'uk-UA'
+TIMEZONE_ID = 'Europe/Kiev'
+TRACE_DIR = "reports/trace"
+AUTH_STORAGE_PATH = Path("utils/.auth/storage_state.json")
+NEW_TEST_USER_STAGE_PATH = Path("utils/.auth/new_test_user_stage.json")
 
-stage_user_email = "dkononenko1994@ukr.net"
-stage_user_password = "123456"
 
-stage_test_user_email_pass = "m2m.test.auto@gmail.com"
+def start_tracing(context, test_name=None):
+    """Start tracing for the context."""
+    context.tracing.start(screenshots=True, snapshots=True)
+    if test_name:
+        return f"{TRACE_DIR}/{test_name}_trace.zip"
+    return None
 
 
-@pytest.fixture(scope="function")
-def page(browser: Browser):
-    """Фікстура для чистої сесії."""
-    context = browser.new_context()
-    page = context.new_page()
+def stop_tracing(context, trace_file_path=None):
+    """Stop tracing and save if trace_file_path is provided."""
+    if trace_file_path:
+        context.tracing.stop(path=trace_file_path)
+    else:
+        context.tracing.stop()
 
-    yield page
 
+def close_context(context, page):
+    """Close the page and context."""
     page.close()
     context.close()
 
 
-# Authenticated gmail page fixture with saved state
+@pytest.fixture(scope="function")
+def page(browser: Browser, request):
+    """Fixture for a clean session."""
+    context = browser.new_context(locale=LOCALE, timezone_id=TIMEZONE_ID)
+    page = context.new_page()
+    trace_file_path = start_tracing(context)
+
+    yield page
+
+    if request.node.rep_call.failed:
+        stop_tracing(context, trace_file_path)
+    else:
+        stop_tracing(context)
+
+    close_context(context, page)
+
+
 @pytest.fixture(scope="function")
 def gmail(browser: Browser):
-    """Фікстура для чистої сесії."""
+    """Fixture for a clean Gmail session."""
     context = browser.new_context(
-            slow_mo=2000,
-            args=["--disable-dev-shm-usage", "--disable-blink-features=AutomationControlled"],
-            ignore_default_args=['--disable-component-extensions-with-background-pages']
-        )
+        slow_mo=2000,
+        args=["--disable-dev-shm-usage", "--disable-blink-features=AutomationControlled"],
+        ignore_default_args=['--disable-component-extensions-with-background-pages']
+    )
     page = context.new_page()
 
     yield page
 
-    page.close()
-    context.close()
+    close_context(context, page)
 
 
-# Authenticated page fixture with saved state user
 @pytest.fixture(scope="function")
-def authenticated_page(browser: Browser):
-    """Фікстура для сесії із збереженим станом автентифікації."""
-    storage_state_path = Path("utils/.auth/storage_state.json")
-
-    # Якщо файл стану не існує, створюємо його
-    if not storage_state_path.exists():
-        context = browser.new_context()
-
+def authenticated_page(browser: Browser, request):
+    """Fixture for a session with saved authentication state."""
+    if not AUTH_STORAGE_PATH.exists():
+        context = browser.new_context(locale=LOCALE, timezone_id=TIMEZONE_ID)
         page = context.new_page()
-
         login_page = LoginPage(page)
-        login_page.login(stage_user_email, stage_user_password)
+        login_page.login(STAGE_USER_EMAIL, STAGE_USER_PASSWORD)
         login_page.acsept_btn.click()
 
-        # Зберігаємо стан
-        context.storage_state(path=str(storage_state_path))
+        if login_page.is_logged_in():
+            context.storage_state(path=str(AUTH_STORAGE_PATH))
+        else:
+            print("Authorization failed. State will not be saved.")
 
-        page.close()
-        context.close()
+        close_context(context, page)
 
-    # Завантажуємо збережений стан
-    context = browser.new_context(storage_state=str(storage_state_path))
-
+    context = browser.new_context(storage_state=str(AUTH_STORAGE_PATH), locale=LOCALE, timezone_id=TIMEZONE_ID)
     page = context.new_page()
+    trace_file_path = start_tracing(context)
 
     yield page
 
-    page.close()
-    context.close()
+    if request.node.rep_call.failed:
+        stop_tracing(context, trace_file_path)
+    else:
+        stop_tracing(context)
+
+    close_context(context, page)
 
 
 @pytest.fixture(scope="session")
-def login_usere(browser: Browser):
+def login_user(browser: Browser):
+    """Fixture for logging in a user."""
     context = browser.new_context()
     page = context.new_page()
-
     login_page = LoginPage(page)
-    login_page.login(stage_user_email, stage_user_password)
+    login_page.login(STAGE_USER_EMAIL, STAGE_USER_PASSWORD)
     login_page.acsept_btn.click()
 
     yield page
 
-    page.close()
-    context.close()
-
-
-# Authenticated page fixture with saved state user m2m.test.auto@gmail.com
-# @pytest.fixture(scope="function")
-# def auth_new_test_user(browser: Browser):
-#     new_test_user_stage_path = Path("utils/.auth/new_test_user_stage.json")
-
-#     # Якщо файл стану не існує, створюємо його
-#     if not new_test_user_stage_path.exists():
-#         context = browser.new_context()
-
-#         page = context.new_page()
-
-#         login_page = LoginPage(page)
-#         login_page.login(stage_test_user_email_pass, stage_test_user_email_pass)
-#         login_page.acsept_btn.click()
-
-#         # Зберігаємо стан
-#         context.storage_state(path=str(new_test_user_stage_path))
-
-#         page.close()
-#         context.close()
-    
-#     # Завантажуємо збережений стан
-#     context = browser.new_context(storage_state=str(new_test_user_stage_path))
-#     page = context.new_page()
-#     yield page
-#     page.close()
-#     context.close()
+    close_context(context, page)
 
 
 @pytest.fixture(scope="function")
 def auth_new_test_user(browser: Browser, request):
-    # Шлях до файлу збереженого стану
-    new_test_user_stage_path = Path("utils/.auth/new_test_user_stage.json")
-
-    # Якщо файл стану не існує, створюємо його
-    if not new_test_user_stage_path.exists():
-        context = browser.new_context()
+    """Fixture for a session with saved state for a new test user."""
+    if not NEW_TEST_USER_STAGE_PATH.exists():
+        context = browser.new_context(locale=LOCALE, timezone_id=TIMEZONE_ID)
         page = context.new_page()
-
         login_page = LoginPage(page)
-        login_page.login(stage_test_user_email_pass, stage_test_user_email_pass)  # Замініть на реальний пароль
+        login_page.login(STAGE_TEST_USER_EMAIL_PASS, STAGE_TEST_USER_EMAIL_PASS)
         login_page.acsept_btn.click()
 
-        # Перевіряємо, чи користувач авторизувався успішно
         if login_page.is_logged_in():
-            # Зберігаємо стан у файл
-            context.storage_state(path=str(new_test_user_stage_path))
+            context.storage_state(path=str(NEW_TEST_USER_STAGE_PATH))
         else:
-            print("Авторизація не вдалася. Стан не буде збережено.")
+            print("Authorization failed. State will not be saved.")
 
-        page.close()
-        context.close()
+        close_context(context, page)
 
-    # Завантажуємо збережений стан
-    context = browser.new_context(storage_state=str(new_test_user_stage_path))
-
-    # Починаємо трасування
-    context.tracing.start(screenshots=True, snapshots=True)
+    context = browser.new_context(storage_state=str(NEW_TEST_USER_STAGE_PATH), locale=LOCALE, timezone_id=TIMEZONE_ID)
     page = context.new_page()
+    trace_file_path = start_tracing(context)
 
-    # Передаємо сторінку тестам
     yield page
 
-    # Перевіряємо статус тесту після його виконання
     if request.node.rep_call.failed:
-        # Якщо тест не пройшов, зберігаємо трасування
-        test_name = request.node.name  # Отримуємо ім'я тесту
-        trace_file_path = f"reports/trace/{test_name}_trace.zip"
-        context.tracing.stop(path=trace_file_path)  # Зберігаємо трасування тільки для тестів, які не пройшли
+        stop_tracing(context, trace_file_path)
     else:
-        # Якщо тест пройшов успішно, зупиняємо трасування без збереження
-        context.tracing.stop()
+        stop_tracing(context)
 
-    # Закриваємо сторінку та контекст після виконання тесту
-    page.close()
-    context.close()
-
-
+    close_context(context, page)
