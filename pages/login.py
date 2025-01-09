@@ -5,7 +5,7 @@ import random
 class LoginPage:
     def __init__(self, page: Page):
         self.page = page
-        self.page.goto("https://staging.m2m.eu/login")
+        self.page.goto("/login")
 
         self.email_input = self.page.locator("label:has-text('Email')")
         self.password_input = self.page.locator("input[name='password']")

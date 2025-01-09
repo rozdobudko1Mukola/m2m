@@ -4,9 +4,9 @@ from pages.base_page import BasePage
 from playwright.sync_api import Page, expect
 
 
-login_page_url = "https://staging.m2m.eu/login"
-profile_url = "https://staging.m2m.eu/user"
-support_url = "https://staging.m2m.eu/support"
+login_page_url = "/login"
+profile_url = "/user"
+support_url = "/support"
 docs_url = "https://docs.m2m.eu/uk/"
 forum_url = "https://forum.m2m.eu/"
 

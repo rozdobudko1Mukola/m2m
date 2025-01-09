@@ -5,13 +5,10 @@ import re
 
 class ProfilePage:
 
-    BASE_URL = "https://staging.m2m.eu"
-    PROFILE_PAGE_URL = f"{BASE_URL}/user"
-
     def __init__(self, page: Page):
         self.page = page
         self.base_page = BasePage(page) 
-        self.page.goto(self.PROFILE_PAGE_URL)
+        self.page.goto("/user")
 
         self.bg_color_locator = self.page.locator("body main")
         self.black_bg_color = "rgb(12, 31, 55)"
@@ -109,7 +106,7 @@ class ProfilePage:
         
 
     def go_to_the_user_profile_page(self):
-        self.page.goto(self.BASE_URL)
+        self.page.goto("")
         self.base_page.avatar_btn.click()
         self.base_page.user_dd_window.nth(3).click()
 

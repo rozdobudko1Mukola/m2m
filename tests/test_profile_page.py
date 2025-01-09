@@ -95,7 +95,7 @@ def test_logout_from_account_m2m_787(authenticated_page: Page):
     profile_page = ProfilePage(authenticated_page)
 
     profile_page.logout_use_user_window()
-    expect(authenticated_page).to_have_url(f"{profile_page.BASE_URL}/login") # Перевіряємо вихід з облікового запису
+    expect(authenticated_page).to_have_url("/login") # Перевіряємо вихід з облікового запису
 
 
 pytest.mark.skip(reason="Not implemented")
@@ -290,7 +290,7 @@ def test_input_invalid_private_key_m2m_1460_1461(auth_new_test_user: Page, inval
     profile_page.disable_googlemaps_chackbox()
     profile_page.google_maps_privet_key(invalid_key)
 
-    auth_new_test_user.goto(f"{profile_page.BASE_URL}/monitoring")
+    auth_new_test_user.goto("/monitoring")
     profile_page.map_layers.hover()
     profile_page.gmap.nth(1).click()
 
@@ -314,7 +314,7 @@ def test_logout_m2m_39(auth_new_test_user: Page):
     profile_page = ProfilePage(auth_new_test_user)
 
     profile_page.logout_use_dd_profile()
-    expect(auth_new_test_user).to_have_url(f"{profile_page.BASE_URL}/login") # Перевіряємо вихід з облікового запису
+    expect(auth_new_test_user).to_have_url("/login") # Перевіряємо вихід з облікового запису
 
 
 
