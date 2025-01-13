@@ -1,5 +1,6 @@
 from playwright.sync_api import Page
 from pages.base_page import BasePage
+from qase.pytest import qase
 
 
 class SupportPage:
@@ -17,6 +18,7 @@ class SupportPage:
         self.data_list = self.page.locator("main div p")
 
 
+    @qase.step("клікнути на кнопку вийти")
     def click_exit_button(self):
         self.base_page.exit_menu_btn.click()
 
