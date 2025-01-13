@@ -16,16 +16,16 @@ unregisteret_user_email = "userdosenotexist@gmail.com"
 
 email_for_restore = "m2m.test.auto@gmail.com"
 
-monitoring_url = "/monitoring"
-restore_password_url = "/password-reset"
-sign_up_url = "/sign-up"
-login_url = ""
+monitoring_url = "https://staging.m2m.eu/monitoring"
+restore_password_url = "https://staging.m2m.eu/password-reset"
+sign_up_url = "https://staging.m2m.eu/sign-up"
+login_url = "https://staging.m2m.eu/"
 main_url = "https://m2m.ua/"
 
 color_of_red = "rgb(211, 47, 47)"
 
 user_email_list = "cateyo5874@rowplant.com"
-prod_users = "baker44793@bulatox.com"
+
 
 # M2M-1 Authorization of a registered user
 def test_valid_login(page: Page):
@@ -115,18 +115,11 @@ def test_sign_in_as(page: Page):
     login_page = LoginPage(page)
     base_page = BasePage(page)
 
-    base_url = page.url.split("/")[2]
-    if base_url == "staging.m2m.eu":
-        ch_user_email = user_email_list
-    elif base_url == "my.m2m.eu":
-        ch_user_email = prod_users
-
-    login_page.login_as(valid_user_email, valid_password, ch_user_email)
+    login_page.login_as(valid_user_email, valid_password, user_email_list)
 
     base_page.profile_menu_btn.click()
-    
-    expect(login_page.user_email_profile_input).to_have_value(ch_user_email)
-    
+
+    expect(login_page.user_email_profile_input).to_have_value(user_email_list)
     
 
 # M2M-8 In the "Sign in as" window, use the search
@@ -136,14 +129,9 @@ def test_sign_in_as_search(page: Page):
     login_page.login(valid_user_email, valid_password)
     login_page.login_as_btn.click()
 
-    base_url = page.url.split("/")[2]
-    if base_url == "staging.m2m.eu":
-        ch_user_email = user_email_list
-    elif base_url == "my.m2m.eu":
-        ch_user_email = prod_users
+    login_page.login_as_input.fill(user_email_list)
 
-    login_page.login_as_input.fill(ch_user_email)
-    expect(login_page.login_as_list).to_contain_text(ch_user_email)
+    expect(login_page.login_as_list).to_contain_text(user_email_list)
 
 
 # M2M-780 In the "Sign in as" window, use a search using an invalid email
