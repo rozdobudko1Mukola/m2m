@@ -79,7 +79,7 @@ def gmail(browser: Browser):
     close_context(context, page)
 
 @pytest.fixture(scope="function")
-def authenticated_page(browser: Browser, request, base_url):
+def authenticated_page(browser: Browser, request, base_url="https://staging.m2m.eu/"):
     """Fixture for a session with saved authentication state."""
     auth_storage_path = get_auth_storage_path(base_url)
     if not auth_storage_path.exists():

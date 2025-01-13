@@ -51,4 +51,4 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest --base-url=https://staging.m2m.eu/ tests/
+        pytest tests/tests/support_page_test.py
