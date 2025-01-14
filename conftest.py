@@ -11,6 +11,7 @@ LOCALE = 'uk-UA'
 TIMEZONE_ID = 'Europe/Kiev'
 TRACE_DIR = "reports/trace"
 
+
 def get_auth_storage_path(base_url):
     """Get the authentication storage path based on the base URL."""
     if "staging" in base_url:
@@ -19,6 +20,7 @@ def get_auth_storage_path(base_url):
         return Path("utils/.auth/storage_state_prod.json")
     else:
         raise ValueError("Unknown environment")
+
 
 def get_new_test_user_stage_path(base_url):
     """Get the new test user stage path based on the base URL."""
@@ -29,6 +31,7 @@ def get_new_test_user_stage_path(base_url):
     else:
         raise ValueError("Unknown environment")
 
+
 def start_tracing(context, test_name=None):
     """Start tracing for the context."""
     context.tracing.start(screenshots=True, snapshots=True)
@@ -36,17 +39,20 @@ def start_tracing(context, test_name=None):
         return f"{TRACE_DIR}/{test_name}_trace.zip"
     return None
 
+
 def stop_tracing(context, trace_file_path=None):
     """Stop tracing and save if trace_file_path is provided."""
     if trace_file_path:
         context.tracing.stop(path=trace_file_path)
     else:
         context.tracing.stop()
+        
 
 def close_context(context, page):
     """Close the page and context."""
     page.close()
     context.close()
+
 
 @pytest.fixture(scope="function")
 def page(browser: Browser, request, base_url):
@@ -64,6 +70,7 @@ def page(browser: Browser, request, base_url):
 
     close_context(context, page)
 
+
 @pytest.fixture(scope="function")
 def gmail(browser: Browser):
     """Fixture for a clean Gmail session."""
@@ -77,6 +84,7 @@ def gmail(browser: Browser):
     yield page
 
     close_context(context, page)
+
 
 @pytest.fixture(scope="function")
 def authenticated_page(browser: Browser, request, base_url):
@@ -109,6 +117,7 @@ def authenticated_page(browser: Browser, request, base_url):
 
     close_context(context, page)
 
+
 @pytest.fixture(scope="session")
 def login_user(browser: Browser):
     """Fixture for logging in a user."""
@@ -121,6 +130,7 @@ def login_user(browser: Browser):
     yield page
 
     close_context(context, page)
+
 
 @pytest.fixture(scope="function")
 def auth_new_test_user(browser: Browser, request, base_url):
