@@ -17,12 +17,9 @@ def test_check_analytics_text_m2m_347(authenticated_page: Page):
 # M2M-348 View data on objects for Today/Yesterday/Week
 def test_view_data_on_objects_m2m_348(authenticated_page: Page):
     analytics_page = AnalyticsPage(authenticated_page)
-    analytics_page.today_tab.click()
-    expect(analytics_page.today_tab).to_have_css("color", "rgb(38, 180, 254)")
-    analytics_page.yesterday_tab.click()
-    expect(analytics_page.yesterday_tab).to_have_css("color", "rgb(38, 180, 254)")
-    analytics_page.week_tab.click()
-    expect(analytics_page.week_tab).to_have_css("color", "rgb(38, 180, 254)")
+    for tab in [analytics_page.today_tab, analytics_page.yesterday_tab, analytics_page.week_tab]:
+        tab.click()
+        expect(tab).to_have_css("color", "rgb(38, 180, 254)")
 
 
 @pytest.mark.skip("This test is not implemented")
@@ -64,50 +61,40 @@ def test_change_objects_in_diagram_by_max_speed_m2m_1599(authenticated_page: Pag
 # M2M-775 Generate a custom diagram of objects by maximum speed
 def test_list_of_objects_by_speed_m2m_775(authenticated_page, grafic=2):
     analytics_page = AnalyticsPage(authenticated_page)
-
     expected_result = analytics_page.add_device_to_diagram(grafic)
     authenticated_page.wait_for_timeout(1000)
     actual_result = analytics_page.get_device_from_diagram()
-
     assert actual_result == expected_result
 
 
 # M2M-776 Search for an object in the "Select up to 10 objects to display..." window.
 def test_valid_search_object_m2m_776(authenticated_page: Page, search_text="peugeot"):
     analytics_page = AnalyticsPage(authenticated_page)
-
     analytics_page.popup_input_search(search_text)
-    actual_result = analytics_page.unit_list.all_text_contents()
-    actual_result = ' '.join(actual_result).lower()
+    actual_result = ' '.join(analytics_page.unit_list.all_text_contents()).lower()
     assert search_text in actual_result
 
 
 # M2M-777 Search for an object in the "Select up to 10 objects to display..." window using an invalid name
 def test_invalid_search_object_m2m_777(authenticated_page: Page, search_text="non-existent"):
     analytics_page = AnalyticsPage(authenticated_page)
-
     analytics_page.popup_input_search(search_text)
-    actual_result = analytics_page.unit_list
-    expect(actual_result).not_to_be_attached()
+    expect(analytics_page.unit_list).not_to_be_attached()
 
 
 # M2M-778 Increase/decrease the number in the "Select up to 10 objects..." window.
 @pytest.mark.parametrize("number", [25, 50, 100, 10]) # test all possible values
 def test_increase_decrease_number_of_objects_m2m_778(authenticated_page: Page, number):
     analytics_page = AnalyticsPage(authenticated_page)
-
     assert len(analytics_page.change_device_list(number)) == number, f"Expected {number} devices, but got {len(analytics_page.unit_list)}"
-
     assert analytics_page.row_per_page_dd.inner_text() == str(number)
 
 
 # M2M-779 Go to the next/previous page of the list in the "Select up to 10 objects" window
 def test_next_previous_page_of_list_m2m_779(authenticated_page: Page):
     analytics_page = AnalyticsPage(authenticated_page)
-
     assert analytics_page.next_page() is True, f"Expected to go to the next page, but got {analytics_page.next_page()}"
     expect(analytics_page.device_of_devices_text.last).to_contain_text("11-20")
-
     analytics_page.previos_page_btn.click(delay=500)
     expect(analytics_page.device_of_devices_text.last).to_contain_text("1-10")
 
