@@ -12,6 +12,16 @@ TIMEZONE_ID = 'Europe/Kiev'
 TRACE_DIR = "reports/trace"
 
 
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+    test_fn = item.obj
+    docstring = getattr(test_fn, '__doc__', None)
+    if docstring:
+        report.nodeid = docstring
+
+
 def get_auth_storage_path(base_url):
     """Get the authentication storage path based on the base URL."""
     if "staging" in base_url:

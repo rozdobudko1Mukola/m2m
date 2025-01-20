@@ -23,16 +23,16 @@ expected_dict = {
 }
 
 
-# M2M-1582 Перейти на сторінку "Профіль користувача"
 def test_open_profile_page(authenticated_page: Page):
+    """||M2M-1582|| Перейти на сторінку 'Профіль користувача"""
     support_page = SupportPage(authenticated_page)
 
     support_page.open_profile_page()
     expect(authenticated_page).to_have_url(profile_url)
 
 
-#M2M-1581 Переглянути документацію системи
 def test_open_doc_page(authenticated_page: Page):
+    """||M2M-1581|| Переглянути документацію системи"""
     support_page = SupportPage(authenticated_page)
 
     with authenticated_page.expect_popup() as popup_info:
@@ -42,8 +42,8 @@ def test_open_doc_page(authenticated_page: Page):
     docs_tab.close()  # Закриваємо вкладку документації
 
 
-# M2M-1579 Перейти за посиланнями в розділі "Користні посилання"
 def test_useful_links(authenticated_page: Page):
+    """||M2M-1579|| Перевірка переходу за посиланнями в розділі 'Користні посилання'"""
     support_page = SupportPage(authenticated_page)
 
     # Відслідковуємо нову вкладку для форуму
@@ -61,9 +61,8 @@ def test_useful_links(authenticated_page: Page):
     docs_tab.close()  # Закриваємо вкладку документації
 
 
-# M2M-1578 Переглянути сторінку підтримки
-# M2M-1580 Переглянути контантну інформацію
 def test_contact_info(authenticated_page: Page):
+    """ ||M2M-1578|| / ||M2M-1580|| Переглянути сторінку підтримки / Переглянути контантну інформацію"""
     support_page = SupportPage(authenticated_page)
 
     # Отримуємо контактну інформацію
@@ -75,8 +74,8 @@ def test_contact_info(authenticated_page: Page):
         assert actual_value == expected_value, f"Невірне значення для '{key}': очікувалось '{expected_value}', але отримано '{actual_value}'"
 
 
-# M2M-1583 Натиснути на кнопку "Вихід" в бічному меню.
 def test_click_exit_button(authenticated_page: Page):
+    """||M2M-1583|| Натиснути на кнопку 'Вихід' в бічному меню"""
     support_page = SupportPage(authenticated_page)
     support_page.click_exit_button()
 
