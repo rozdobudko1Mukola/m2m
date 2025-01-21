@@ -46,7 +46,9 @@ def start_tracing(context, test_name=None):
     """Start tracing for the context."""
     context.tracing.start(screenshots=True, snapshots=True)
     if test_name:
-        return f"{TRACE_DIR}/{test_name}_trace.zip"
+        # Shorten the trace file path
+        short_test_name = test_name.split("[")[0]
+        return f"{TRACE_DIR}/{short_test_name}_trace.zip"
     return None
 
 

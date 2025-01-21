@@ -98,7 +98,7 @@ def test_logout_from_account_m2m_787(authenticated_page: Page):
     expect(authenticated_page).to_have_url("/login") # Перевіряємо вихід з облікового запису
 
 
-pytest.mark.skip(reason="Not implemented")
+@pytest.mark.skip(reason="Not implemented")
 # M2M-19 Replace user's email
 def test_change_user_email_m2m_19(authenticated_page: Page):
     pass
