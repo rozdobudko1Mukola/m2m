@@ -10,7 +10,7 @@ class LoginPage:
         self.email_input = self.page.locator("label:has-text('Email')")
         self.password_input = self.page.locator("input[name='password']")
 
-        self.acsept_btn = self.page.locator("button[type='submit']")
+        self.accept_btn = self.page.locator("button[type='submit']")
 
         self.restore_password_link = self.page.get_by_role("link", name="Відновити пароль")
         self.login_as_btn = self.page.get_by_text("Увійти як").first

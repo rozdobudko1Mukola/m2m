@@ -1,5 +1,7 @@
 from playwright.sync_api import Page
 from pages.base_page import BasePage
+import random
+
 
 class ObjectsPage:
 
@@ -59,15 +61,24 @@ class ObjectsPage:
         self.ob_tablet_head = self.page.locator("table thead tr th")
         self.ob_tablet_body = self.page.locator("table tbody tr")
 
+# Error message locators
+        self.error_msg = self.page.locator("//form/span")
 
-    def add_new_object(self, name: str, unique_id: str, phone_1: str, phone_2: str, model: str, device_type: str):
+
+    def unique_id(self):
+        unique_id = ''.join(random.choices('0123456789', k=random.randint(5, 20)))
+        return unique_id
+
+
+    def add_new_object(self, name: str, phone_1: str, phone_2: str, model: str, device_type: str):
         """device_type = VEHICLE, FUEL_VEHICLE, PERSONAL_TRACKER, BEACON"""
+        unique_id = self.unique_id()
         self.head_menu_buttons["add"].click()
         self.object_main_popap_inputs["name"].fill(name)
         self.object_main_popap_inputs["unique_id"].fill(unique_id)
         self.object_main_popap_inputs["phone_1"].fill(phone_1)
         self.object_main_popap_inputs["phone_2"].fill(phone_2)
-        self.object_main_popap_inputs["device_type"].click()
+        self.object_main_popap_inputs["device_type"].click()  
         self.types_of_objects[device_type].click()
         self.object_main_popap_inputs["model"].fill(model)
         self.popap_btn["ok"].click()
