@@ -71,6 +71,8 @@ def test_create_new_object_VEHICLE_m2m_382(auth_new_test_user: Page, device_type
         VEHICLE_DEVICE['model'],
         VEHICLE_DEVICE['device_type'][device_type]
     )
+    objects_page.popap_btn["ok"].click()
+
     # Check if the object was created
     expect(objects_page.ob_tablet_body.nth(0)).to_contain_text(expected_text)
 
@@ -90,6 +92,7 @@ def test_create_new_object_FUEL_VEHICLE_m2m_383(auth_new_test_user: Page, device
         VEHICLE_DEVICE['model'],
         VEHICLE_DEVICE['device_type'][device_type]
     )
+    objects_page.popap_btn["ok"].click()
     # Check if the object was created
     expect(objects_page.ob_tablet_body.nth(0)).to_contain_text(expected_text)
 
@@ -109,6 +112,8 @@ def test_create_new_object_PERSONAL_TRACKER_m2m_384(auth_new_test_user: Page, de
         VEHICLE_DEVICE['model'],
         VEHICLE_DEVICE['device_type'][device_type]
     )
+    objects_page.popap_btn["ok"].click()
+
     # Check if the object was created
     expect(objects_page.ob_tablet_body.nth(0)).to_contain_text(expected_text)
 
@@ -128,6 +133,8 @@ def test_create_new_object_BEACON_m2m_385(auth_new_test_user: Page, device_type=
         VEHICLE_DEVICE['model'],
         VEHICLE_DEVICE['device_type'][device_type]
     )
+    objects_page.popap_btn["ok"].click()
+
     # Check if the object was created
     expect(objects_page.ob_tablet_body.nth(0)).to_contain_text(expected_text)
 
@@ -148,7 +155,8 @@ def test_create_new_object_when_the_device_limit_is_exhausted_m2m_1540(login_use
         VEHICLE_DEVICE['model'],
         VEHICLE_DEVICE['device_type']['VEHICLE']
     )
-    
+    objects_page.popap_btn["ok"].click()
+
     # Check if the error message is displayed
     expect(objects_page.error_msg).to_contain_text("Досягнуто ліміту для нових пристроїв")
 
@@ -156,4 +164,20 @@ def test_create_new_object_when_the_device_limit_is_exhausted_m2m_1540(login_use
 # M2M-387 Відмінити створення нового об'єкта
 def test_cancel_creating_new_object_m2m_387(auth_new_test_user: Page):
     """ ||M2M-387|| Відмінити створення нового об'єкта """
-    pass
+    objects_page = ObjectsPage(auth_new_test_user)
+
+    objects_page.add_new_object(
+        f"{VEHICLE_DEVICE['name']} {VEHICLE_DEVICE['device_type']['VEHICLE']}",
+        VEHICLE_DEVICE["phone_1"],
+        VEHICLE_DEVICE["phone_2"],
+        VEHICLE_DEVICE['model'],
+        VEHICLE_DEVICE['device_type']['VEHICLE']
+    )
+    objects_page.popap_btn["cancel"].click()
+
+    # Check if the object was not created
+    expect(objects_page.ob_tablet_body).not_to_be_visible()
+
+
+
+

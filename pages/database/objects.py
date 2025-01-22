@@ -81,7 +81,6 @@ class ObjectsPage:
         self.object_main_popap_inputs["device_type"].click()  
         self.types_of_objects[device_type].click()
         self.object_main_popap_inputs["model"].fill(model)
-        self.popap_btn["ok"].click()
 
         
     def pause_all_object(self):
