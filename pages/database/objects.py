@@ -75,11 +75,12 @@ class ObjectsPage:
         unique_id = self.unique_id()
         self.head_menu_buttons["add"].click()
         self.object_main_popap_inputs["name"].fill(name)
-        self.object_main_popap_inputs["unique_id"].fill(unique_id)
         self.object_main_popap_inputs["phone_1"].fill(phone_1)
         self.object_main_popap_inputs["phone_2"].fill(phone_2)
-        self.object_main_popap_inputs["device_type"].click()  
-        self.types_of_objects[device_type].click()
+        if device_type:
+            self.object_main_popap_inputs["unique_id"].fill(unique_id)
+            self.object_main_popap_inputs["device_type"].click()  
+            self.types_of_objects[device_type].click()
         self.object_main_popap_inputs["model"].fill(model)
 
         

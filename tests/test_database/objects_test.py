@@ -1,6 +1,7 @@
 import pytest
 from playwright.sync_api import Page, expect
 from pages.database.objects import ObjectsPage
+from pages.base_page import BasePage
 
 
 VEHICLE_DEVICE = {
@@ -178,6 +179,21 @@ def test_cancel_creating_new_object_m2m_387(auth_new_test_user: Page):
     # Check if the object was not created
     expect(objects_page.ob_tablet_body).not_to_be_visible()
 
+# M2M-388 Створити новий об'єкт не заповнивши поля "Ім'я", "Унікальний ID", "Тип" "Модель"
+def test_create_new_object_without_filling_in_the_fields_m2m_388(auth_new_test_user: Page):
+    """ ||M2M-388|| Створити новий об'єкт не заповнивши поля "Ім'я", "Унікальний ID", "Тип" "Модель" """
+
+    objects_page = ObjectsPage(auth_new_test_user)
+
+    objects_page.add_new_object("", "", "", "", "")
+    objects_page.popap_btn["ok"].click()
+
+    # Check if input color is red
+    base_page = BasePage(auth_new_test_user)
+    for index in [2, 3, 4, 10]:
+        expect(base_page.red_fild_color.nth(index)).to_have_css("border-color", base_page.color_of_red)
+    # Check if the error message is displayed
+    expect(base_page.mandatory_fields_msg).to_have_count(4)
 
 
 
