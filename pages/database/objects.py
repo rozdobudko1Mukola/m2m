@@ -63,17 +63,17 @@ class ObjectsPage:
         }
 
 # Objects lable locators
-        self.ob_tablet_head = self.page.locator("table thead tr th")
-        self.ob_tablet_body = self.page.locator("table tbody tr")
+        self.ob_tablet_head = self.page.locator("#display-tabpanel-0 table thead tr th")
+        self.ob_tablet_body = self.page.locator("#display-tabpanel-0 table tbody tr")
 
 # Error message locators
         self.error_msg = self.page.locator("//form/span")
 
 # Row on the page locators
         self.row_on_page = {
-            "obgects_dd_btn": self.page.locator("div[role='combobox']").nth(0),
-            "groups_dd_btn": self.page.locator("div[role='combobox']").nth(1),
-            "obgects_previous_page": self.page.locator("button[title='Go to previous page'] span").nth(0),
+            "objects_dd_btn": self.page.get_by_role("combobox").nth(0),
+            "groups_dd_btn": self.page.get_by_role("combobox").nth(1),
+            "objects_previous_page": self.page.locator("button[title='Go to previous page'] span").nth(0),
             "objects_next_page": self.page.locator("button[title='Go to next page'] span").nth(0),
             "group_previous_page": self.page.locator("button[title='Go to previous page'] span").nth(1),
             "group_next_page": self.page.locator("button[title='Go to next page'] span").nth(1),
@@ -81,7 +81,7 @@ class ObjectsPage:
             "25": self.page.locator("ul li").nth(1),
             "50": self.page.locator("ul li").nth(2),
             "100": self.page.locator("ul li").nth(3),
-            "obgects_total_p": self.page.locator(".MuiTablePagination-displayedRows").nth(0),
+            "objects_total_p": self.page.locator(".MuiTablePagination-displayedRows").nth(0),
             "groups_total_p": self.page.locator(".MuiTablePagination-displayedRows").nth(1)
         }
 
@@ -131,11 +131,19 @@ class ObjectsPage:
         self.row_on_page["objects_next_page"].click()
         self.page.wait_for_timeout(1000)
 
-        return self.row_on_page["obgects_total_p"]
+        return self.row_on_page["objects_total_p"]
 
     def previous_pagelist_of_objects(self):
-        self.row_on_page["obgects_previous_page"].click()
+        self.row_on_page["objects_previous_page"].click()
         self.page.wait_for_timeout(1000)
 
-        return self.row_on_page["obgects_total_p"]
+        return self.row_on_page["objects_total_p"]
+
+    def increase_decrease_the_number(self, number: str):
+        self.row_on_page["objects_dd_btn"].click()
+        self.row_on_page[number].click()
+        self.page.wait_for_timeout(1000)
+        
+        return self.ob_tablet_body
+
       

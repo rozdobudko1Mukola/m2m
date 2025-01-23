@@ -238,3 +238,14 @@ def test_display_the_next_and_previous_page_m2m_390(authenticated_page: Page):
     expect(objects_page.next_pagelist_of_objects()).to_contain_text("101-200")
 
     expect(objects_page.previous_pagelist_of_objects()).to_contain_text("1-100")
+
+
+# M2M-391 Збільшити/зменшити кількість об'єктів, які відображаються на сторінці
+def test_increase_decrease_the_number_of_objects_m2m_391(authenticated_page: Page):
+    """ ||M2M-391|| Збільшити/зменшити кількість об'єктів, які відображаються на сторінці """
+
+    objects_page = ObjectsPage(authenticated_page)
+    expect(objects_page.increase_decrease_the_number("10")).to_have_count(10)
+    expect(objects_page.increase_decrease_the_number("25")).to_have_count(25)
+    expect(objects_page.increase_decrease_the_number("50")).to_have_count(50)
+    expect(objects_page.increase_decrease_the_number("100")).to_have_count(100)
