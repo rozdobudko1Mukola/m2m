@@ -24,6 +24,9 @@ expect_text = {
     "BEACON": "Маяк"
 }
 
+expect_deactivate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'РЕДАГУВАТИ']
+expect_activate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'РЕДАГУВАТИ', 'ТИП ОБ’ЄКТУ', 'IMEI', 'SIM 1', 'SIM 2', 'ДАТА СТВОРЕННЯ ОБ’ЄКТА', 'РЕЄСТРАЦІЙНИЙ НОМЕР', 'ОСТАННЄ ПОВІДОМЛЕННЯ ОБ’ЄКТА', 'Пауза']
+
 
 @pytest.mark.skip("This test is not implemented")
 # M2M-337 Пошук об'єкта за Ім'ям з повною валідною назвою
@@ -46,18 +49,32 @@ def test_search_object_by_name_m2m_339(auth_new_test_user: Page):
     pass
 
 
-@pytest.mark.skip("This test is not implemented")
-# M2M-380 Прибрати додаткові колонки на панелі відображення об'єктів
+# M2M-380 Прибрати/додати додаткові колонки на панелі відображення об'єктів
 def test_remove_additional_columns_m2m_380(auth_new_test_user: Page):
-    """||M2M-380|| Прибрати додаткові колонки на панелі відображення об'єктів"""
-    pass
+    """ ||M2M-380|| Прибрати/додати додаткові колонки на панелі відображення об'єктів """
+    
+    objects_page = ObjectsPage(auth_new_test_user)
+    # Preconditions add object
+    objects_page.precondition_add_multiple_objects(1,
+    f'{VEHICLE_DEVICE["name"]} {VEHICLE_DEVICE["device_type"]["VEHICLE"]}',
+    VEHICLE_DEVICE["phone_1"],
+    VEHICLE_DEVICE["phone_2"],
+    VEHICLE_DEVICE['model'],
+    VEHICLE_DEVICE['device_type']['VEHICLE']
+    )
+    objects_page.head_menu_buttons["settings"].click()
 
+    # Disable all additional columns
+    objects_page.edit_object_table()
+    assert objects_page.ob_tablet_head.all_inner_texts() == expect_deactivate_column
 
-@pytest.mark.skip("This test is not implemented")
-# M2M-381 Додати додаткові колонки на панелі відображення об'єктів
-def test_add_additional_columns_m2m_381(auth_new_test_user: Page):
-    """||M2M-381|| Додати додаткові колонки на панелі відображення об'єктів"""
-    pass
+    # Return the columns to their original state
+    objects_page.edit_object_table()
+    assert objects_page.ob_tablet_head.all_inner_texts() == expect_activate_column
+
+    # Delete all objects on pause after test
+    auth_new_test_user.keyboard.press("Escape")
+    objects_page.pause_all_object()
 
 
 # M2M-382 Створити новий об'єкт типу "Транспортний засіб"
@@ -196,4 +213,17 @@ def test_create_new_object_without_filling_in_the_fields_m2m_388(auth_new_test_u
     expect(base_page.mandatory_fields_msg).to_have_count(4)
 
 
+# M2M-389 Взаємодія з неактивними полями та розділами
+def test_interaction_with_inactive_fields_and_sections_m2m_389(auth_new_test_user: Page):
+    """ ||M2M-389|| Взаємодія з неактивними полями та розділами """
 
+    objects_page = ObjectsPage(auth_new_test_user)
+    objects_page.head_menu_buttons["add"].click()
+
+    # Check if the fields are inactive
+    for popup_input in ["protocol", "adress_server", "owner", "date_of_create"]:
+        expect(objects_page.object_main_popap_inputs[popup_input]).to_be_disabled()
+
+    # Check if the tabs are inactive
+    for tab_name in ["access", "sensors", "custom_f", "Char", "commands"]:
+        expect(objects_page.object_popap_tablist[tab_name]).to_be_disabled()

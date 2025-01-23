@@ -274,7 +274,7 @@ def test_restore_password(page: Page):
     login_page.email_input.fill(email_for_restore)
     login_page.acsept_btn.click()
 
-
+@pytest.mark.skip("generate a lot of users/ Need to add post condition")
 # M2M-9 Create a new user ------------------------------------------------
 def test_create_new_user(page: Page):
     login_page = LoginPage(page)
