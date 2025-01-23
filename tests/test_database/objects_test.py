@@ -245,7 +245,5 @@ def test_increase_decrease_the_number_of_objects_m2m_391(authenticated_page: Pag
     """ ||M2M-391|| Збільшити/зменшити кількість об'єктів, які відображаються на сторінці """
 
     objects_page = ObjectsPage(authenticated_page)
-    expect(objects_page.increase_decrease_the_number("10")).to_have_count(10)
-    expect(objects_page.increase_decrease_the_number("25")).to_have_count(25)
-    expect(objects_page.increase_decrease_the_number("50")).to_have_count(50)
-    expect(objects_page.increase_decrease_the_number("100")).to_have_count(100)
+    for count in ["10", "25", "50", "100"]:
+        expect(objects_page.increase_decrease_the_number(count)).to_have_count(int(count))
