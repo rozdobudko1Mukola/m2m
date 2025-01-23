@@ -161,10 +161,10 @@ def test_create_new_object_BEACON_m2m_385(auth_new_test_user: Page, device_type=
 
 
 # M2M-1540 Створити новий об'єкт при умові, що ліміт кількості пристроїв вичерпаний
-def test_create_new_object_when_the_device_limit_is_exhausted_m2m_1540(login_user: Page):
+def test_create_new_object_when_the_device_limit_is_exhausted_m2m_1540(login_free_paln_user: Page):
     """ ||M2M-1540|| Створити новий об'єкт при умові, що ліміт кількості пристроїв вичерпаний """
 
-    objects_page = ObjectsPage(login_user)
+    objects_page = ObjectsPage(login_free_paln_user)
 
     objects_page.add_new_object(
         f"{VEHICLE_DEVICE['name']} {VEHICLE_DEVICE['device_type']['VEHICLE']}",
@@ -194,6 +194,7 @@ def test_cancel_creating_new_object_m2m_387(auth_new_test_user: Page):
     objects_page.popap_btn["cancel"].click()
 
     # Check if the object was not created
+    auth_new_test_user.wait_for_timeout(1000)
     expect(objects_page.ob_tablet_body).not_to_be_visible()
 
 # M2M-388 Створити новий об'єкт не заповнивши поля "Ім'я", "Унікальний ID", "Тип" "Модель"

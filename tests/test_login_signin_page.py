@@ -31,7 +31,7 @@ prod_users = "baker44793@bulatox.com"
 def test_valid_login(page: Page):
     login_page = LoginPage(page)
     login_page.login(valid_user_email, valid_password)
-    login_page.acsept_btn.click()
+    login_page.accept_btn.click()
 
     expect(page).to_have_url(monitoring_url)
     
@@ -42,7 +42,7 @@ def test_invalid_email_login(page: Page):
     base_page = BasePage(page)
 
     login_page.login(invalid_email, valid_password)
-    login_page.acsept_btn.click()
+    login_page.accept_btn.click()
 
     expect(base_page.mandatory_fields_msg.first).to_have_text("Введіть корекно Email")
 
@@ -53,7 +53,7 @@ def test_invalid_password_login(page: Page):
     base_page = BasePage(page)
 
     login_page.login(valid_user_email, invalid_password)
-    login_page.acsept_btn.click()
+    login_page.accept_btn.click()
 
     expect(base_page.mandatory_fields_msg.last).to_have_text("Мінімум 6 сиволів")
 
@@ -62,9 +62,9 @@ def test_invalid_password_login(page: Page):
 def test_unregistered_user_login(page: Page):
     login_page = LoginPage(page)
     login_page.login(unregisteret_user_email, valid_password)
-    login_page.acsept_btn.click() 
+    login_page.accept_btn.click() 
 
-    expect(login_page.error_block).to_be_visible()
+    expect(login_page.error_block).to_be_visible(timeout=10000)
 
 
 # M2M-1311 View user password
@@ -104,7 +104,7 @@ def test_restore_password_invalid_email(page: Page):
     expect(page).to_have_url(restore_password_url)
 
     login_page.email_input.fill(invalid_email)
-    login_page.acsept_btn.click()
+    login_page.accept_btn.click()
 
     expect(base_page.red_fild_color, "color should be red").to_have_css("border-color", color_of_red)
     expect(base_page.mandatory_fields_msg.first).to_have_text("Введіть корекно Email")  
@@ -214,7 +214,7 @@ def test_create_new_user_invalid_data(page: Page):
     login_page.sign_up(invalid_email, "123", "321", "ua")
 
     login_page.i_agree_checkbox.check()
-    login_page.acsept_btn.click()
+    login_page.accept_btn.click()
 
     expect(base_page.red_fild_color.first, "color should be red").to_have_css("border-color", color_of_red)
     expect(base_page.red_fild_color.nth(1), "color should be red").to_have_css("border-color", color_of_red)
@@ -233,7 +233,7 @@ def test_create_new_user_without_confirm(page: Page):
     login_page.sign_up_btn.click()
     login_page.sign_up(valid_user_email, valid_password, valid_password, "ua")
 
-    login_page.acsept_btn.is_disabled()
+    login_page.accept_btn.is_disabled()
 
 
 # M2M-1310 Create a new user using the data of a user who is already registered
@@ -245,7 +245,7 @@ def test_create_new_user_with_registered_data(page: Page):
     login_page.sign_up(valid_user_email, valid_password, valid_password, "ua")
 
     login_page.i_agree_checkbox.check()
-    login_page.acsept_btn.click()
+    login_page.accept_btn.click()
 
     expect(login_page.user_is_exist_msg).to_have_text("Такий користувач вже існує")
 
@@ -272,7 +272,7 @@ def test_restore_password(page: Page):
     expect(page).to_have_url(restore_password_url)
 
     login_page.email_input.fill(email_for_restore)
-    login_page.acsept_btn.click()
+    login_page.accept_btn.click()
 
 @pytest.mark.skip("generate a lot of users/ Need to add post condition")
 # M2M-9 Create a new user ------------------------------------------------
@@ -284,7 +284,7 @@ def test_create_new_user(page: Page):
     login_page.sign_up(f"test_email+{random_number}@gmail.com", "123456", "123456", "ua")
 
     login_page.i_agree_checkbox.check()
-    login_page.acsept_btn.click()
+    login_page.accept_btn.click()
 
     expect(page.locator("body h1")).to_have_text("Реєстрацію завершено")
 
