@@ -228,3 +228,13 @@ def test_interaction_with_inactive_fields_and_sections_m2m_389(auth_new_test_use
     # Check if the tabs are inactive
     for tab_name in ["access", "sensors", "custom_f", "Char", "commands"]:
         expect(objects_page.object_popap_tablist[tab_name]).to_be_disabled()
+
+
+# M2M-390 Відобразити наступну та попередню сторінку зі списку об'єктів.
+def test_display_the_next_and_previous_page_m2m_390(authenticated_page: Page):
+    """ ||M2M-390|| Відобразити наступну та попередню сторінку зі списку об'єктів. """
+    objects_page = ObjectsPage(authenticated_page)
+    
+    expect(objects_page.next_pagelist_of_objects()).to_contain_text("101-200")
+
+    expect(objects_page.previous_pagelist_of_objects()).to_contain_text("1-100")

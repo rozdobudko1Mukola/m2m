@@ -69,6 +69,22 @@ class ObjectsPage:
 # Error message locators
         self.error_msg = self.page.locator("//form/span")
 
+# Row on the page locators
+        self.row_on_page = {
+            "obgects_dd_btn": self.page.locator("div[role='combobox']").nth(0),
+            "groups_dd_btn": self.page.locator("div[role='combobox']").nth(1),
+            "obgects_previous_page": self.page.locator("button[title='Go to previous page'] span").nth(0),
+            "objects_next_page": self.page.locator("button[title='Go to next page'] span").nth(0),
+            "group_previous_page": self.page.locator("button[title='Go to previous page'] span").nth(1),
+            "group_next_page": self.page.locator("button[title='Go to next page'] span").nth(1),
+            "10": self.page.locator("ul li").nth(0),
+            "25": self.page.locator("ul li").nth(1),
+            "50": self.page.locator("ul li").nth(2),
+            "100": self.page.locator("ul li").nth(3),
+            "obgects_total_p": self.page.locator(".MuiTablePagination-displayedRows").nth(0),
+            "groups_total_p": self.page.locator(".MuiTablePagination-displayedRows").nth(1)
+        }
+
 
     def unique_id(self):
         unique_id = ''.join(random.choices('0123456789', k=random.randint(5, 20)))
@@ -109,3 +125,17 @@ class ObjectsPage:
             self.add_new_object(name, phone_1, phone_2, model, device_type)
             self.popap_btn["ok"].click()
             self.page.wait_for_timeout(1000)
+
+
+    def next_pagelist_of_objects(self):
+        self.row_on_page["objects_next_page"].click()
+        self.page.wait_for_timeout(1000)
+
+        return self.row_on_page["obgects_total_p"]
+
+    def previous_pagelist_of_objects(self):
+        self.row_on_page["obgects_previous_page"].click()
+        self.page.wait_for_timeout(1000)
+
+        return self.row_on_page["obgects_total_p"]
+      
