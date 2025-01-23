@@ -247,3 +247,20 @@ def test_increase_decrease_the_number_of_objects_m2m_391(authenticated_page: Pag
     objects_page = ObjectsPage(authenticated_page)
     for count in ["10", "25", "50", "100"]:
         expect(objects_page.increase_decrease_the_number(count)).to_have_count(int(count))
+
+
+# M2M-392 Вибрати всі/один об'єкт(и) на панелі
+def test_select_all_one_object_on_the_panel_m2m_392(authenticated_page: Page):
+    """ ||M2M-392|| Вибрати всі/один об'єкт(и) на панелі """
+
+    objects_page = ObjectsPage(authenticated_page)
+
+    # Select all objects
+    objects_page.ob_tablet_head.nth(0).click()
+    for index in range(1, objects_page.ob_tablet_body.count() + 1):
+        expect(authenticated_page.locator(f"//div[@id='display-tabpanel-0']//tbody/tr[{index}]/td[1]//input")).to_be_checked()
+    objects_page.ob_tablet_head.nth(0).click() # Deselect all objects
+
+    # select one object
+    authenticated_page.locator("//div[@id='display-tabpanel-0']//tbody/tr[2]/td[1]//input").click()
+    expect(authenticated_page.locator("//div[@id='display-tabpanel-0']//tbody/tr[2]/td[1]//input")).to_be_checked()
