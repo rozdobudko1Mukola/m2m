@@ -14,7 +14,8 @@ class ObjectsPage:
 # Head menu objects page locators
         self.search_input = self.page.locator("#display-tabpanel-0 input#outlined-basic")
         self.heaer_menu_locators = self.page.locator("#display-tabpanel-0 .MuiGrid-container:first-of-type button")
-        
+        self.customize_panel_checkbox = self.page.locator("ul[role='menu'] input")
+
         self.head_menu_buttons = {
             "objects": self.heaer_menu_locators.nth(0),
             "groups": self.heaer_menu_locators.nth(1),
@@ -47,7 +48,11 @@ class ObjectsPage:
             "phone_1": self.page.locator("form input#outlined-basic").nth(0),
             "phone_2": self.page.locator("form input#outlined-basic").nth(1),
             "model": self.page.locator("input#combo-box-demo"),
-            "device_type": self.page.locator("#demo-simple-select")
+            "device_type": self.page.locator("#demo-simple-select"),
+            "protocol": self.page.locator("form input").nth(3),
+            "adress_server": self.page.locator("form input").nth(5),
+            "owner": self.page.locator("form input").nth(7),
+            "date_of_create": self.page.locator("form input").nth(9),
         }
 
         self.types_of_objects = {
@@ -85,9 +90,22 @@ class ObjectsPage:
 
         
     def pause_all_object(self):
-        if self.ob_tablet_body.is_visible():
+        if self.ob_tablet_body.nth(0).is_visible():
             self.ob_tablet_head.nth(0).click()
             self.page.wait_for_timeout(1000)
             self.ob_tablet_head.nth(12).click()
             self.popap_btn["confirm_del"].click()
+            self.page.wait_for_timeout(1000)
+
+    
+    def edit_object_table(self):
+        checkbox = self.customize_panel_checkbox
+        for index in range(checkbox.count()):
+            checkbox.nth(index).click()
+
+
+    def precondition_add_multiple_objects(self, count: int, name: str, phone_1: str, phone_2: str, model: str, device_type: str):
+        for _ in range(count):
+            self.add_new_object(name, phone_1, phone_2, model, device_type)
+            self.popap_btn["ok"].click()
             self.page.wait_for_timeout(1000)
