@@ -348,3 +348,23 @@ def test_cancel_pause_the_object_m2m_395(auth_new_test_user: Page):
     # Delete all objects on pause after test
     on_pause_page = onPausePage(auth_new_test_user)
     on_pause_page.all_unit_move_to_trash()
+
+
+# M2M-396 Створити нову групу обєктів
+def test_create_a_new_group_of_objects_m2m_396(login_free_paln_user: Page):
+    """ ||M2M-396|| Створити нову групу обєктів """
+
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.add_new_group("Test_group", 3)
+    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
+    expect(objects_page.group_tablet_body).to_have_count(4)
+    
+
+    # Delete all group after test
+    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
+    objects_page.remove_group()
+
+
+

@@ -12,17 +12,37 @@ class ObjectsPage:
 
 
 # Head menu objects page locators
-        self.search_input = self.page.locator("#display-tabpanel-0 input#outlined-basic")
-        self.heaer_menu_locators = self.page.locator("#display-tabpanel-0 .MuiGrid-container:first-of-type button")
+        self.search_input = self.page.locator("input#outlined-basic")
+        self.heaer_menu_object_locators = self.page.locator("#display-tabpanel-0 .MuiGrid-container:first-of-type button")
+        self.head_menu_gruop_locators = self.page.locator("#display-tabpanel-1 .MuiGrid-container:first-of-type button")
         self.customize_panel_checkbox = self.page.locator("ul[role='menu'] input")
 
         self.head_menu_buttons = {
-            "objects": self.heaer_menu_locators.nth(0),
-            "groups": self.heaer_menu_locators.nth(1),
-            "search_input": self.search_input,
-            "add": self.heaer_menu_locators.nth(3),
-            "settings": self.heaer_menu_locators.nth(4),
-            "transfer": self.heaer_menu_locators.nth(6)
+            "objects": self.heaer_menu_object_locators.nth(0),
+            "groups": self.heaer_menu_object_locators.nth(1),
+            "search_input": self.search_input.nth(0),
+            "add": self.heaer_menu_object_locators.nth(3),
+            "settings": self.heaer_menu_object_locators.nth(4),
+            "transfer": self.heaer_menu_object_locators.nth(6)
+        }
+    
+    # Group locators
+        self.head_menu_gruop_buttons = {
+            "object": self.head_menu_gruop_locators.nth(0),
+            "group": self.head_menu_gruop_locators.nth(1),
+            "search_input": self.search_input.nth(1),
+            "add": self.head_menu_gruop_locators.nth(3),
+
+        }
+
+        # New group popap locators
+        self.group_checkboxes = self.page.locator("form input[type='checkbox']")
+
+        self.group_popap = {
+        "search_group_in_group": self.search_input.nth(2),
+        "group_name": self.page.locator("input[name='name']"),
+        "cancel": self.page.locator("//button[@type='submit']/preceding-sibling::button"),
+        "ok": self.page.locator("//button[@type='submit']")
         }
 
 # Edit objectd popap locators
@@ -80,6 +100,8 @@ class ObjectsPage:
 # Objects lable locators
         self.ob_tablet_head = self.page.locator("#display-tabpanel-0 table thead tr th")
         self.ob_tablet_body = self.page.locator("#display-tabpanel-0 table tbody tr")
+        self.group_tablet_head = self.page.locator("#display-tabpanel-1 table thead tr th")
+        self.group_tablet_body = self.page.locator("#display-tabpanel-1 table tbody tr")
 
 # Error message locators
         self.error_msg = self.page.locator("//form/span")
@@ -164,3 +186,14 @@ class ObjectsPage:
         return self.ob_tablet_body
 
       
+    def add_new_group(self, name: str, units: int):
+        self.head_menu_gruop_buttons["add"].click()
+        self.group_popap["group_name"].fill(name)
+        for i in range(1, units + 1):
+            self.group_checkboxes.nth(i).check()
+        self.group_popap["ok"].click()
+        self.page.wait_for_timeout(1000)
+
+    def remove_group(self):
+        self.page.locator("#display-tabpanel-1 table tbody tr td button").nth(1).click()
+        self.popap_btn["confirm_del"].click()
