@@ -191,8 +191,7 @@ class ObjectsPage:
         self.group_popap["group_name"].fill(name)
         for i in range(1, units + 1):
             self.group_checkboxes.nth(i).check()
-        self.group_popap["ok"].click()
-        self.page.wait_for_timeout(1000)
+        self.page.wait_for_timeout(500)
 
     def remove_group(self):
         self.page.locator("#display-tabpanel-1 table tbody tr td button").nth(1).click()

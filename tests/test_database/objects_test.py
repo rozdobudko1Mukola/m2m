@@ -358,13 +358,35 @@ def test_create_a_new_group_of_objects_m2m_396(login_free_paln_user: Page):
 
     objects_page.head_menu_buttons["groups"].click()
     objects_page.add_new_group("Test_group", 3)
+    objects_page.self.group_popap["ok"].click()
     login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
     expect(objects_page.group_tablet_body).to_have_count(4)
-    
 
     # Delete all group after test
     login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
     objects_page.remove_group()
 
 
+# M2M-1564 Створити нову групу обєктів не заповнивши обов'язкові поля
+def test_create_a_new_group_of_objects_without_name_m2m_1564(login_free_paln_user: Page):
+    """ ||M2M-1564|| Створити нову групу обєктів не заповнивши обов'язкові поля """
+    objects_page = ObjectsPage(login_free_paln_user)
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.add_new_group("", 3)
+    objects_page.self.group_popap["ok"].click()
+
+    base_page = BasePage(login_free_paln_user)
+    expect(base_page.red_fild_color.nth(2)).to_have_css("border-color", base_page.color_of_red)
+    expect(base_page.mandatory_fields_msg.nth(0)).to_have_text("Обов'язкове поле")
+
+
+# M2M-397 Відмінити створення нової групи об'єктів
+def test_cancel_creating_a_new_group_of_objects_m2m_397(login_free_paln_user: Page):
+    """ ||M2M-397|| Відмінити створення нової групи об'єктів """
+
+    objects_page = ObjectsPage(login_free_paln_user)
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.add_new_group("Test_group", 3)
+    objects_page.group_popap["cancel"].click()
+    expect(objects_page.group_tablet_body).not_to_be_visible()
 
