@@ -2,7 +2,7 @@ import pytest
 from playwright.sync_api import sync_playwright, Browser, Page
 from pages.login import LoginPage
 
-STAGE_USER_FREE_BILL_PLAN = "x1pt4sqawm@vvatxiy.com"
+STAGE_USER_FREE_BILL_PLAN = "m2m.test.auto+freebill@gmail.com"
 LOCALE = 'uk-UA'
 TIMEZONE_ID = 'Europe/Kiev'
 

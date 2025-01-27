@@ -34,13 +34,28 @@ class ObjectsPage:
         }
 
         self.object_popap_tablist = {
-            "main": self.page.locator("button#simple-tab-1"),
-            "access": self.page.locator("button#simple-tab-2"),
-            "sensors": self.page.locator("button#simple-tab-3"),
-            "custom_f": self.page.locator("button#simple-tab-4"),
-            "Char": self.page.locator("button#simple-tab-5"),
-            "commands": self.page.locator("button#simple-tab-6")
+            "new_object_tabs": self.page.locator("div[role='dialog'] div[role='tablist'] button"),
+            "main": self.page.locator("div[role='dialog'] button#simple-tab-0"),
+            "access": self.page.locator("div[role='dialog'] button#simple-tab-1"),
+            "sensors": self.page.locator("div[role='dialog'] button#simple-tab-2"),
+            "custom_f": self.page.locator("div[role='dialog'] button#simple-tab-3"),
+            "admin_f": self.page.locator("div[role='dialog'] button#simple-tab-4"),
+            "char": self.page.locator("div[role='dialog'] button#simple-tab-5"),
+            "commands": self.page.locator("div[role='dialog'] button#simple-tab-6"),
+            "drive_detection": self.page.locator("div[role='dialog'] button#simple-tab-7")
         }
+
+        self.object_popap_tabpanel = {
+            "main": self.page.locator("#simple-tabpanel-0"),
+            "access": self.page.locator("#simple-tabpanel-1"),
+            "sensors": self.page.locator("#simple-tabpanel-2"),
+            "custom_f": self.page.locator("#simple-tabpanel-3"),
+            "admin_f": self.page.locator("#simple-tabpanel-4"),
+            "char": self.page.locator("#simple-tabpanel-5"),
+            "commands": self.page.locator("#simple-tabpanel-6"),
+            "drive_detection": self.page.locator("#simple-tabpanel-7")
+        }
+
 
         self.object_main_popap_inputs = {
             "name": self.page.locator("input[name='name']"),

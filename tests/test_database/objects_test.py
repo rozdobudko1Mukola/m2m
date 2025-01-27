@@ -226,8 +226,8 @@ def test_interaction_with_inactive_fields_and_sections_m2m_389(auth_new_test_use
         expect(objects_page.object_main_popap_inputs[popup_input]).to_be_disabled()
 
     # Check if the tabs are inactive
-    for tab_name in ["access", "sensors", "custom_f", "Char", "commands"]:
-        expect(objects_page.object_popap_tablist[tab_name]).to_be_disabled()
+    for index in range(1, 6):
+        expect(objects_page.object_popap_tablist["new_object_tabs"].nth(index)).to_be_disabled()
 
 
 # M2M-390 Відобразити наступну та попередню сторінку зі списку об'єктів.
@@ -264,3 +264,17 @@ def test_select_all_one_object_on_the_panel_m2m_392(authenticated_page: Page):
     # select one object
     authenticated_page.locator("//div[@id='display-tabpanel-0']//tbody/tr[2]/td[1]//input").click()
     expect(authenticated_page.locator("//div[@id='display-tabpanel-0']//tbody/tr[2]/td[1]//input")).to_be_checked()
+
+
+# M2M-393 Відкрити вікно налаштування об'єкта
+def test_open_object_settings_window_m2m_393(login_free_paln_user: Page):
+    """ ||M2M-393|| Відкрити вікно налаштування об'єкта """
+
+    objects_page = ObjectsPage(login_free_paln_user)
+    objects_page.ob_tablet_body.nth(0).filter(has=login_free_paln_user.locator("button")).nth(0).click() # Open object settings window
+    for tab in ["main", "access", "sensors", "custom_f", "admin_f", "char", "commands", "drive_detection"]:
+        objects_page.object_popap_tablist[tab].click()
+        expect(objects_page.object_popap_tabpanel[tab]).not_to_be_hidden()
+    
+
+
