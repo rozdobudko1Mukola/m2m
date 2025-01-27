@@ -338,6 +338,7 @@ def test_cancel_pause_the_object_m2m_395(auth_new_test_user: Page):
     objects_page.ob_tablet_head.nth(0).click(timeout=1000)
     objects_page.ob_tablet_head.nth(12).click(timeout=1000)
     objects_page.popap_btn["cancel_del"].click()
+    auth_new_test_user.wait_for_timeout(1000)
 
     # Check if the object was not paused
     auth_new_test_user.goto("/trash")
@@ -358,12 +359,12 @@ def test_create_a_new_group_of_objects_m2m_396(login_free_paln_user: Page):
 
     objects_page.head_menu_buttons["groups"].click()
     objects_page.add_new_group("Test_group", 3)
-    objects_page.self.group_popap["ok"].click()
-    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
+    objects_page.group_popap["ok"].click()
+    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=1000)
     expect(objects_page.group_tablet_body).to_have_count(4)
 
     # Delete all group after test
-    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
+    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=1000)
     objects_page.remove_group()
 
 
@@ -373,7 +374,7 @@ def test_create_a_new_group_of_objects_without_name_m2m_1564(login_free_paln_use
     objects_page = ObjectsPage(login_free_paln_user)
     objects_page.head_menu_buttons["groups"].click()
     objects_page.add_new_group("", 3)
-    objects_page.self.group_popap["ok"].click()
+    objects_page.group_popap["ok"].click()
 
     base_page = BasePage(login_free_paln_user)
     expect(base_page.red_fild_color.nth(2)).to_have_css("border-color", base_page.color_of_red)
@@ -389,4 +390,34 @@ def test_cancel_creating_a_new_group_of_objects_m2m_397(login_free_paln_user: Pa
     objects_page.add_new_group("Test_group", 3)
     objects_page.group_popap["cancel"].click()
     expect(objects_page.group_tablet_body).not_to_be_visible()
+
+
+# M2M-1542 Додати об'єкти до групи обєктів
+def test_add_objects_to_a_group_of_objects_m2m_1542(login_free_paln_user: Page):
+    """ ||M2M-1542|| Додати об'єкти до групи обєктів """
+    
+    # Create group
+    objects_page = ObjectsPage(login_free_paln_user)
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.add_new_group("Test_group", 2)
+    objects_page.group_popap["ok"].click()
+
+    # Chack if group was created
+    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=1000)
+    expect(objects_page.group_tablet_body).to_have_count(3)
+    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=1000)
+
+    # Add objects to group
+    objects_page.group_table_btns.nth(0).click()
+    objects_page.group_checkboxes.last.check()
+    objects_page.group_popap["ok"].click()
+
+    # Check if objects were added to the group
+    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
+    expect(objects_page.group_tablet_body).to_have_count(4)
+
+    # Delete all group after test
+    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
+    objects_page.remove_group()
+
 

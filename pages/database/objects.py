@@ -103,6 +103,8 @@ class ObjectsPage:
         self.group_tablet_head = self.page.locator("#display-tabpanel-1 table thead tr th")
         self.group_tablet_body = self.page.locator("#display-tabpanel-1 table tbody tr")
 
+        self.group_table_btns = self.page.locator("#display-tabpanel-1 table tbody tr td button")
+
 # Error message locators
         self.error_msg = self.page.locator("//form/span")
 
@@ -194,5 +196,5 @@ class ObjectsPage:
         self.page.wait_for_timeout(500)
 
     def remove_group(self):
-        self.page.locator("#display-tabpanel-1 table tbody tr td button").nth(1).click()
+        self.group_table_btns.nth(1).click()
         self.popap_btn["confirm_del"].click()
