@@ -320,4 +320,31 @@ def test_pause_the_object_m2m_394(auth_new_test_user: Page):
     on_pause_page.all_unit_move_to_trash()
 
 
+# M2M-395 Скасувати переведення об'єкта на паузу
+def test_cancel_pause_the_object_m2m_395(auth_new_test_user: Page):
+    """ ||M2M-395|| Скасувати переведення об'єкта на паузу """
 
+    objects_page = ObjectsPage(auth_new_test_user)
+
+    # Preconditions add object
+    objects_page.precondition_add_multiple_objects(1,
+    f'PAUSE {VEHICLE_DEVICE["name"]} {VEHICLE_DEVICE["device_type"]["VEHICLE"]}',
+    VEHICLE_DEVICE["phone_1"],
+    VEHICLE_DEVICE["phone_2"],
+    VEHICLE_DEVICE['model'],
+    VEHICLE_DEVICE['device_type']['VEHICLE']
+    )
+
+    objects_page.ob_tablet_head.nth(0).click(timeout=1000)
+    objects_page.ob_tablet_head.nth(12).click(timeout=1000)
+    objects_page.popap_btn["cancel_del"].click()
+
+    # Check if the object was not paused
+    auth_new_test_user.goto("/trash")
+    expect(auth_new_test_user.locator("table tbody tr").nth(0)).not_to_be_visible()
+    auth_new_test_user.goto("/units")
+    objects_page.pause_all_object()
+
+    # Delete all objects on pause after test
+    on_pause_page = onPausePage(auth_new_test_user)
+    on_pause_page.all_unit_move_to_trash()
