@@ -2,6 +2,7 @@ import pytest
 from playwright.sync_api import Page, expect
 from pages.database.objects import ObjectsPage
 from pages.base_page import BasePage
+from pages.database.on_pause import onPausePage
 
 
 VEHICLE_DEVICE = {
@@ -75,6 +76,9 @@ def test_remove_additional_columns_m2m_380(auth_new_test_user: Page):
     # Delete all objects on pause after test
     auth_new_test_user.keyboard.press("Escape")
     objects_page.pause_all_object()
+    # Delete all objects from pause to trash after test
+    on_pause_page = onPausePage(auth_new_test_user)
+    on_pause_page.all_unit_move_to_trash()
 
 
 # M2M-382 Створити новий об'єкт типу "Транспортний засіб"
@@ -97,6 +101,9 @@ def test_create_new_object_VEHICLE_m2m_382(auth_new_test_user: Page, device_type
     # Delete all objects on pause after test
     objects_page.pause_all_object()
 
+    # Delete all objects from pause to trash after test
+    on_pause_page = onPausePage(auth_new_test_user)
+    on_pause_page.all_unit_move_to_trash()
 
 # M2M-383 Створити новий об'єкт типу "Транспортний засіб з контролем пального"
 def test_create_new_object_FUEL_VEHICLE_m2m_383(auth_new_test_user: Page, device_type=VEHICLE_DEVICE["device_type"]["FUEL_VEHICLE"], expected_text=expect_text["FUEL_VEHICLE"]):
@@ -116,6 +123,10 @@ def test_create_new_object_FUEL_VEHICLE_m2m_383(auth_new_test_user: Page, device
 
     # Delete all objects on pause after test
     objects_page.pause_all_object()
+
+    # Delete all objects from pause to trash after test
+    on_pause_page = onPausePage(auth_new_test_user)
+    on_pause_page.all_unit_move_to_trash()
 
 
 # M2M-384 Створити новий об'єкт типу "Персональний трекер"
@@ -138,6 +149,10 @@ def test_create_new_object_PERSONAL_TRACKER_m2m_384(auth_new_test_user: Page, de
     # Delete all objects on pause after test
     objects_page.pause_all_object()
 
+    # Delete all objects from pause to trash after test
+    on_pause_page = onPausePage(auth_new_test_user)
+    on_pause_page.all_unit_move_to_trash()
+
 
 # M2M-385 Створити новий об'єкт типу "Маяк"
 def test_create_new_object_BEACON_m2m_385(auth_new_test_user: Page, device_type=VEHICLE_DEVICE["device_type"]["BEACON"], expected_text=expect_text["BEACON"]):
@@ -158,6 +173,10 @@ def test_create_new_object_BEACON_m2m_385(auth_new_test_user: Page, device_type=
 
     # Delete all objects on pause after test
     objects_page.pause_all_object()
+
+    # Delete all objects from pause to trash after test
+    on_pause_page = onPausePage(auth_new_test_user)
+    on_pause_page.all_unit_move_to_trash()
 
 
 # M2M-1540 Створити новий об'єкт при умові, що ліміт кількості пристроїв вичерпаний
@@ -275,6 +294,30 @@ def test_open_object_settings_window_m2m_393(login_free_paln_user: Page):
     for tab in ["main", "access", "sensors", "custom_f", "admin_f", "char", "commands", "drive_detection"]:
         objects_page.object_popap_tablist[tab].click()
         expect(objects_page.object_popap_tabpanel[tab]).not_to_be_hidden()
-    
+
+
+# M2M-394 Поставити на паузу об'єкт
+def test_pause_the_object_m2m_394(auth_new_test_user: Page):
+    """ ||M2M-394|| Поставити на паузу об'єкт """
+
+    objects_page = ObjectsPage(auth_new_test_user)
+
+    # Preconditions add object
+    objects_page.precondition_add_multiple_objects(1,
+    f'PAUSE {VEHICLE_DEVICE["name"]} {VEHICLE_DEVICE["device_type"]["VEHICLE"]}',
+    VEHICLE_DEVICE["phone_1"],
+    VEHICLE_DEVICE["phone_2"],
+    VEHICLE_DEVICE['model'],
+    VEHICLE_DEVICE['device_type']['VEHICLE']
+    )
+
+    objects_page.pause_all_object()
+    auth_new_test_user.goto("/trash")
+    expect(auth_new_test_user.locator("table tbody tr").nth(0)).to_contain_text(f'PAUSE {VEHICLE_DEVICE["name"]} {VEHICLE_DEVICE["device_type"]["VEHICLE"]}')
+
+    # Delete all objects on pause after test
+    on_pause_page = onPausePage(auth_new_test_user)
+    on_pause_page.all_unit_move_to_trash()
+
 
 

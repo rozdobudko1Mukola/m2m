@@ -121,12 +121,14 @@ class ObjectsPage:
 
         
     def pause_all_object(self):
+        self.page.wait_for_timeout(1000)
         if self.ob_tablet_body.nth(0).is_visible():
             self.ob_tablet_head.nth(0).click()
             self.page.wait_for_timeout(1000)
             self.ob_tablet_head.nth(12).click()
             self.popap_btn["confirm_del"].click()
             self.page.wait_for_timeout(1000)
+            self.page.reload()
 
     
     def edit_object_table(self):
