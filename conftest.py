@@ -167,9 +167,9 @@ def auth_new_test_user(browser: Browser, request, base_url):
     context = browser.new_context(storage_state=str(new_test_user_stage_path), locale=LOCALE, timezone_id=TIMEZONE_ID, base_url=base_url)
     page = context.new_page()
     trace_file_path = start_tracing(context, request.node.name)
-
+    print("browser fixture started")
     yield page
-
+    print("browser fixture ended")
     if request.node.rep_call.failed:
         stop_tracing(context, trace_file_path)
     else:

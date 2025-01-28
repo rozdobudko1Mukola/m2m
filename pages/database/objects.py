@@ -152,7 +152,6 @@ class ObjectsPage:
             self.ob_tablet_head.nth(12).click()
             self.popap_btn["confirm_del"].click()
             self.page.wait_for_timeout(1000)
-            self.page.reload()
 
     
     def edit_object_table(self):
