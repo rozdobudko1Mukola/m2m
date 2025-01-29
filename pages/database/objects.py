@@ -112,7 +112,7 @@ class ObjectsPage:
 # Row on the page locators
         self.row_on_page = {
             "objects_dd_btn": self.page.get_by_role("combobox").nth(0),
-            "groups_dd_btn": self.page.get_by_role("combobox").nth(1),
+            "groups_dd_btn": self.page.locator("div[role='combobox']").nth(1),
             "objects_previous_page": self.page.locator("button[title='Go to previous page'] span").nth(0),
             "objects_next_page": self.page.locator("button[title='Go to next page'] span").nth(0),
             "group_previous_page": self.page.get_by_role("button", name="Go to previous page"),
@@ -182,7 +182,15 @@ class ObjectsPage:
         
         return self.ob_tablet_body
 
+
+    def increase_decrease_the_number_group(self, number: str):
+        self.row_on_page["groups_dd_btn"].click()
+        self.row_on_page[number].click()
+        self.page.wait_for_timeout(1000)
+        
+        return self.group_tablet_body
       
+
     def add_new_group(self, name: str, units: int):
         self.head_menu_gruop_buttons["add"].click()
         self.group_popap["group_name"].fill(name)

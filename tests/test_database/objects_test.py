@@ -106,6 +106,23 @@ def create_and_remove_11_group(login_free_paln_user: Page, index=12):
         objects_page.remove_group()
 
 
+@pytest.fixture
+def create_and_remove_25_group(login_free_paln_user: Page, index=25):
+    objects_page = ObjectsPage(login_free_paln_user)
+    objects_page.head_menu_buttons["groups"].click()
+
+    # Create group
+    for i in range(1, index + 1):
+        objects_page.add_new_group(f"Test_group {i}", 3)
+        objects_page.group_popap["ok"].click()
+
+    yield
+
+    # Remove group
+    for i in range(index):
+        objects_page.remove_group()
+
+
 # M2M-380 Прибрати/додати додаткові колонки на панелі відображення об'єктів
 def test_remove_additional_columns_m2m_380(login_free_paln_user: Page):
     """ ||M2M-380|| Прибрати/додати додаткові колонки на панелі відображення об'єктів """
@@ -272,8 +289,8 @@ def test_display_the_next_and_previous_page_m2m_390(authenticated_page: Page):
     """ ||M2M-390|| Відобразити наступну та попередню сторінку зі списку об'єктів. """
     objects_page = ObjectsPage(authenticated_page)
     
-    expect(objects_page.check_pagelist("objects_next_page")).to_contain_text("objects_total_p")
-    expect(objects_page.check_pagelist("objects_previous_page")).to_contain_text("objects_total_p")
+    expect(objects_page.check_pagelist("objects_next_page", "objects_total_p")).to_contain_text("101-200")
+    expect(objects_page.check_pagelist("objects_previous_page", "objects_total_p")).to_contain_text("1-100")
 
 
 # M2M-391 Збільшити/зменшити кількість об'єктів, які відображаються на сторінці
@@ -443,10 +460,18 @@ def test_remove_objects_from_a_group_of_objects_m2m_1543(login_free_paln_user: P
 # M2M-401 Відобразити наступну та попередню сторінку зі списку груп.
 def test_display_the_next_and_previous_page_of_the_group_list_m2m_401(login_free_paln_user: Page, create_and_remove_11_group):
     """ ||M2M-401|| Відобразити наступну та попередню сторінку зі списку груп. """
+    objects_page = ObjectsPage(login_free_paln_user)   
 
-    objects_page = ObjectsPage(login_free_paln_user)    
     objects_page.head_menu_buttons["groups"].click()
-
     expect(objects_page.check_pagelist("objects_next_page", "groups_total_p")).to_have_text("11-12 із 12")
     expect(objects_page.check_pagelist("objects_previous_page", "groups_total_p")).to_have_text("1-10 із 12")
 
+
+# M2M-402 Збільшити/зменшити кількість груп, які відображаються на сторінці
+def test_increase_decrease_the_number_of_groups_m2m_402(login_free_paln_user: Page, create_and_remove_25_group):
+    """ ||M2M-402|| Збільшити/зменшити кількість груп, які відображаються на сторінці """
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    objects_page.head_menu_buttons["groups"].click()
+    for count in ["25", "10"]:
+        expect(objects_page.increase_decrease_the_number_group(count)).to_have_count(int(count))
