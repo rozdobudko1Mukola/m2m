@@ -65,6 +65,14 @@ def just_remove_units(auth_new_test_user: Page):
     on_pause_page.all_unit_move_to_trash()
 
 
+@pytest.fixture
+def just_remove_groups(login_free_paln_user: Page):
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    yield  # Provide the data to the test
+    # Teardown: Clean up resources (if any) after the test
+    objects_page.remove_group()
+
 # M2M-380 Прибрати/додати додаткові колонки на панелі відображення об'єктів
 def test_remove_additional_columns_m2m_380(login_free_paln_user: Page):
     """ ||M2M-380|| Прибрати/додати додаткові колонки на панелі відображення об'єктів """
@@ -321,7 +329,7 @@ def test_cancel_pause_the_object_m2m_395(auth_new_test_user: Page, just_remove_u
 
 
 # M2M-396 Створити нову групу обєктів
-def test_create_a_new_group_of_objects_m2m_396(login_free_paln_user: Page):
+def test_create_a_new_group_of_objects_m2m_396(login_free_paln_user: Page, just_remove_groups):
     """ ||M2M-396|| Створити нову групу обєктів """
 
     objects_page = ObjectsPage(login_free_paln_user)
@@ -329,12 +337,9 @@ def test_create_a_new_group_of_objects_m2m_396(login_free_paln_user: Page):
     objects_page.head_menu_buttons["groups"].click()
     objects_page.add_new_group("Test_group", 3)
     objects_page.group_popap["ok"].click()
-    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=1000)
+    objects_page.expand_btn.click(timeout=1000)
     expect(objects_page.group_tablet_body).to_have_count(4)
-
-    # Delete all group after test
-    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=1000)
-    objects_page.remove_group()
+    objects_page.expand_btn.click(timeout=1000)
 
 
 # M2M-1564 Створити нову групу обєктів не заповнивши обов'язкові поля
@@ -362,7 +367,7 @@ def test_cancel_creating_a_new_group_of_objects_m2m_397(login_free_paln_user: Pa
 
 
 # M2M-1542 Додати об'єкти до групи обєктів
-def test_add_objects_to_a_group_of_objects_m2m_1542(login_free_paln_user: Page):
+def test_add_objects_to_a_group_of_objects_m2m_1542(login_free_paln_user: Page, just_remove_groups):
     """ ||M2M-1542|| Додати об'єкти до групи обєктів """
     
     # Create group
@@ -372,9 +377,9 @@ def test_add_objects_to_a_group_of_objects_m2m_1542(login_free_paln_user: Page):
     objects_page.group_popap["ok"].click()
 
     # Chack if group was created
-    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=1000)
+    objects_page.expand_btn.click(timeout=1000)
     expect(objects_page.group_tablet_body).to_have_count(3)
-    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=1000)
+    objects_page.expand_btn.click(timeout=1000)
 
     # Add objects to group
     objects_page.group_table_btns.nth(0).click()
@@ -382,11 +387,29 @@ def test_add_objects_to_a_group_of_objects_m2m_1542(login_free_paln_user: Page):
     objects_page.group_popap["ok"].click()
 
     # Check if objects were added to the group
-    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
+    objects_page.expand_btn.click(timeout=500)
     expect(objects_page.group_tablet_body).to_have_count(4)
+    objects_page.expand_btn.click(timeout=500)
 
-    # Delete all group after test
-    login_free_paln_user.locator("svg[role='openGroup']").click(timeout=500)
-    objects_page.remove_group()
+
+# M2M-1543 Видалити об'єкти з групи обєктів
+def test_remove_objects_from_a_group_of_objects_m2m_1543(login_free_paln_user: Page, just_remove_groups):
+    """ ||M2M-1543|| Видалити об'єкти з групи обєктів """
+
+     # Create group
+    objects_page = ObjectsPage(login_free_paln_user)
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.add_new_group("Test_group", 3)
+    objects_page.group_popap["ok"].click()
+
+    # Remove objects from group
+    objects_page.group_table_btns.nth(0).click()
+    objects_page.group_checkboxes.last.uncheck()
+    objects_page.group_popap["ok"].click()
+
+    # Check if objects were added to the group
+    objects_page.expand_btn.click(timeout=500)
+    expect(objects_page.group_tablet_body).to_have_count(3)
+    objects_page.expand_btn.click(timeout=500)
 
 

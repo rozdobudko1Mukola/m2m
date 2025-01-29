@@ -97,13 +97,14 @@ class ObjectsPage:
             "BEACON": self.page.locator("ul li[data-value='BEACON']")
         }
 
-# Objects lable locators
+# Objects table locators
         self.ob_tablet_head = self.page.locator("#display-tabpanel-0 table thead tr th")
         self.ob_tablet_body = self.page.locator("#display-tabpanel-0 table tbody tr")
         self.group_tablet_head = self.page.locator("#display-tabpanel-1 table thead tr th")
         self.group_tablet_body = self.page.locator("#display-tabpanel-1 table tbody tr")
 
         self.group_table_btns = self.page.locator("#display-tabpanel-1 table tbody tr td button")
+        self.expand_btn = self.page.locator("svg[role='openGroup']")
 
 # Error message locators
         self.error_msg = self.page.locator("//form/span")
@@ -196,4 +197,4 @@ class ObjectsPage:
 
     def remove_group(self):
         self.group_table_btns.nth(1).click()
-        self.popap_btn["confirm_del"].click()
+        self.popap_btn["confirm_del"].click() 
