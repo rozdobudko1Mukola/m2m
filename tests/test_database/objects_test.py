@@ -71,7 +71,7 @@ def just_remove_groups(login_free_paln_user: Page):
 
     yield  # Provide the data to the test
     # Teardown: Clean up resources (if any) after the test
-    while objects_page.group_tablet_body.nth(1).is_visible():
+    while objects_page.row_on_page["groups_total_p"].is_visible():
         objects_page.remove_group()
 
 
@@ -87,7 +87,8 @@ def create_and_remove_one_group(login_free_paln_user: Page):
     yield
 
     # Remove group
-    objects_page.remove_group()
+    while objects_page.row_on_page["groups_total_p"].is_visible():
+        objects_page.remove_group()
 
 
 @pytest.fixture
@@ -537,7 +538,31 @@ def test_dispaly_group_members_in_an_empty_group_m2m_1604(login_free_paln_user: 
     expect(objects_page.alert_msg).to_be_visible()
 
 
+# M2M-407 Відкрити вікно властивості об'єкта в списку учасників групи
+def test_open_the_object_properties_window_in_the_list_of_group_members_m2m_407(login_free_paln_user: Page, create_and_remove_one_group):
+    """ ||M2M-407|| Відкрити вікно властивості об'єкта в списку учасників групи """
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    # Open object settings window
+    
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.expand_btn.click()
+    objects_page.group_table_btns.nth(2).click()
+
+    # Check if the object settings window is open
+    expect(objects_page.object_main_popap_inputs["name"]).to_have_value("test 1")
+    objects_page.popap_btn["cancel"].click()
 
 
+# M2M-408 Відкрити вікно редагування групи об'єктів
+def test_open_the_group_edit_window_m2m_408(login_free_paln_user: Page, create_and_remove_one_group):
+    """ ||M2M-408|| Відкрити вікно редагування групи об'єктів """
+    objects_page = ObjectsPage(login_free_paln_user)
 
+    # Open group edit window
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.group_table_btns.nth(0).click()
 
+    # Check if the group edit window is open
+    expect(objects_page.group_popap["group_name"]).to_have_value("Test_group")
+    objects_page.group_popap["cancel"].click()
