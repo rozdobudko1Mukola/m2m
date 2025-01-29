@@ -507,6 +507,19 @@ def test_remove_last_group_in_list_of_groups(login_free_paln_user: Page, create_
     expect(objects_page.group_tablet_body).to_have_count(1)
 
 
+# M2M-405 Відмінити видалення групи
+def test_cancel_deleting_a_group_m2m_405(login_free_paln_user: Page, create_and_remove_one_group):
+    """ ||M2M-405|| Відмінити видалення групи """
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    # Remove group
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.group_table_btns.nth(1).click()
+    objects_page.popap_btn["cancel_del"].click()
+    expect(objects_page.group_tablet_body).to_have_count(1)
+
+
+
 
 
 
