@@ -106,6 +106,7 @@ def create_and_remove_11_group(login_free_paln_user: Page, index=12):
     # Remove group
     while objects_page.row_on_page["groups_total_p"].is_visible():
         objects_page.remove_group()
+        login_free_paln_user.wait_for_timeout(500)
 
 
 @pytest.fixture
@@ -566,3 +567,16 @@ def test_open_the_group_edit_window_m2m_408(login_free_paln_user: Page, create_a
     # Check if the group edit window is open
     expect(objects_page.group_popap["group_name"]).to_have_value("Test_group")
     objects_page.group_popap["cancel"].click()
+
+
+# M2M-398 Пошук групи з повною валідною назвою
+@pytest.mark.parametrize("query, index", [("Test_group 0", 1), ("10", 10), ("213qwe123", 0)])
+def test_search_for_a_group_with_a_full_valid_name_m2m_409(login_free_paln_user: Page, create_and_remove_11_group, query, index):
+    """ ||M2M-398|| Пошук групи з повною валідною назвою """
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.head_menu_gruop_buttons["search_input"].fill(query)
+
+    expect(objects_page.group_tablet_body).to_have_count(index)
+    objects_page.head_menu_gruop_buttons["search_input"].clear()
