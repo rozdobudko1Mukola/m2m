@@ -73,6 +73,39 @@ def just_remove_groups(login_free_paln_user: Page):
     # Teardown: Clean up resources (if any) after the test
     objects_page.remove_group()
 
+
+@pytest.fixture
+def create_and_remove_one_group(login_free_paln_user: Page):
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    # Create group
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.add_new_group("Test_group", 3)
+    objects_page.group_popap["ok"].click()
+
+    yield
+
+    # Remove group
+    objects_page.remove_group()
+
+
+@pytest.fixture
+def create_and_remove_11_group(login_free_paln_user: Page, index=12):
+    objects_page = ObjectsPage(login_free_paln_user)
+    objects_page.head_menu_buttons["groups"].click()
+
+    # Create group
+    for i in range(index):
+        objects_page.add_new_group(f"Test_group {i}", 3)
+        objects_page.group_popap["ok"].click()
+
+    yield
+
+    # Remove group
+    for i in range(index):
+        objects_page.remove_group()
+
+
 # M2M-380 Прибрати/додати додаткові колонки на панелі відображення об'єктів
 def test_remove_additional_columns_m2m_380(login_free_paln_user: Page):
     """ ||M2M-380|| Прибрати/додати додаткові колонки на панелі відображення об'єктів """
@@ -239,9 +272,8 @@ def test_display_the_next_and_previous_page_m2m_390(authenticated_page: Page):
     """ ||M2M-390|| Відобразити наступну та попередню сторінку зі списку об'єктів. """
     objects_page = ObjectsPage(authenticated_page)
     
-    expect(objects_page.next_pagelist_of_objects()).to_contain_text("101-200")
-
-    expect(objects_page.previous_pagelist_of_objects()).to_contain_text("1-100")
+    expect(objects_page.check_pagelist("objects_next_page")).to_contain_text("objects_total_p")
+    expect(objects_page.check_pagelist("objects_previous_page")).to_contain_text("objects_total_p")
 
 
 # M2M-391 Збільшити/зменшити кількість об'єктів, які відображаються на сторінці
@@ -327,16 +359,15 @@ def test_cancel_pause_the_object_m2m_395(auth_new_test_user: Page, just_remove_u
     auth_new_test_user.goto("/units")
 
 
+# Group of objects----------------------------------------------------------------------------------------------------------------------------
 
 # M2M-396 Створити нову групу обєктів
-def test_create_a_new_group_of_objects_m2m_396(login_free_paln_user: Page, just_remove_groups):
+def test_create_a_new_group_of_objects_m2m_396(login_free_paln_user: Page, create_and_remove_one_group):
     """ ||M2M-396|| Створити нову групу обєктів """
 
     objects_page = ObjectsPage(login_free_paln_user)
 
     objects_page.head_menu_buttons["groups"].click()
-    objects_page.add_new_group("Test_group", 3)
-    objects_page.group_popap["ok"].click()
     objects_page.expand_btn.click(timeout=1000)
     expect(objects_page.group_tablet_body).to_have_count(4)
     objects_page.expand_btn.click(timeout=1000)
@@ -393,16 +424,12 @@ def test_add_objects_to_a_group_of_objects_m2m_1542(login_free_paln_user: Page, 
 
 
 # M2M-1543 Видалити об'єкти з групи обєктів
-def test_remove_objects_from_a_group_of_objects_m2m_1543(login_free_paln_user: Page, just_remove_groups):
+def test_remove_objects_from_a_group_of_objects_m2m_1543(login_free_paln_user: Page, create_and_remove_one_group):
     """ ||M2M-1543|| Видалити об'єкти з групи обєктів """
-
-     # Create group
     objects_page = ObjectsPage(login_free_paln_user)
-    objects_page.head_menu_buttons["groups"].click()
-    objects_page.add_new_group("Test_group", 3)
-    objects_page.group_popap["ok"].click()
 
     # Remove objects from group
+    objects_page.head_menu_buttons["groups"].click()
     objects_page.group_table_btns.nth(0).click()
     objects_page.group_checkboxes.last.uncheck()
     objects_page.group_popap["ok"].click()
@@ -412,4 +439,14 @@ def test_remove_objects_from_a_group_of_objects_m2m_1543(login_free_paln_user: P
     expect(objects_page.group_tablet_body).to_have_count(3)
     objects_page.expand_btn.click(timeout=500)
 
+
+# M2M-401 Відобразити наступну та попередню сторінку зі списку груп.
+def test_display_the_next_and_previous_page_of_the_group_list_m2m_401(login_free_paln_user: Page, create_and_remove_11_group):
+    """ ||M2M-401|| Відобразити наступну та попередню сторінку зі списку груп. """
+
+    objects_page = ObjectsPage(login_free_paln_user)    
+    objects_page.head_menu_buttons["groups"].click()
+
+    expect(objects_page.check_pagelist("objects_next_page", "groups_total_p")).to_have_text("11-12 із 12")
+    expect(objects_page.check_pagelist("objects_previous_page", "groups_total_p")).to_have_text("1-10 із 12")
 

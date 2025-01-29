@@ -115,8 +115,8 @@ class ObjectsPage:
             "groups_dd_btn": self.page.get_by_role("combobox").nth(1),
             "objects_previous_page": self.page.locator("button[title='Go to previous page'] span").nth(0),
             "objects_next_page": self.page.locator("button[title='Go to next page'] span").nth(0),
-            "group_previous_page": self.page.locator("button[title='Go to previous page'] span").nth(1),
-            "group_next_page": self.page.locator("button[title='Go to next page'] span").nth(1),
+            "group_previous_page": self.page.get_by_role("button", name="Go to previous page"),
+            "group_next_page": self.page.get_by_role("button", name="Go to next page"),
             "10": self.page.locator("ul li").nth(0),
             "25": self.page.locator("ul li").nth(1),
             "50": self.page.locator("ul li").nth(2),
@@ -168,17 +168,12 @@ class ObjectsPage:
             self.page.wait_for_timeout(1000)
 
 
-    def next_pagelist_of_objects(self):
-        self.row_on_page["objects_next_page"].click()
+    def check_pagelist(self, arrow_btn: str, total_expect):
+        self.row_on_page[arrow_btn].click()
         self.page.wait_for_timeout(1000)
 
-        return self.row_on_page["objects_total_p"]
+        return self.row_on_page[total_expect]
 
-    def previous_pagelist_of_objects(self):
-        self.row_on_page["objects_previous_page"].click()
-        self.page.wait_for_timeout(1000)
-
-        return self.row_on_page["objects_total_p"]
 
     def increase_decrease_the_number(self, number: str):
         self.row_on_page["objects_dd_btn"].click()
