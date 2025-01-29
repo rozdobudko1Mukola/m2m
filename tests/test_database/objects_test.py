@@ -519,6 +519,24 @@ def test_cancel_deleting_a_group_m2m_405(login_free_paln_user: Page, create_and_
     expect(objects_page.group_tablet_body).to_have_count(1)
 
 
+# M2M-1604 Відобразити учасників групи в порожній групі
+def test_dispaly_group_members_in_an_empty_group_m2m_1604(login_free_paln_user: Page, just_remove_groups):
+    """ ||M2M-1604|| Відобразити учасників групи в порожній групі """
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.add_new_group("Test_group", 1)
+    objects_page.group_popap["ok"].click()
+
+    # Remove objects from group
+    objects_page.group_table_btns.nth(0).click()
+    objects_page.group_checkboxes.nth(1).uncheck()
+    objects_page.group_popap["ok"].click()
+
+    objects_page.expand_btn.click(timeout=500)
+    expect(objects_page.alert_msg).to_be_visible()
+
+
 
 
 

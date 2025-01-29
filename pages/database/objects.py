@@ -105,6 +105,7 @@ class ObjectsPage:
 
         self.group_table_btns = self.page.locator("#display-tabpanel-1 table tbody tr td button")
         self.expand_btn = self.page.locator("svg[role='openGroup']")
+        self.alert_msg = self.page.locator("div[role='alert']")
 
 # Error message locators
         self.error_msg = self.page.locator("//form/span")
