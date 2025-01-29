@@ -71,7 +71,8 @@ def just_remove_groups(login_free_paln_user: Page):
 
     yield  # Provide the data to the test
     # Teardown: Clean up resources (if any) after the test
-    objects_page.remove_group()
+    while objects_page.group_tablet_body.nth(1).is_visible():
+        objects_page.remove_group()
 
 
 @pytest.fixture
@@ -102,7 +103,7 @@ def create_and_remove_11_group(login_free_paln_user: Page, index=12):
     yield
 
     # Remove group
-    for i in range(index):
+    while objects_page.row_on_page["groups_total_p"].is_visible():
         objects_page.remove_group()
 
 
@@ -475,3 +476,37 @@ def test_increase_decrease_the_number_of_groups_m2m_402(login_free_paln_user: Pa
     objects_page.head_menu_buttons["groups"].click()
     for count in ["25", "10"]:
         expect(objects_page.increase_decrease_the_number_group(count)).to_have_count(int(count))
+
+
+# M2M-404 Видалити групу
+def test_delete_a_group_m2m_403(login_free_paln_user: Page, just_remove_groups):
+    """ ||M2M-403|| Видалити групу """
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    # Create group
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.add_new_group("Test_group", 3)
+    objects_page.group_popap["ok"].click()
+
+    # Remove group
+    objects_page.remove_group()
+    expect(objects_page.group_tablet_body).not_to_be_visible()
+
+
+# M2M-403 Видалити останню групу в сторінці
+def test_remove_last_group_in_list_of_groups(login_free_paln_user: Page, create_and_remove_11_group):
+    """ ||M2M-403|| Видалити останню групу в сторінці """
+    objects_page = ObjectsPage(login_free_paln_user)
+
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.row_on_page["group_next_page"].click()
+
+    # Remove group
+    objects_page.group_table_btns.nth(1).click()
+    objects_page.popap_btn["confirm_del"].click()     
+    expect(objects_page.group_tablet_body).to_have_count(1)
+
+
+
+
+
