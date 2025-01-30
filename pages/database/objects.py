@@ -106,6 +106,7 @@ class ObjectsPage:
         self.group_table_btns = self.page.locator("#display-tabpanel-1 table tbody tr td button")
         self.expand_btn = self.page.locator("svg[role='openGroup']")
         self.alert_msg = self.page.locator("div[role='alert']")
+        self.del_group_btn = self.page.locator("#display-tabpanel-1 tbody tr:first-child td:last-child button")
 
 # Error message locators
         self.error_msg = self.page.locator("//form/span")
@@ -114,8 +115,8 @@ class ObjectsPage:
         self.row_on_page = {
             "objects_dd_btn": self.page.get_by_role("combobox").nth(0),
             "groups_dd_btn": self.page.locator("div[role='combobox']").nth(1),
-            "objects_previous_page": self.page.locator("button[title='Go to previous page'] span").nth(0),
-            "objects_next_page": self.page.locator("button[title='Go to next page'] span").nth(0),
+            "objects_previous_page": self.page.get_by_role("button", name="Go to previous page"),
+            "objects_next_page": self.page.get_by_role("button", name="Go to next page"),
             "group_previous_page": self.page.get_by_role("button", name="Go to previous page"),
             "group_next_page": self.page.get_by_role("button", name="Go to next page"),
             "10": self.page.locator("ul li").nth(0),
@@ -200,5 +201,5 @@ class ObjectsPage:
         self.page.wait_for_timeout(500)
 
     def remove_group(self):
-        self.group_table_btns.nth(1).click()
+        self.del_group_btn.click()
         self.popap_btn["confirm_del"].click() 

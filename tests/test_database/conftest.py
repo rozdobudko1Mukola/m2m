@@ -1,44 +1,132 @@
 import pytest
 from playwright.sync_api import sync_playwright, Browser, Page
-from pages.login import LoginPage
+from pages.database.objects import ObjectsPage
+from pages.database.on_pause import onPausePage
 
 
-STAGE_USER_FREE_BILL_PLAN = "m2m.test.auto+freebill@gmail.com"
-LOCALE = 'uk-UA'
-TIMEZONE_ID = 'Europe/Kiev'
-TRACE_DIR = "reports/trace"
+
+# Group Fixtures ------------------------------------------------------------
+
+@pytest.fixture
+def create_and_remove_one_group(freebill_user: Page):
+    objects_page = ObjectsPage(freebill_user)
+
+    # Create group
+    objects_page.head_menu_buttons["groups"].click()
+    objects_page.add_new_group("Test_group", 3)
+    objects_page.group_popap["ok"].click()
+    freebill_user.wait_for_selector("#display-tabpanel-1 table")
+
+    yield
+
+    # Remove group
+    freebill_user.wait_for_timeout(1000)
+    while objects_page.group_tablet_body.count() > 0:
+        objects_page.remove_group()
+        freebill_user.wait_for_timeout(500)
 
 
-def start_tracing(context, test_name=None):
-    """Start tracing for the context."""
-    context.tracing.start(screenshots=True, snapshots=True)
-    if test_name:
-        return f"{TRACE_DIR}/{test_name}_trace.zip"
-    return None
+@pytest.fixture()
+def create_and_remove_11_group(freebill_user: Page, index=12):
+    objects_page = ObjectsPage(freebill_user)
+    objects_page.head_menu_buttons["groups"].click()
+
+    # Create group
+    for i in range(index + 1):
+        objects_page.add_new_group(f"Test group {i}", 3)
+        objects_page.group_popap["ok"].click()
+
+    yield
+
+    # Remove group
+    freebill_user.wait_for_timeout(1000)
+    while objects_page.group_tablet_body.count() > 0:
+        objects_page.remove_group()
+        freebill_user.wait_for_timeout(500)
 
 
-def stop_tracing(context, trace_file_path=None):
-    """Stop tracing and save if trace_file_path is provided."""
-    if trace_file_path:
-        context.tracing.stop(path=trace_file_path)
-    else:
-        context.tracing.stop()
+@pytest.fixture()
+def create_and_remove_3_groups(freebill_user: Page, index=3):
+    objects_page = ObjectsPage(freebill_user)
+    objects_page.head_menu_buttons["groups"].click()
 
-@pytest.fixture(scope="function")
-def login_free_paln_user(browser: Browser, request, base_url):
-    """Fixture for logging in a user."""
-    context = browser.new_context(locale=LOCALE, timezone_id=TIMEZONE_ID, base_url=base_url)
-    page = context.new_page()
-    login_page = LoginPage(page)
-    login_page.login(STAGE_USER_FREE_BILL_PLAN, STAGE_USER_FREE_BILL_PLAN)
-    login_page.accept_btn.click()
-    page.wait_for_timeout(1000)
+    # Create group
+    for i in range(index):
+        objects_page.add_new_group(f"Test group {i}", 3)
+        objects_page.group_popap["ok"].click()
 
-    trace_file_path = start_tracing(context, request.node.name)
+    yield
 
-    yield page
+    # Remove group
+    if objects_page.head_menu_gruop_buttons["search_input"].input_value() != "":
+        objects_page.head_menu_gruop_buttons["search_input"].fill("")
+        freebill_user.wait_for_timeout(1000)
 
-    stop_tracing(context, trace_file_path if request.node.rep_call.failed else None)
+        while objects_page.group_tablet_body.count() > 0:
+            objects_page.remove_group()
+            freebill_user.wait_for_timeout(500)
 
-    page.close()
-    context.close() 
+
+@pytest.fixture
+def create_and_remove_25_group(freebill_user: Page, index=26):
+    objects_page = ObjectsPage(freebill_user)
+    objects_page.head_menu_buttons["groups"].click()
+
+    # Create group
+    for i in range(1, index):
+        objects_page.add_new_group(f"Test_group {i}", 3)
+        objects_page.group_popap["ok"].click()
+
+    yield
+
+    # Remove group
+    freebill_user.wait_for_timeout(1000)
+    while objects_page.group_tablet_body.count() > 0:
+        objects_page.remove_group()
+        freebill_user.wait_for_timeout(500)
+
+
+@pytest.fixture
+def just_remove_groups(freebill_user: Page):
+    objects_page = ObjectsPage(freebill_user)
+
+    yield 
+    # Remove group
+    freebill_user.wait_for_timeout(1000)
+    while objects_page.group_tablet_body.count() > 0:
+        objects_page.remove_group()
+        freebill_user.wait_for_timeout(500)
+
+
+# Units Fixtures --------------------------------------------------------------
+
+@pytest.fixture
+def create_and_remove_one_units(auth_new_test_user: Page):
+    print("\nSetting up resources...")
+    objects_page = ObjectsPage(auth_new_test_user)
+
+    # Preconditions add object
+    objects_page.precondition_add_multiple_objects(1, "Auto_Test", "180455679224", "180455679224", "Teltonika FMB965", "VEHICLE")
+
+    yield  # Provide the data to the test
+    # Teardown: Clean up resources (if any) after the test
+
+    print("\nTearing down resources...")
+    objects_page.pause_all_object()
+    # Delete all objects from pause to trash after test
+    on_pause_page = onPausePage(auth_new_test_user)
+    on_pause_page.all_unit_move_to_trash()
+
+
+@pytest.fixture
+def just_remove_units(selfreg_user: Page):
+    print("\nTearing down resources...")
+    objects_page = ObjectsPage(selfreg_user)
+
+    yield  # Provide the data to the test
+    # Teardown: Clean up resources (if any) after the test
+    print("\nTearing down resources...")
+    objects_page.pause_all_object()
+    # Delete all objects from pause to trash after test
+    on_pause_page = onPausePage(selfreg_user)
+    on_pause_page.all_unit_move_to_trash()

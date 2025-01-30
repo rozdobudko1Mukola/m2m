@@ -72,7 +72,21 @@ class LoginPage:
         self.language(language_code)
 
     
-    def is_logged_in(self) -> bool:
+    # def is_logged_in(self) -> bool:
+    #     """Перевіряє, чи користувач залогінений на основі заголовка сторінки."""
+    #     try:
+    #         # Отримуємо текст заголовка
+    #         header_text = self.page.locator("header h1").first.text_content()
+    #         return header_text == "Моніторинг" or header_text == "Monitoring"
+    #     except:
+    #         # Якщо заголовок не знайдено або виникла помилка, користувач вважається вилогіненим
+    #         return False
+
+
+    def sucsefull_login(self, user_email: str, password: str):
+        self.login(user_email, password)
+        self.accept_btn.click()
+        self.page.wait_for_timeout(1000)
         """Перевіряє, чи користувач залогінений на основі заголовка сторінки."""
         try:
             # Отримуємо текст заголовка
@@ -81,6 +95,5 @@ class LoginPage:
         except:
             # Якщо заголовок не знайдено або виникла помилка, користувач вважається вилогіненим
             return False
-
 
     
