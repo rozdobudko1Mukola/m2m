@@ -23,7 +23,8 @@ class ObjectsPage:
             "unit_search_input": self.page.locator("input#outlined-basic").nth(0),
             "add_unit": self.page.locator(".MuiGrid-container div > button:nth-child(1)").nth(0),
             "export": self.page.locator(".MuiGrid-container div > button:nth-child(2)"),
-            "settings": self.page.locator(".MuiGrid-container div > button button")
+            "settings": self.page.locator(".MuiGrid-container div > button button"),
+            "customize_panel": self.page.locator("ul[role='menu'] input"),
         }
 
         self.filter_list = {
@@ -37,13 +38,14 @@ class ObjectsPage:
             "CUSTOM_FIELDS": self.page.locator("li[data-value='CUSTOM_FIELDS']")
         }
 
-    # Edit objectd popap locators
+    # Edit unit popap locators
         self.popap_btn = {
             "cancel": self.page.locator("button:has(+ button[type='submit'])"),
             "ok": self.page.locator("button[type='submit']"),
             "confirm_del": self.page.locator("div[role='dialog'] button").nth(0),
             "cancel_del": self.page.locator("div[role='dialog'] button").nth(1),
-            "err_msg": self.page.locator("//form/span")
+            "err_msg": self.page.locator("//form/span"),
+            "group_checkboxes": self.page.locator("form input[type='checkbox']")
         }
 
         self.object_popap_tablist = {
@@ -68,7 +70,6 @@ class ObjectsPage:
             "commands": self.page.locator("#simple-tabpanel-6"),
             "drive_detection": self.page.locator("#simple-tabpanel-7")
         }
-
 
         self.object_main_popap_inputs = {
             "name": self.page.locator("input[name='name']"),
@@ -109,7 +110,6 @@ class ObjectsPage:
             "add_group": self.page.locator(".MuiGrid-container div > button:nth-child(1)").nth(1),
             "group_search_input": self.page.locator("input#outlined-basic").nth(1),
         }
-
 
     # table locators
         self.unit_table = {
@@ -299,8 +299,8 @@ class ObjectsPage:
             self.page.wait_for_timeout(1000)
 
     
-    def edit_object_table(self):
-        checkbox = self.customize_panel_checkbox
+    def edit_unit_column_table(self):
+        checkbox = self.head_menu_unit_locators["customize_panel"]
         for index in range(checkbox.count()):
             checkbox.nth(index).click()
 
@@ -332,16 +332,16 @@ class ObjectsPage:
         self.row_on_page[number].click()
         self.page.wait_for_timeout(1000)
         
-        return self.group_tablet_body
+        return self.group_table["body_row"]
       
 
     def add_new_group(self, name: str, units: int):
-        self.head_menu_gruop_buttons["add"].click()
-        self.group_popap["group_name"].fill(name)
+        self.head_menu_group_locators["add_group"].click()
+        self.object_main_popap_inputs["name"].fill(name)
         for i in range(1, units + 1):
-            self.group_checkboxes.nth(i).check()
+            self.popap_btn["group_checkboxes"].nth(i).check()
         self.page.wait_for_timeout(500)
 
     def remove_group(self):
-        self.del_group_btn.click()
+        self.group_table["del_btn_in_row"].click()
         self.popap_btn["confirm_del"].click() 

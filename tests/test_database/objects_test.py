@@ -40,28 +40,15 @@ def test_remove_additional_columns_m2m_380(freebill_user: Page):
     
     objects_page = ObjectsPage(freebill_user)
 
-    base_url = freebill_user.url.split("/")[2] 
-    if base_url == "staging.m2m.eu" or base_url == "my.m2m.eu": 
+    # Disable all additional columns
+    objects_page.head_menu_unit_locators["settings"].wait_for(state="attached")
+    objects_page.head_menu_unit_locators["settings"].click()
+    objects_page.edit_unit_column_table()
+    assert objects_page.unit_table["head_column"].all_inner_texts() == expect_deactivate_column
 
-        # Disable all additional columns
-        objects_page.head_menu_buttons["settings"].click()
-        objects_page.edit_object_table()
-        assert objects_page.ob_tablet_head.all_inner_texts() == stage_expect_deactivate_column
-
-        # Return the columns to their original state
-        objects_page.edit_object_table()
-        assert objects_page.ob_tablet_head.all_inner_texts() == stage_expect_activate_column
-
-    elif base_url == "dev-stag.m2m.eu":
-
-        # Disable all additional columns
-        objects_page.head_menu_unit_locators["settings"].click()
-        objects_page.edit_object_table()
-        assert objects_page.unit_table["head_column"].all_inner_texts() == expect_deactivate_column
-
-        # Return the columns to their original state
-        objects_page.edit_object_table()
-        assert objects_page.unit_table["head_column"].all_inner_texts() == expect_activate_column
+    # Return the columns to their original state
+    objects_page.edit_unit_column_table()
+    assert objects_page.unit_table["head_column"].all_inner_texts() == expect_activate_column
 
 
 # M2M-382, M2M-383, M2M-384, M2M-385 Створити 4 нових об'єкти типу "Транспортний засіб", "Транспортний засіб з контролем пального", "Персональний трекер", "Маяк"
@@ -70,7 +57,7 @@ def test_remove_additional_columns_m2m_380(freebill_user: Page):
 (VEHICLE_DEVICE["device_type"]["FUEL_VEHICLE"], expect_text["FUEL_VEHICLE"]), 
 (VEHICLE_DEVICE["device_type"]["PERSONAL_TRACKER"], expect_text["PERSONAL_TRACKER"]),
 (VEHICLE_DEVICE["device_type"]["BEACON"], expect_text["BEACON"])], ids=["VEHICLE_m2m_382", "FUEL_VEHICLE_m2m_383", "PERSONAL_TRACKER_m2m_384", "BEACON_m2m_385"]) 
-def test_create_new_object_BEACON_m2m_38(selfreg_user: Page, just_remove_units, device_type, expected_text):
+def test_create_new_object_m2m(selfreg_user: Page, just_remove_units, device_type, expected_text):
 
     objects_page = ObjectsPage(selfreg_user)
     objects_page.add_new_object(
@@ -231,7 +218,7 @@ def test_cancel_pause_the_object_m2m_395(selfreg_user: Page, create_and_remove_o
     """ ||M2M-395|| Скасувати переведення об'єкта на паузу """
 
     objects_page = ObjectsPage(selfreg_user)
-
+    selfreg_user.reload()
     objects_page.unit_table["head_column"].nth(0).click(timeout=1000)
     objects_page.unit_table["head_column"].nth(14).click(timeout=1000)
     objects_page.popap_btn["cancel_del"].click()
@@ -248,58 +235,56 @@ def test_cancel_pause_the_object_m2m_395(selfreg_user: Page, create_and_remove_o
 # M2M-396 Створити нову групу обєктів
 def test_create_a_new_group_of_objects_m2m_396(freebill_user: Page, create_and_remove_one_group):
     """ ||M2M-396|| Створити нову групу обєктів """
-
     objects_page = ObjectsPage(freebill_user)
 
-    objects_page.head_menu_buttons["groups"].click()
-    objects_page.expand_btn.click(timeout=1000)
-    expect(objects_page.group_tablet_body).to_have_count(4)
-    objects_page.expand_btn.click(timeout=1000)
+    objects_page.page_tab_buttons["groups"].click()
+    objects_page.group_table["expand_btn"].click(timeout=1000)
+    expect(objects_page.group_table["body_row"]).to_have_count(4)
 
 
 # M2M-1564 Створити нову групу обєктів не заповнивши обов'язкові поля
 def test_create_a_new_group_of_objects_without_name_m2m_1564(freebill_user: Page):
     """ ||M2M-1564|| Створити нову групу обєктів не заповнивши обов'язкові поля """
     objects_page = ObjectsPage(freebill_user)
-    objects_page.head_menu_buttons["groups"].click()
+
+    objects_page.page_tab_buttons["groups"].click()
     objects_page.add_new_group("", 3)
-    objects_page.group_popap["ok"].click()
+    objects_page.popap_btn["ok"].click()
 
     base_page = BasePage(freebill_user)
-    expect(base_page.red_fild_color.nth(2)).to_have_css("border-color", base_page.color_of_red)
+    expect(base_page.red_fild_color.nth(3)).to_have_css("border-color", base_page.color_of_red)
     expect(base_page.mandatory_fields_msg.nth(0)).to_have_text("Обов'язкове поле")
 
 
 # M2M-397 Відмінити створення нової групи об'єктів
 def test_cancel_creating_a_new_group_of_objects_m2m_397(freebill_user: Page):
     """ ||M2M-397|| Відмінити створення нової групи об'єктів """
-
     objects_page = ObjectsPage(freebill_user)
-    objects_page.head_menu_buttons["groups"].click()
+
+    objects_page.page_tab_buttons["groups"].click()
     objects_page.add_new_group("Test_group", 3)
-    objects_page.group_popap["cancel"].click()
-    expect(objects_page.group_tablet_body).not_to_be_visible()
+    objects_page.popap_btn["cancel"].click()
+    expect(objects_page.group_table["body_row"]).not_to_be_visible()
 
 
 # M2M-1542 Додати об'єкти до групи обєктів
 def test_add_objects_to_a_group_of_objects_m2m_1542(freebill_user: Page, just_remove_groups):
     """ ||M2M-1542|| Додати об'єкти до групи обєктів """
-    
-    # Create group
     objects_page = ObjectsPage(freebill_user)
-    objects_page.head_menu_buttons["groups"].click()
+
+    # Create group
+    objects_page.page_tab_buttons["groups"].click()
     objects_page.add_new_group("Test_group", 2)
-    objects_page.group_popap["ok"].click()
+    objects_page.popap_btn["ok"].click()
 
     # Add objects to group
-    objects_page.group_table_btns.nth(0).click()
-    objects_page.group_checkboxes.last.check()
-    objects_page.group_popap["ok"].click()
+    objects_page.group_table["btns_in_row"].nth(0).click()
+    objects_page.popap_btn["group_checkboxes"].last.check()
+    objects_page.popap_btn["ok"].click()
 
     # Check if objects were added to the group
-    objects_page.expand_btn.click(timeout=500)
-    expect(objects_page.group_tablet_body).to_have_count(4)
-    objects_page.expand_btn.click(timeout=500)
+    objects_page.group_table["expand_btn"].click(timeout=500)
+    expect(objects_page.group_table["body_row"]).to_have_count(4)
 
 
 # M2M-1543 Видалити об'єкти з групи обєктів
@@ -308,15 +293,14 @@ def test_remove_objects_from_a_group_of_objects_m2m_1543(freebill_user: Page, cr
     objects_page = ObjectsPage(freebill_user)
 
     # Remove objects from group
-    objects_page.head_menu_buttons["groups"].click()
-    objects_page.group_table_btns.nth(0).click()
-    objects_page.group_checkboxes.nth(3).click()
-    objects_page.group_popap["ok"].click()
+    objects_page.page_tab_buttons["groups"].click()
+    objects_page.group_table["btns_in_row"].nth(0).click()
+    objects_page.popap_btn["group_checkboxes"].nth(3).click()
+    objects_page.popap_btn["ok"].click()
 
     # Check if objects were added to the group
-    objects_page.expand_btn.click(timeout=500)
-    expect(objects_page.group_tablet_body).to_have_count(3)
-    objects_page.expand_btn.click(timeout=500)
+    objects_page.group_table["expand_btn"].click(timeout=500)
+    expect(objects_page.group_table["body_row"]).to_have_count(3)
 
 
 # M2M-401 Відобразити наступну та попередню сторінку зі списку груп.
@@ -324,9 +308,9 @@ def test_display_the_next_and_previous_page_of_the_group_list_m2m_401(freebill_u
     """ ||M2M-401|| Відобразити наступну та попередню сторінку зі списку груп. """
     objects_page = ObjectsPage(freebill_user)   
 
-    objects_page.head_menu_buttons["groups"].click()
-    expect(objects_page.check_pagelist("objects_next_page", "groups_total_p")).to_have_text("11-12 із 12")
-    expect(objects_page.check_pagelist("objects_previous_page", "groups_total_p")).to_have_text("1-10 із 12")
+    objects_page.page_tab_buttons["groups"].click()
+    expect(objects_page.check_pagelist("next_page", "groups_total_p")).to_have_text("11-12 із 12")
+    expect(objects_page.check_pagelist("previous_page", "groups_total_p")).to_have_text("1-10 із 12")
 
 
 # M2M-402 Збільшити/зменшити кількість груп, які відображаються на сторінці
@@ -334,24 +318,24 @@ def test_increase_decrease_the_number_of_groups_m2m_402(freebill_user: Page, cre
     """ ||M2M-402|| Збільшити/зменшити кількість груп, які відображаються на сторінці """
     objects_page = ObjectsPage(freebill_user)
 
-    objects_page.head_menu_buttons["groups"].click()
+    objects_page.page_tab_buttons["groups"].click()
     for count in ["25", "10"]:
         expect(objects_page.increase_decrease_the_number_group(count)).to_have_count(int(count))
 
 
 # M2M-404 Видалити групу
-def test_delete_a_group_m2m_404(freebill_user: Page, just_remove_groups):
+def test_delete_a_group_m2m_404(freebill_user: Page):
     """ ||M2M-404|| Видалити групу """
     objects_page = ObjectsPage(freebill_user)
 
     # Create group
-    objects_page.head_menu_buttons["groups"].click()
+    objects_page.page_tab_buttons["groups"].click()
     objects_page.add_new_group("Test_group", 3)
-    objects_page.group_popap["ok"].click()
+    objects_page.popap_btn["ok"].click()
 
     # Remove group
     objects_page.remove_group()
-    expect(objects_page.group_tablet_body).not_to_be_visible()
+    expect(objects_page.group_table["body_row"]).not_to_be_visible()
 
 
 # M2M-403 Видалити останню групу в сторінці
@@ -359,13 +343,13 @@ def test_remove_last_group_in_list_of_groups_M2M_403(freebill_user: Page, create
     """ ||M2M-403|| Видалити останню групу в сторінці """
     objects_page = ObjectsPage(freebill_user)
 
-    objects_page.head_menu_buttons["groups"].click()
-    objects_page.row_on_page["group_next_page"].click()
+    objects_page.page_tab_buttons["groups"].click()
+    objects_page.row_on_page["next_page"].click()
 
     # Remove group
-    objects_page.group_table_btns.nth(1).click()
+    objects_page.group_table["del_btn_in_row"].click()
     objects_page.popap_btn["confirm_del"].click()     
-    expect(objects_page.group_tablet_body).to_have_count(1)
+    expect(objects_page.group_table["body_row"]).to_have_count(1)
 
 
 # M2M-405 Відмінити видалення групи
@@ -374,10 +358,10 @@ def test_cancel_deleting_a_group_m2m_405(freebill_user: Page, create_and_remove_
     objects_page = ObjectsPage(freebill_user)
 
     # Remove group
-    objects_page.head_menu_buttons["groups"].click()
-    objects_page.group_table_btns.nth(1).click()
-    objects_page.popap_btn["cancel_del"].click()
-    expect(objects_page.group_tablet_body).to_have_count(1)
+    objects_page.page_tab_buttons["groups"].click()
+    objects_page.group_table["del_btn_in_row"].click()
+    objects_page.popap_btn["cancel_del"].click()  
+    expect(objects_page.group_table["body_row"]).to_have_count(1)
 
 
 # M2M-1604 Відобразити учасників групи в порожній групі
@@ -385,17 +369,17 @@ def test_dispaly_group_members_in_an_empty_group_m2m_1604(freebill_user: Page, j
     """ ||M2M-1604|| Відобразити учасників групи в порожній групі """
     objects_page = ObjectsPage(freebill_user)
 
-    objects_page.head_menu_buttons["groups"].click()
+    objects_page.page_tab_buttons["groups"].click()
     objects_page.add_new_group("Test_group", 1)
-    objects_page.group_popap["ok"].click()
+    objects_page.popap_btn["ok"].click()
 
     # Remove objects from group
-    objects_page.group_table_btns.nth(0).click()
-    objects_page.group_checkboxes.nth(1).uncheck()
-    objects_page.group_popap["ok"].click()
+    objects_page.group_table["btns_in_row"].nth(0).click()
+    objects_page.popap_btn["group_checkboxes"].nth(1).uncheck()
+    objects_page.popap_btn["ok"].click()
 
-    objects_page.expand_btn.click(timeout=500)
-    expect(objects_page.alert_msg).to_be_visible()
+    objects_page.group_table["expand_btn"].click(timeout=500)
+    expect(objects_page.group_table["alert_msg"]).to_be_visible()
 
 
 # M2M-407 Відкрити вікно властивості об'єкта в списку учасників групи
@@ -404,10 +388,9 @@ def test_open_the_object_properties_window_in_the_list_of_group_members_m2m_407(
     objects_page = ObjectsPage(freebill_user)
 
     # Open object settings window
-    
-    objects_page.head_menu_buttons["groups"].click()
-    objects_page.expand_btn.click()
-    objects_page.group_table_btns.nth(2).click()
+    objects_page.page_tab_buttons["groups"].click()
+    objects_page.group_table["expand_btn"].click()
+    objects_page.group_table["btns_in_row"].nth(2).click()
 
     # Check if the object settings window is open
     expect(objects_page.object_main_popap_inputs["name"]).to_have_value("test 1")
@@ -420,12 +403,12 @@ def test_open_the_group_edit_window_m2m_408(freebill_user: Page, create_and_remo
     objects_page = ObjectsPage(freebill_user)
 
     # Open group edit window
-    objects_page.head_menu_buttons["groups"].click()
-    objects_page.group_table_btns.nth(0).click()
+    objects_page.page_tab_buttons["groups"].click()
+    objects_page.group_table["btns_in_row"].nth(0).click()
 
     # Check if the group edit window is open
-    expect(objects_page.group_popap["group_name"]).to_have_value("Test_group")
-    objects_page.group_popap["cancel"].click()
+    expect(objects_page.object_main_popap_inputs["name"]).to_have_value("Test_group")
+    objects_page.popap_btn["cancel"].click()
 
 
 # ||M2M-398|| M2M-399 || M2M-400 || Пошук групи з повною валідною назвою\\з не повною валідною назвою\\з не валідною назвою
@@ -434,9 +417,9 @@ def test_search_for_a_group_m2m_398_399_400(freebill_user: Page, create_and_remo
     """ ||M2M-398|| M2M-399 || M2M-400 || Пошук групи з повною валідною назвою\\з не повною валідною назвою\\з не валідною назвою """
     objects_page = ObjectsPage(freebill_user)
 
-    objects_page.head_menu_buttons["groups"].click()
-    objects_page.head_menu_gruop_buttons["search_input"].fill(query)
+    objects_page.page_tab_buttons["groups"].click()
+    objects_page.head_menu_group_locators["group_search_input"].fill(query)
 
-    expect(objects_page.group_tablet_body).to_have_count(index)
+    expect(objects_page.group_table["body_row"]).to_have_count(index)
     
     

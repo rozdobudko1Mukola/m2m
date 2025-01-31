@@ -12,35 +12,35 @@ def create_and_remove_one_group(freebill_user: Page):
     objects_page = ObjectsPage(freebill_user)
 
     # Create group
-    objects_page.head_menu_buttons["groups"].click()
+    objects_page.page_tab_buttons["groups"].click()
     objects_page.add_new_group("Test_group", 3)
-    objects_page.group_popap["ok"].click()
+    objects_page.popap_btn["ok"].click()
     freebill_user.wait_for_selector("#display-tabpanel-1 table")
 
     yield
 
     # Remove group
     freebill_user.wait_for_timeout(1000)
-    while objects_page.group_tablet_body.count() > 0:
+    while objects_page.group_table["body_row"].count() > 0:
         objects_page.remove_group()
         freebill_user.wait_for_timeout(500)
 
 
 @pytest.fixture()
-def create_and_remove_12_group(freebill_user: Page, index=12):
+def create_and_remove_12_group(freebill_user: Page, index=13):
     objects_page = ObjectsPage(freebill_user)
-    objects_page.head_menu_buttons["groups"].click()
 
     # Create group
-    for i in range(1, index + 1):
+    objects_page.page_tab_buttons["groups"].click()
+    for i in range(index):
         objects_page.add_new_group(f"Test group {i}", 3)
-        objects_page.group_popap["ok"].click()
+        objects_page.popap_btn["ok"].click()
 
     yield
 
     # Remove group
     freebill_user.wait_for_timeout(1000)
-    while objects_page.group_tablet_body.count() > 0:
+    while objects_page.group_table["body_row"].count() > 0:
         objects_page.remove_group()
         freebill_user.wait_for_timeout(500)
 
@@ -48,21 +48,21 @@ def create_and_remove_12_group(freebill_user: Page, index=12):
 @pytest.fixture()
 def create_and_remove_3_groups(freebill_user: Page, index=3):
     objects_page = ObjectsPage(freebill_user)
-    objects_page.head_menu_buttons["groups"].click()
 
     # Create group
+    objects_page.page_tab_buttons["groups"].click()
     for i in range(index):
         objects_page.add_new_group(f"Test group {i}", 3)
-        objects_page.group_popap["ok"].click()
+        objects_page.popap_btn["ok"].click()
 
     yield
 
     # Remove group
-    if objects_page.head_menu_gruop_buttons["search_input"].input_value() != "":
-        objects_page.head_menu_gruop_buttons["search_input"].fill("")
+    if objects_page.head_menu_group_locators["group_search_input"].input_value() != "":
+        objects_page.head_menu_group_locators["group_search_input"].fill("")
         freebill_user.wait_for_timeout(1000)
 
-        while objects_page.group_tablet_body.count() > 0:
+        while objects_page.group_table["body_row"].count() > 0:
             objects_page.remove_group()
             freebill_user.wait_for_timeout(500)
 
@@ -70,19 +70,18 @@ def create_and_remove_3_groups(freebill_user: Page, index=3):
 @pytest.fixture
 def create_and_remove_25_group(freebill_user: Page, index=26):
     objects_page = ObjectsPage(freebill_user)
-    objects_page.head_menu_buttons["groups"].click()
 
     # Create group
-    for i in range(1, index):
-        objects_page.add_new_group(f"Test_group {i}", 3)
-        objects_page.group_popap["ok"].click()
-    freebill_user.wait_for_timeout(500)
+    objects_page.page_tab_buttons["groups"].click()
+    for i in range(index):
+        objects_page.add_new_group(f"Test group {i}", 3)
+        objects_page.popap_btn["ok"].click()
 
     yield
 
     # Remove group
     freebill_user.wait_for_timeout(1000)
-    while objects_page.group_tablet_body.count() > 0:
+    while objects_page.group_table["body_row"].count() > 0:
         objects_page.remove_group()
         freebill_user.wait_for_timeout(500)
 
@@ -94,7 +93,7 @@ def just_remove_groups(freebill_user: Page):
     yield 
     # Remove group
     freebill_user.wait_for_timeout(1000)
-    while objects_page.group_tablet_body.count() > 0:
+    while objects_page.group_table["body_row"].count() > 0:
         objects_page.remove_group()
         freebill_user.wait_for_timeout(500)
 
@@ -107,7 +106,9 @@ def create_and_remove_one_units(selfreg_user: Page):
 
     # Preconditions add object
     objects_page.precondition_add_multiple_objects(1, "Auto_Test", "180455679224", "180455679224", "Teltonika FMB965", "VEHICLE")
-    objects_page.unit_table["body_row"].is_visible()
+    objects_page.object_main_popap_inputs["name"].wait_for(state="detached")
+    selfreg_user.wait_for_timeout(500)
+
     yield  # Provide the data to the test
 
     # Delete all objects from pause to trash after test
