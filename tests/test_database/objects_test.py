@@ -25,8 +25,13 @@ expect_text = {
     "BEACON": "Маяк"
 }
 
-expect_deactivate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'РЕДАГУВАТИ']
-expect_activate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'РЕДАГУВАТИ', 'ТИП ОБ’ЄКТУ', 'IMEI', 'SIM 1', 'SIM 2', 'ДАТА СТВОРЕННЯ ОБ’ЄКТА', 'РЕЄСТРАЦІЙНИЙ НОМЕР', 'ОСТАННЄ ПОВІДОМЛЕННЯ ОБ’ЄКТА', 'Пауза']
+stage_expect_deactivate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'РЕДАГУВАТИ']
+stage_expect_activate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'РЕДАГУВАТИ', 'ТИП ОБ’ЄКТУ', 'IMEI', 'SIM 1', 'SIM 2', 'ДАТА СТВОРЕННЯ ОБ’ЄКТА', 'РЕЄСТРАЦІЙНИЙ НОМЕР', 'ОСТАННЄ ПОВІДОМЛЕННЯ ОБ’ЄКТА', 'Пауза']
+
+expect_deactivate_column = ['', '№', "ОБ'ЄКТИ", "ІМ'Я", 'РЕДАГУВАТИ']
+expect_activate_column = ['', '№', "ОБ'ЄКТИ", "ІМ'Я", 'РЕДАГУВАТИ', 'ТИП ОБ’ЄКТУ', 'ОБЛІКОВИЙ ЗАПИС', 'МОДЕЛЬ ТРЕКЕРУ', 'УНІКАЛЬНИЙ ID', 'SIM 1', 'SIM 2', 'ДАТА СТВОРЕННЯ', 'РЕЄСТРАЦІЙНИЙ НОМЕР', 'ОСТАННЄ ПОВІДОМЛЕННЯ', 'Пауза', 'Видалити']
+
+# Objects-------------------------------------------------------------------------------------------------------------------------------------
 
 
 # M2M-380 Прибрати/додати додаткові колонки на панелі відображення об'єктів
@@ -35,57 +40,37 @@ def test_remove_additional_columns_m2m_380(freebill_user: Page):
     
     objects_page = ObjectsPage(freebill_user)
 
-    # Disable all additional columns
-    objects_page.head_menu_buttons["settings"].click()
-    objects_page.edit_object_table()
-    assert objects_page.ob_tablet_head.all_inner_texts() == expect_deactivate_column
+    base_url = freebill_user.url.split("/")[2] 
+    if base_url == "staging.m2m.eu" or base_url == "my.m2m.eu": 
 
-    # Return the columns to their original state
-    objects_page.edit_object_table()
-    assert objects_page.ob_tablet_head.all_inner_texts() == expect_activate_column
+        # Disable all additional columns
+        objects_page.head_menu_buttons["settings"].click()
+        objects_page.edit_object_table()
+        assert objects_page.ob_tablet_head.all_inner_texts() == stage_expect_deactivate_column
 
-    # # Delete all objects on pause after test
-    # freebill_user.keyboard.press("Escape")
+        # Return the columns to their original state
+        objects_page.edit_object_table()
+        assert objects_page.ob_tablet_head.all_inner_texts() == stage_expect_activate_column
 
+    elif base_url == "dev-stag.m2m.eu":
 
-# M2M-382 Створити новий об'єкт типу "Транспортний засіб"
-def test_create_new_object_VEHICLE_m2m_382(selfreg_user: Page, just_remove_units, device_type=VEHICLE_DEVICE["device_type"]["VEHICLE"], expected_text=expect_text["VEHICLE"]):
-    """ ||M2M-382|| Створити новий об'єкт типу Транспортний засіб """
+        # Disable all additional columns
+        objects_page.head_menu_unit_locators["settings"].click()
+        objects_page.edit_object_table()
+        assert objects_page.unit_table["head_column"].all_inner_texts() == expect_deactivate_column
 
-    objects_page = ObjectsPage(selfreg_user)
-    objects_page.add_new_object(
-        f"{VEHICLE_DEVICE['name']} {device_type}",
-        VEHICLE_DEVICE["phone_1"],
-        VEHICLE_DEVICE["phone_2"],
-        VEHICLE_DEVICE['model'],
-        VEHICLE_DEVICE['device_type'][device_type]
-    )
-    objects_page.popap_btn["ok"].click()
-
-    # Check if the object was created
-    expect(objects_page.ob_tablet_body.nth(0)).to_contain_text(expected_text)
+        # Return the columns to their original state
+        objects_page.edit_object_table()
+        assert objects_page.unit_table["head_column"].all_inner_texts() == expect_activate_column
 
 
-# M2M-383 Створити новий об'єкт типу "Транспортний засіб з контролем пального"
-def test_create_new_object_FUEL_VEHICLE_m2m_383(selfreg_user: Page, just_remove_units, device_type=VEHICLE_DEVICE["device_type"]["FUEL_VEHICLE"], expected_text=expect_text["FUEL_VEHICLE"]):
-    """ ||M2M-383|| Створити новий об'єкт типу Транспортний засіб з контролем пального """
-
-    objects_page = ObjectsPage(selfreg_user)
-    objects_page.add_new_object(
-        f"{VEHICLE_DEVICE['name']} {device_type}",
-        VEHICLE_DEVICE["phone_1"],
-        VEHICLE_DEVICE["phone_2"],
-        VEHICLE_DEVICE['model'],
-        VEHICLE_DEVICE['device_type'][device_type]
-    )
-    objects_page.popap_btn["ok"].click()
-    # Check if the object was created
-    expect(objects_page.ob_tablet_body.nth(0)).to_contain_text(expected_text)
-
-
-# M2M-384 Створити новий об'єкт типу "Персональний трекер"
-def test_create_new_object_PERSONAL_TRACKER_m2m_384(selfreg_user: Page, just_remove_units, device_type=VEHICLE_DEVICE["device_type"]["PERSONAL_TRACKER"], expected_text=expect_text["PERSONAL_TRACKER"]):
-    """ ||M2M-384|| Створити новий об'єкт типу Персональний трекер """
+# M2M-382, M2M-383, M2M-384, M2M-385 Створити 4 нових об'єкти типу "Транспортний засіб", "Транспортний засіб з контролем пального", "Персональний трекер", "Маяк"
+@pytest.mark.parametrize("device_type, expected_text",[ 
+(VEHICLE_DEVICE["device_type"]["VEHICLE"], expect_text["VEHICLE"]), 
+(VEHICLE_DEVICE["device_type"]["FUEL_VEHICLE"], expect_text["FUEL_VEHICLE"]), 
+(VEHICLE_DEVICE["device_type"]["PERSONAL_TRACKER"], expect_text["PERSONAL_TRACKER"]),
+(VEHICLE_DEVICE["device_type"]["BEACON"], expect_text["BEACON"])], ids=["VEHICLE_m2m_382", "FUEL_VEHICLE_m2m_383", "PERSONAL_TRACKER_m2m_384", "BEACON_m2m_385"]) 
+def test_create_new_object_BEACON_m2m_38(selfreg_user: Page, just_remove_units, device_type, expected_text):
 
     objects_page = ObjectsPage(selfreg_user)
     objects_page.add_new_object(
@@ -98,25 +83,7 @@ def test_create_new_object_PERSONAL_TRACKER_m2m_384(selfreg_user: Page, just_rem
     objects_page.popap_btn["ok"].click()
 
     # Check if the object was created
-    expect(objects_page.ob_tablet_body.nth(0)).to_contain_text(expected_text)
-
-
-# M2M-385 Створити новий об'єкт типу "Маяк"
-def test_create_new_object_BEACON_m2m_385(selfreg_user: Page, just_remove_units, device_type=VEHICLE_DEVICE["device_type"]["BEACON"], expected_text=expect_text["BEACON"]):
-    """ ||M2M-385|| Створити новий об'єкт типу Маяк """
-
-    objects_page = ObjectsPage(selfreg_user)
-    objects_page.add_new_object(
-        f"{VEHICLE_DEVICE['name']} {device_type}",
-        VEHICLE_DEVICE["phone_1"],
-        VEHICLE_DEVICE["phone_2"],
-        VEHICLE_DEVICE['model'],
-        VEHICLE_DEVICE['device_type'][device_type]
-    )
-    objects_page.popap_btn["ok"].click()
-
-    # Check if the object was created
-    expect(objects_page.ob_tablet_body.nth(0)).to_contain_text(expected_text)
+    expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(expected_text)
 
 
 # M2M-1540 Створити новий об'єкт при умові, що ліміт кількості пристроїв вичерпаний
@@ -135,7 +102,7 @@ def test_create_new_object_when_the_device_limit_is_exhausted_m2m_1540(freebill_
     objects_page.popap_btn["ok"].click()
 
     # Check if the error message is displayed
-    expect(objects_page.error_msg).to_contain_text("Досягнуто ліміту для нових пристроїв")
+    expect(objects_page.popap_btn["err_msg"]).to_contain_text("Досягнуто ліміту для нових пристроїв")
 
 
 # M2M-387 Відмінити створення нового об'єкта
@@ -154,7 +121,7 @@ def test_cancel_creating_new_object_m2m_387(selfreg_user: Page):
 
     # Check if the object was not created
     selfreg_user.wait_for_timeout(1000)
-    expect(objects_page.ob_tablet_body).not_to_be_visible()
+    expect(objects_page.unit_table["body_row"]).not_to_be_visible()
 
 
 # M2M-388 Створити новий об'єкт не заповнивши поля "Ім'я", "Унікальний ID", "Тип" "Модель"
@@ -168,7 +135,7 @@ def test_create_new_object_without_filling_in_the_fields_m2m_388(selfreg_user: P
 
     # Check if input color is red
     base_page = BasePage(selfreg_user)
-    for index in [2, 3, 4, 10]:
+    for index in [3, 4, 5, 11]:
         expect(base_page.red_fild_color.nth(index)).to_have_css("border-color", base_page.color_of_red)
     # Check if the error message is displayed
     expect(base_page.mandatory_fields_msg).to_have_count(4)
@@ -179,7 +146,7 @@ def test_interaction_with_inactive_fields_and_sections_m2m_389(selfreg_user: Pag
     """ ||M2M-389|| Взаємодія з неактивними полями та розділами """
 
     objects_page = ObjectsPage(selfreg_user)
-    objects_page.head_menu_buttons["add"].click()
+    objects_page.head_menu_unit_locators["add_unit"].click()
 
     # Check if the fields are inactive
     for popup_input in ["protocol", "adress_server", "owner", "date_of_create"]:
@@ -195,8 +162,9 @@ def test_display_the_next_and_previous_page_m2m_390(admin_user: Page):
     """ ||M2M-390|| Відобразити наступну та попередню сторінку зі списку об'єктів. """
     objects_page = ObjectsPage(admin_user)
     
-    expect(objects_page.check_pagelist("objects_next_page", "objects_total_p")).to_contain_text("101-200")
-    expect(objects_page.check_pagelist("objects_previous_page", "objects_total_p")).to_contain_text("1-100")
+    expect(objects_page.check_pagelist("next_page", "unit_total_p")).to_contain_text("101-200")
+    admin_user.wait_for_timeout(1000)
+    expect(objects_page.check_pagelist("previous_page", "unit_total_p")).to_contain_text("1-100")
 
 
 # M2M-391 Збільшити/зменшити кількість об'єктів, які відображаються на сторінці
@@ -215,11 +183,13 @@ def test_select_all_one_object_on_the_panel_m2m_392(admin_user: Page):
     objects_page = ObjectsPage(admin_user)
 
     # Select all objects
-    objects_page.ob_tablet_head.nth(0).click()
-    for index in range(1, objects_page.ob_tablet_body.count() + 1):
-        expect(admin_user.locator(f"//div[@id='display-tabpanel-0']//tbody/tr[{index}]/td[1]//input")).to_be_checked()
-    objects_page.ob_tablet_head.nth(0).click() # Deselect all objects
+    objects_page.unit_table["head_column"].filter(has=admin_user.locator("input")).click()
 
+    for index in range(1, objects_page.unit_table["body_row"].count() + 1):
+        expect(admin_user.locator(f"//div[@id='display-tabpanel-0']//tbody/tr[{index}]/td[1]//input")).to_be_checked()
+    
+    objects_page.unit_table["head_column"].nth(0).click() # Deselect all objects
+    admin_user.wait_for_timeout(1000)
     # select one object
     admin_user.locator("//div[@id='display-tabpanel-0']//tbody/tr[2]/td[1]//input").click()
     expect(admin_user.locator("//div[@id='display-tabpanel-0']//tbody/tr[2]/td[1]//input")).to_be_checked()
@@ -230,14 +200,14 @@ def test_open_object_settings_window_m2m_393(freebill_user: Page):
     """ ||M2M-393|| Відкрити вікно налаштування об'єкта """
 
     objects_page = ObjectsPage(freebill_user)
-    objects_page.ob_tablet_body.nth(0).filter(has=freebill_user.locator("button")).nth(0).click() # Open object settings window
+    objects_page.unit_table["btns_in_row"].nth(0).click() # Open object settings window
     for tab in ["main", "access", "sensors", "custom_f", "admin_f", "char", "commands", "drive_detection"]:
         objects_page.object_popap_tablist[tab].click()
         expect(objects_page.object_popap_tabpanel[tab]).not_to_be_hidden()
 
 
 # M2M-394 Поставити на паузу об'єкт
-def test_pause_the_object_m2m_394(selfreg_user: Page, just_remove_units):
+def test_pause_the_object_m2m_394(selfreg_user: Page, just_remove_units, move_unnit_to_trash):
     """ ||M2M-394|| Поставити на паузу об'єкт """
 
     objects_page = ObjectsPage(selfreg_user)
@@ -252,32 +222,23 @@ def test_pause_the_object_m2m_394(selfreg_user: Page, just_remove_units):
     )
 
     objects_page.pause_all_object()
-    selfreg_user.goto("/trash")
+    selfreg_user.goto("/on-pause")
     expect(selfreg_user.locator("table tbody tr").nth(0)).to_contain_text('PAUSE')
 
 
 # M2M-395 Скасувати переведення об'єкта на паузу
-def test_cancel_pause_the_object_m2m_395(selfreg_user: Page, just_remove_units):
+def test_cancel_pause_the_object_m2m_395(selfreg_user: Page, create_and_remove_one_units):
     """ ||M2M-395|| Скасувати переведення об'єкта на паузу """
 
     objects_page = ObjectsPage(selfreg_user)
 
-    # Preconditions add object
-    objects_page.precondition_add_multiple_objects(1,
-    f'PAUSE {VEHICLE_DEVICE["name"]} {VEHICLE_DEVICE["device_type"]["VEHICLE"]}',
-    VEHICLE_DEVICE["phone_1"],
-    VEHICLE_DEVICE["phone_2"],
-    VEHICLE_DEVICE['model'],
-    VEHICLE_DEVICE['device_type']['VEHICLE']
-    )
-
-    objects_page.ob_tablet_head.nth(0).click(timeout=1000)
-    objects_page.ob_tablet_head.nth(12).click(timeout=1000)
+    objects_page.unit_table["head_column"].nth(0).click(timeout=1000)
+    objects_page.unit_table["head_column"].nth(14).click(timeout=1000)
     objects_page.popap_btn["cancel_del"].click()
     selfreg_user.wait_for_timeout(1000)
 
     # Check if the object was not paused
-    selfreg_user.goto("/trash")
+    selfreg_user.goto("/on-pause")
     expect(selfreg_user.locator("table tbody tr").nth(0)).not_to_be_visible()
     selfreg_user.goto("/units")
 

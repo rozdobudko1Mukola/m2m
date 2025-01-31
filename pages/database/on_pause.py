@@ -6,7 +6,7 @@ class onPausePage:
 
     def __init__(self, page: Page):
         self.page = page
-        self.page.goto("/trash")
+        self.page.goto("/on-pause")
 
 
     # Objects lable locators

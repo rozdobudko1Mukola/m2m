@@ -102,32 +102,51 @@ def just_remove_groups(freebill_user: Page):
 # Units Fixtures --------------------------------------------------------------
 
 @pytest.fixture
-def create_and_remove_one_units(auth_new_test_user: Page):
-    print("\nSetting up resources...")
-    objects_page = ObjectsPage(auth_new_test_user)
+def create_and_remove_one_units(selfreg_user: Page):
+    objects_page = ObjectsPage(selfreg_user)
 
     # Preconditions add object
     objects_page.precondition_add_multiple_objects(1, "Auto_Test", "180455679224", "180455679224", "Teltonika FMB965", "VEHICLE")
-
+    objects_page.unit_table["body_row"].is_visible()
     yield  # Provide the data to the test
-    # Teardown: Clean up resources (if any) after the test
 
-    print("\nTearing down resources...")
-    objects_page.pause_all_object()
     # Delete all objects from pause to trash after test
-    on_pause_page = onPausePage(auth_new_test_user)
-    on_pause_page.all_unit_move_to_trash()
+    selfreg_user.wait_for_timeout(1000)
+    while objects_page.unit_table["body_row"].count() > 0:
+        objects_page.move_to_trash_all_object()
+        selfreg_user.wait_for_timeout(500)
 
 
 @pytest.fixture
 def just_remove_units(selfreg_user: Page):
-    print("\nTearing down resources...")
     objects_page = ObjectsPage(selfreg_user)
 
     yield  # Provide the data to the test
-    # Teardown: Clean up resources (if any) after the test
-    print("\nTearing down resources...")
-    objects_page.pause_all_object()
+
     # Delete all objects from pause to trash after test
+    selfreg_user.wait_for_timeout(1000)
+    while objects_page.unit_table["body_row"].count() > 0:
+        objects_page.move_to_trash_all_object()
+        selfreg_user.wait_for_timeout(500)
+
+@pytest.fixture
+def move_unnit_to_trash(selfreg_user: Page):
+    objects_page = ObjectsPage(selfreg_user)
+
+    yield  # Provide the data to the test
+
     on_pause_page = onPausePage(selfreg_user)
     on_pause_page.all_unit_move_to_trash()
+
+# @pytest.fixture
+# def just_remove_units(selfreg_user: Page):
+#     print("\nTearing down resources...")
+#     objects_page = ObjectsPage(selfreg_user)
+
+#     yield  # Provide the data to the test
+#     # Teardown: Clean up resources (if any) after the test
+#     print("\nTearing down resources...")
+#     objects_page.pause_all_object()
+#     # Delete all objects from pause to trash after test
+#     on_pause_page = onPausePage(selfreg_user)
+#     on_pause_page.all_unit_move_to_trash()
