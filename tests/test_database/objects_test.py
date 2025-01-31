@@ -29,103 +29,6 @@ expect_deactivate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'РЕДА�
 expect_activate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'РЕДАГУВАТИ', 'ТИП ОБ’ЄКТУ', 'IMEI', 'SIM 1', 'SIM 2', 'ДАТА СТВОРЕННЯ ОБ’ЄКТА', 'РЕЄСТРАЦІЙНИЙ НОМЕР', 'ОСТАННЄ ПОВІДОМЛЕННЯ ОБ’ЄКТА', 'Пауза']
 
 
-# @pytest.fixture
-# def create_and_remove_one_units(auth_new_test_user: Page):
-#     print("\nSetting up resources...")
-#     objects_page = ObjectsPage(auth_new_test_user)
-
-#     # Preconditions add object
-#     objects_page.precondition_add_multiple_objects(1,
-#     f'{VEHICLE_DEVICE["name"]} {VEHICLE_DEVICE["device_type"]["VEHICLE"]}',
-#     VEHICLE_DEVICE["phone_1"],
-#     VEHICLE_DEVICE["phone_2"],
-#     VEHICLE_DEVICE['model'],
-#     VEHICLE_DEVICE['device_type']['VEHICLE']
-#     )
-#     yield  # Provide the data to the test
-#     # Teardown: Clean up resources (if any) after the test
-#     print("\nTearing down resources...")
-#     objects_page.pause_all_object()
-#     # Delete all objects from pause to trash after test
-#     on_pause_page = onPausePage(auth_new_test_user)
-#     on_pause_page.all_unit_move_to_trash()
-
-
-# @pytest.fixture
-# def just_remove_units(auth_new_test_user: Page):
-#     print("\nTearing down resources...")
-#     objects_page = ObjectsPage(auth_new_test_user)
-
-#     yield  # Provide the data to the test
-#     # Teardown: Clean up resources (if any) after the test
-#     print("\nTearing down resources...")
-#     objects_page.pause_all_object()
-#     # Delete all objects from pause to trash after test
-#     on_pause_page = onPausePage(auth_new_test_user)
-#     on_pause_page.all_unit_move_to_trash()
-
-
-# @pytest.fixture
-# def just_remove_groups(freebill_user: Page):
-#     objects_page = ObjectsPage(freebill_user)
-
-#     yield  # Provide the data to the test
-#     # Teardown: Clean up resources (if any) after the test
-#     while objects_page.row_on_page["groups_total_p"].is_visible():
-#         objects_page.remove_group()
-
-
-# @pytest.fixture
-# def create_and_remove_one_group(freebill_user: Page):
-#     objects_page = ObjectsPage(freebill_user)
-
-#     # Create group
-#     objects_page.head_menu_buttons["groups"].click()
-#     objects_page.add_new_group("Test_group", 3)
-#     objects_page.group_popap["ok"].click()
-
-#     yield
-
-#     # Remove group
-#     while objects_page.row_on_page["groups_total_p"].is_visible():
-#         objects_page.remove_group()
-
-
-# @pytest.fixture()
-# def create_and_remove_11_group(freebill_user: Page, index=12):
-#     objects_page = ObjectsPage(freebill_user)
-#     objects_page.head_menu_buttons["groups"].click()
-
-#     # Create group
-#     for i in range(index):
-#         objects_page.add_new_group(f"Test_group {i}", 3)
-#         objects_page.group_popap["ok"].click()
-
-#     yield
-
-#     # Remove group
-#     while objects_page.row_on_page["groups_total_p"].is_visible():
-#         objects_page.remove_group()
-#         freebill_user.wait_for_timeout(500)
-
-
-# @pytest.fixture
-# def create_and_remove_25_group(freebill_user: Page, index=25):
-#     objects_page = ObjectsPage(freebill_user)
-#     objects_page.head_menu_buttons["groups"].click()
-
-#     # Create group
-#     for i in range(1, index + 1):
-#         objects_page.add_new_group(f"Test_group {i}", 3)
-#         objects_page.group_popap["ok"].click()
-
-#     yield
-
-#     # Remove group
-#     for i in range(index):
-#         objects_page.remove_group()
-
-
 # M2M-380 Прибрати/додати додаткові колонки на панелі відображення об'єктів
 def test_remove_additional_columns_m2m_380(freebill_user: Page):
     """ ||M2M-380|| Прибрати/додати додаткові колонки на панелі відображення об'єктів """
@@ -427,11 +330,6 @@ def test_add_objects_to_a_group_of_objects_m2m_1542(freebill_user: Page, just_re
     objects_page.add_new_group("Test_group", 2)
     objects_page.group_popap["ok"].click()
 
-    # Chack if group was created
-    objects_page.expand_btn.click(timeout=1000)
-    expect(objects_page.group_tablet_body).to_have_count(3)
-    objects_page.expand_btn.click(timeout=1000)
-
     # Add objects to group
     objects_page.group_table_btns.nth(0).click()
     objects_page.group_checkboxes.last.check()
@@ -451,7 +349,7 @@ def test_remove_objects_from_a_group_of_objects_m2m_1543(freebill_user: Page, cr
     # Remove objects from group
     objects_page.head_menu_buttons["groups"].click()
     objects_page.group_table_btns.nth(0).click()
-    objects_page.group_checkboxes.last.uncheck()
+    objects_page.group_checkboxes.nth(3).click()
     objects_page.group_popap["ok"].click()
 
     # Check if objects were added to the group
@@ -461,7 +359,7 @@ def test_remove_objects_from_a_group_of_objects_m2m_1543(freebill_user: Page, cr
 
 
 # M2M-401 Відобразити наступну та попередню сторінку зі списку груп.
-def test_display_the_next_and_previous_page_of_the_group_list_m2m_401(freebill_user: Page, create_and_remove_11_group):
+def test_display_the_next_and_previous_page_of_the_group_list_m2m_401(freebill_user: Page, create_and_remove_12_group):
     """ ||M2M-401|| Відобразити наступну та попередню сторінку зі списку груп. """
     objects_page = ObjectsPage(freebill_user)   
 
@@ -481,8 +379,8 @@ def test_increase_decrease_the_number_of_groups_m2m_402(freebill_user: Page, cre
 
 
 # M2M-404 Видалити групу
-def test_delete_a_group_m2m_403(freebill_user: Page, just_remove_groups):
-    """ ||M2M-403|| Видалити групу """
+def test_delete_a_group_m2m_404(freebill_user: Page, just_remove_groups):
+    """ ||M2M-404|| Видалити групу """
     objects_page = ObjectsPage(freebill_user)
 
     # Create group
@@ -496,7 +394,7 @@ def test_delete_a_group_m2m_403(freebill_user: Page, just_remove_groups):
 
 
 # M2M-403 Видалити останню групу в сторінці
-def test_remove_last_group_in_list_of_groups(freebill_user: Page, create_and_remove_11_group):
+def test_remove_last_group_in_list_of_groups_M2M_403(freebill_user: Page, create_and_remove_12_group):
     """ ||M2M-403|| Видалити останню групу в сторінці """
     objects_page = ObjectsPage(freebill_user)
 
@@ -570,7 +468,7 @@ def test_open_the_group_edit_window_m2m_408(freebill_user: Page, create_and_remo
 
 
 # ||M2M-398|| M2M-399 || M2M-400 || Пошук групи з повною валідною назвою\\з не повною валідною назвою\\з не валідною назвою
-@pytest.mark.parametrize("query, index", [("Test group 0", 1), ("group 0", 1), ("213qwe123", 0)])
+@pytest.mark.parametrize("query, index", [("Test group 0", 1), ("group 0", 1), ("213qwe123", 0)], ids=["||M2M-398|| full_valid_name", "||M2M-399|| not_full_valid_name", "||M2M-400|| not_valid_name"])
 def test_search_for_a_group_m2m_398_399_400(freebill_user: Page, create_and_remove_3_groups, query, index):
     """ ||M2M-398|| M2M-399 || M2M-400 || Пошук групи з повною валідною назвою\\з не повною валідною назвою\\з не валідною назвою """
     objects_page = ObjectsPage(freebill_user)

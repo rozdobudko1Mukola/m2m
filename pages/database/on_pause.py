@@ -24,10 +24,11 @@ class onPausePage:
 
     def all_unit_move_to_trash(self):
         """Переміщає об'єкт в корзину."""
-        self.page.wait_for_timeout(1000)   
-        self.ob_tablet_head.first.click()
-        self.ob_tablet_head.last.click()
-        self.popap_btn["confirm_del"].click()
-        self.page.wait_for_timeout(1000)
+        self.page.wait_for_timeout(1000) 
+        while self.ob_tablet_body.count() > 0:
+            self.ob_tablet_head.first.click()
+            self.ob_tablet_head.last.click()
+            self.popap_btn["confirm_del"].click()
+            self.page.wait_for_timeout(1000)
 
         

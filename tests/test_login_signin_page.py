@@ -1,6 +1,6 @@
 import pytest
 import random
-
+import os
 from playwright.sync_api import Page, expect
 from pages.login import LoginPage
 from pages.base_page import BasePage
@@ -19,7 +19,9 @@ email_for_restore = "m2m.test.auto@gmail.com"
 monitoring_url = "/monitoring"
 restore_password_url = "/password-reset"
 sign_up_url = "/sign-up"
-login_url = ""
+
+login_url = os.getenv("BASE_URL", "/" "")
+
 main_url = "https://m2m.ua/"
 
 color_of_red = "rgb(211, 47, 47)"

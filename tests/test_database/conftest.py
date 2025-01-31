@@ -27,12 +27,12 @@ def create_and_remove_one_group(freebill_user: Page):
 
 
 @pytest.fixture()
-def create_and_remove_11_group(freebill_user: Page, index=12):
+def create_and_remove_12_group(freebill_user: Page, index=12):
     objects_page = ObjectsPage(freebill_user)
     objects_page.head_menu_buttons["groups"].click()
 
     # Create group
-    for i in range(index + 1):
+    for i in range(1, index + 1):
         objects_page.add_new_group(f"Test group {i}", 3)
         objects_page.group_popap["ok"].click()
 
@@ -76,6 +76,7 @@ def create_and_remove_25_group(freebill_user: Page, index=26):
     for i in range(1, index):
         objects_page.add_new_group(f"Test_group {i}", 3)
         objects_page.group_popap["ok"].click()
+    freebill_user.wait_for_timeout(500)
 
     yield
 
