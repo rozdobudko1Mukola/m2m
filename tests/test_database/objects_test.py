@@ -423,3 +423,57 @@ def test_search_for_a_group_m2m_398_399_400(freebill_user: Page, create_and_remo
     expect(objects_page.group_table["body_row"]).to_have_count(index)
     
     
+
+# Search-------------------------------------------------------------------------------------------------------------------------------------
+
+# Search for an object using filters UNIQUE_ID
+@pytest.mark.parametrize("query, result", 
+[("1005001010", 1), 
+("123123", 2), 
+("qwerty123", 0)], ids=["M2M-1939", "M2M-1945", "M2M-1867"])
+def test_search_for_an_object_using_filters_unique_id(search_units: Page, query: str, result: int):
+    """ ||M2M-406|| Пошук об'єкта за фільтрами """
+
+    objects_page = ObjectsPage(search_units)
+    objects_page.search_object("UNIQUE_ID", query)
+    expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
+
+
+# Search for an object using filters NAME
+@pytest.mark.parametrize("query, result",
+[("Test unit 2", 1),
+("Test unit", 3),
+("qwerty", 0)], ids=["M2M-377", "M2M-1940", "M2M-1941"])
+def test_search_for_an_object_using_filters_name(search_units: Page, query: str, result: int):
+    """ ||M2M-406|| Пошук об'єкта за фільтрами """
+
+    objects_page = ObjectsPage(search_units)
+    objects_page.search_object("DEVICE_NAME", query)
+    expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
+
+
+# Search for an object using filters PHONE_1
+@pytest.mark.parametrize("query, result",
+[("380631231122", 1),
+("068", 2),
+("345345345", 0)], ids=["full valid value", "not full valid value", "not valid value"])
+def test_search_object_using_filters_phone_1_m2m_1942(search_units: Page, query: str, result: int):
+    """ ||M2M-406|| Пошук об'єкта за фільтрами """
+
+    objects_page = ObjectsPage(search_units)
+    objects_page.search_object("PHONE_1", query)
+    expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
+
+
+# Search for an object using filters PHONE_2
+@pytest.mark.parametrize("query, result",
+[("380681001010", 1),
+("1122", 2),
+("345345345", 0)], ids=["full valid value", "not full valid value", "not valid value"])
+def test_search_object_using_filters_phone_2_m2m_1943(search_units: Page, query: str, result: int):
+    """ ||M2M-406|| Пошук об'єкта за фільтрами """
+
+    objects_page = ObjectsPage(search_units)
+    objects_page.search_object("PHONE_2", query)
+    expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
+

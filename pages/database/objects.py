@@ -31,7 +31,7 @@ class ObjectsPage:
             "DEVICE_NAME": self.page.locator("li[data-value='DEVICE_NAME']"),
             "UNIQUE_ID": self.page.locator("li[data-value='UNIQUE_ID']"),
             "PHONE_1": self.page.locator("li[data-value='PHONE']"),
-            "PHONE_2": self.page.locator("li[data-value='PHONE']"),
+            "PHONE_2": self.page.locator("li[data-value='PHONE_2']"),
             "ACCOUNT": self.page.locator("li[data-value='ACCOUNT']"),
             "MODEL_TRECKER": self.page.locator("li[data-value='MODEL']"),
             "ADMIN_FIELDS": self.page.locator("li[data-value='ADMIN_FIELDS']"),
@@ -312,6 +312,13 @@ class ObjectsPage:
             self.page.wait_for_timeout(1000)
 
 
+    def search_object(self, filter: str, query: str):
+        self.head_menu_unit_locators["filter"].click()
+        self.filter_list[filter].click()
+        self.head_menu_unit_locators["unit_search_input"].fill(query)
+        self.page.wait_for_timeout(1000)
+
+
     def check_pagelist(self, arrow_btn: str, total_expect):
         self.row_on_page[arrow_btn].click()
         self.page.wait_for_timeout(1000)
@@ -345,3 +352,4 @@ class ObjectsPage:
     def remove_group(self):
         self.group_table["del_btn_in_row"].click()
         self.popap_btn["confirm_del"].click() 
+
