@@ -31,3 +31,4 @@ reports/
 pytest.ini
 pytestdebug.log
 .env*
+downloads/

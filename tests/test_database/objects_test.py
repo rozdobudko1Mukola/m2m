@@ -1,3 +1,4 @@
+import os
 import pytest
 from pytest import mark
 from playwright.sync_api import Page, expect
@@ -508,3 +509,45 @@ def test_search_object_using_filters_phone_2_m2m_1943(search_units: Page, query:
     objects_page.search_object("PHONE_2", query)
     expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
 
+
+# Filter Пошук за параметром "Обліковий запис"
+@mark.testomatio('@Ttttt1946')
+@pytest.mark.parametrize("query, result",
+[("m2m.test.auto+search_unit@gmail.com", 3),
+("search_unit@gmai", 3),
+("qwerty@ddd", 0)], ids=["full valid value", "not full valid value", "not valid value"])
+def test_search_object_using_filters_account_m2m_1946(search_units: Page, query: str, result: int):
+    """ ||M2M-406|| Пошук об'єкта за фільтрами """
+
+    objects_page = ObjectsPage(search_units)
+    objects_page.search_object("ACCOUNT", query)
+    expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
+
+
+# Здійснити експорт списку об'єктів в форматі CSV / XLS
+@mark.testomatio('@Ttttt1957')
+@pytest.mark.parametrize("chose_item, expected_format", [("second", ".csv"), ("first", ".xls")], ids=["CSV", "XLS"])
+def test_export_objects_in_file_m2m_1957(search_units: Page, chose_item: str, expected_format: str):
+    """ ||M2M-1957|| Здійснити експорт списку об'єктів в форматі CSV """
+    
+    base_page = BasePage(search_units)
+    objects_page = ObjectsPage(search_units)
+
+    objects_page.head_menu_unit_locators["export"].click()
+
+    # Викликаємо функцію завантаження
+    download = base_page.trigger_download(chose_item)
+
+    # Перевіряємо, що файл справді завантажився
+    assert download is not None, "Файл не завантажився!"
+    filename = f"downloads/{download.suggested_filename}"
+    print(f"Файл завантажено: {filename}")
+    assert filename.lower().endswith(expected_format), f"Файл має неправильне розширення: {filename}"
+
+    # Зберігаємо файл
+    download.save_as(filename)
+
+    # Очищення після тесту
+    if os.path.exists(filename):
+        os.remove(filename)
+        print(f"Файл {filename} видалено.")

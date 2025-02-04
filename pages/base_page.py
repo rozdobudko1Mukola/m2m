@@ -1,4 +1,4 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, Download
 
 
 class BasePage:
@@ -31,3 +31,15 @@ class BasePage:
         self.mandatory_fields_msg = self.page.locator("form p") # Повідомлення про обов'язкові поля
 
         self.color_of_red = "rgb(211, 47, 47)" # Червоний колір
+
+        self.export_links = {
+            "first": self.page.locator("li[role='menuitem']").nth(1),
+            "second": self.page.locator("li[role='menuitem']").nth(2),
+        }
+
+
+    def trigger_download(self, locator: str) -> Download:
+        """Клікає по елементу та очікує завантаження файлу."""
+        with self.page.expect_download() as download_info:
+            self.export_links[locator].click()
+        return download_info.value
