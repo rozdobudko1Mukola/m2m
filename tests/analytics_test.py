@@ -26,7 +26,6 @@ def test_view_data_on_objects_m2m_348(client_user: Page):
 
 
 @pytest.mark.skip("This test is not implemented")
-@mark.testomatio('@Tttttt789')
 # M2M-789 View the connection status on the diagram
 def test_view_connection_status_m2m_789(client_user: Page):
     pass
@@ -44,7 +43,6 @@ def test_list_of_objects_by_stop_m2m_773(client_user: Page, grafic=0):
 
 # M2M-1597 Change the objects that appear in the diagram by stop time
 @pytest.mark.skip("This test is not implemented")
-@mark.testomatio('@Tttttt1597')
 def test_change_objects_in_diagram_by_stop_time_m2m_1597(client_user: Page):
     pass
 
@@ -61,7 +59,6 @@ def test_list_of_objects_by_mileage_m2m_774(client_user, grafic=1):
 
 # M2M-1599 Change the objects that appear in the diagram by maximum speed
 @pytest.mark.skip("This test is not implemented")
-@mark.testomatio('@Tttttt1599')
 def test_change_objects_in_diagram_by_max_speed_m2m_1599(client_user: Page):
     pass
 

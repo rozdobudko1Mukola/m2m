@@ -172,7 +172,7 @@ def test_sign_in_as_search_invalid_email(page: Page):
 
 
 # M2M-1824 Reopen "Sign in as" window, after use a search using an invalid email
-@mark.testomatio('@@Ttttt1824')
+@mark.testomatio('@Ttttt1824')
 def test_reopen_sign_in_as_window(page: Page):
     login_page = LoginPage(page)
 
@@ -190,7 +190,7 @@ def test_reopen_sign_in_as_window(page: Page):
 
 
 # M2M-1313 Go from the new account creation page to the authorization page
-@mark.testomatio('@Tttttt1313')
+@mark.testomatio('@Ttttt1313')
 def test_go_to_login_page(page: Page):
     login_page = LoginPage(page)
 
@@ -200,7 +200,7 @@ def test_go_to_login_page(page: Page):
 
 
 # M2M-1457 Go from the user creation page to the login page using the arrows in the upper left corner
-@mark.testomatio('@Tttttt1457')
+@mark.testomatio('@Ttttt1457')
 def test_go_back_to_login_page_use_arrow(page: Page):
     login_page = LoginPage(page)
 
@@ -214,7 +214,7 @@ def test_go_back_to_login_page_use_arrow(page: Page):
 
 
 # M2M-1456 Go from the login page to the login site
-@mark.testomatio('@Tttttt1456')
+@mark.testomatio('@Ttttt1456')
 def test_go_back_to_home_page(page: Page):
     login_page = LoginPage(page)
 
@@ -298,9 +298,8 @@ def test_restore_password(page: Page):
     login_page.accept_btn.click()
 
 
-@pytest.mark.skip("generate a lot of users/ Need to add post condition")
-@mark.testomatio('@Tttttttt9')
 # M2M-9 Create a new user ------------------------------------------------
+@pytest.mark.skip("generate a lot of users/ Need to add post condition")
 def test_create_new_user(page: Page):
     login_page = LoginPage(page)
     random_number = random.sample(range(10000), 10000).pop()
@@ -316,7 +315,6 @@ def test_create_new_user(page: Page):
 
 # M2M-1603 Authorisation with new user data
 @pytest.mark.skip("Not implemented")
-@mark.testomatio('@Ttttt1603')
 def test_login_new_user(page: Page):
     pass
 
