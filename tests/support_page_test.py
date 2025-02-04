@@ -1,4 +1,5 @@
 import pytest
+from pytest import mark
 from pages.support_page import SupportPage
 from pages.base_page import BasePage
 from playwright.sync_api import Page, expect
@@ -22,7 +23,7 @@ expected_dict = {
     'Для зв\'язку з технічною підтримкою натисніть, будь ласка "9"': ''
 }
 
-
+@mark.testomatio('@Ttttt1578')
 def test_open_profile_page(client_user: Page):
     """||M2M-1582|| Перейти на сторінку 'Профіль користувача"""
     support_page = SupportPage(client_user)
@@ -31,6 +32,7 @@ def test_open_profile_page(client_user: Page):
     expect(client_user).to_have_url(profile_url)
 
 
+@mark.testomatio('@Ttttt1581')
 def test_open_doc_page(client_user: Page):
     """||M2M-1581|| Переглянути документацію системи"""
     support_page = SupportPage(client_user)
@@ -42,6 +44,7 @@ def test_open_doc_page(client_user: Page):
     docs_tab.close()  # Закриваємо вкладку документації
 
 
+@mark.testomatio('@Ttttt1579')
 def test_useful_links(client_user: Page):
     """||M2M-1579|| Перевірка переходу за посиланнями в розділі 'Користні посилання'"""
     support_page = SupportPage(client_user)
@@ -61,6 +64,7 @@ def test_useful_links(client_user: Page):
     docs_tab.close()  # Закриваємо вкладку документації
 
 
+@mark.testomatio('@Ttttt1580')
 def test_contact_info(client_user: Page):
     """ ||M2M-1578|| / ||M2M-1580|| Переглянути сторінку підтримки / Переглянути контантну інформацію"""
     support_page = SupportPage(client_user)
@@ -74,6 +78,7 @@ def test_contact_info(client_user: Page):
         assert actual_value == expected_value, f"Невірне значення для '{key}': очікувалось '{expected_value}', але отримано '{actual_value}'"
 
 
+@mark.testomatio('@Ttttt1583')
 def test_click_exit_button(client_user: Page):
     """||M2M-1583|| Натиснути на кнопку 'Вихід' в бічному меню"""
     support_page = SupportPage(client_user)

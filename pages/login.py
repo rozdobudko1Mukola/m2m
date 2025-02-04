@@ -27,7 +27,7 @@ class LoginPage:
 
         self.login_btn = self.page.get_by_role("link", name="Увійти")
 
-        self.error_block = self.page.get_by_text("Невірні логін або пароль")
+        self.error_block = self.page.locator("form .MuiTypography-reg16")
 
         self.user_is_exist_msg = self.page.get_by_text("Такий користувач вже існує")
 

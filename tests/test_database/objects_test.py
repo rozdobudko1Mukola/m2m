@@ -1,4 +1,5 @@
 import pytest
+from pytest import mark
 from playwright.sync_api import Page, expect
 from pages.database.objects import ObjectsPage
 from pages.base_page import BasePage
@@ -35,6 +36,7 @@ expect_activate_column = ['', '№', "ОБ'ЄКТИ", "ІМ'Я", 'РЕДАГУВ
 
 
 # M2M-380 Прибрати/додати додаткові колонки на панелі відображення об'єктів
+@mark.testomatio('@Tttttt380')
 def test_remove_additional_columns_m2m_380(freebill_user: Page):
     """ ||M2M-380|| Прибрати/додати додаткові колонки на панелі відображення об'єктів """
     
@@ -52,6 +54,7 @@ def test_remove_additional_columns_m2m_380(freebill_user: Page):
 
 
 # M2M-382, M2M-383, M2M-384, M2M-385 Створити 4 нових об'єкти типу "Транспортний засіб", "Транспортний засіб з контролем пального", "Персональний трекер", "Маяк"
+@mark.testomatio('@Tttttt382', '@Tttttt383', '@Tttttt384', '@Tttttt385')
 @pytest.mark.parametrize("device_type, expected_text",[ 
 (VEHICLE_DEVICE["device_type"]["VEHICLE"], expect_text["VEHICLE"]), 
 (VEHICLE_DEVICE["device_type"]["FUEL_VEHICLE"], expect_text["FUEL_VEHICLE"]), 
@@ -74,6 +77,7 @@ def test_create_new_object_m2m(selfreg_user: Page, just_remove_units, device_typ
 
 
 # M2M-1540 Створити новий об'єкт при умові, що ліміт кількості пристроїв вичерпаний
+@mark.testomatio('@Ttttt1540')
 def test_create_new_object_when_the_device_limit_is_exhausted_m2m_1540(freebill_user: Page):
     """ ||M2M-1540|| Створити новий об'єкт при умові, що ліміт кількості пристроїв вичерпаний """
 
@@ -93,6 +97,7 @@ def test_create_new_object_when_the_device_limit_is_exhausted_m2m_1540(freebill_
 
 
 # M2M-387 Відмінити створення нового об'єкта
+@mark.testomatio('@Tttttt387')
 def test_cancel_creating_new_object_m2m_387(selfreg_user: Page):
     """ ||M2M-387|| Відмінити створення нового об'єкта """
     objects_page = ObjectsPage(selfreg_user)
@@ -112,6 +117,7 @@ def test_cancel_creating_new_object_m2m_387(selfreg_user: Page):
 
 
 # M2M-388 Створити новий об'єкт не заповнивши поля "Ім'я", "Унікальний ID", "Тип" "Модель"
+@mark.testomatio('@Tttttt388')
 def test_create_new_object_without_filling_in_the_fields_m2m_388(selfreg_user: Page):
     """ ||M2M-388|| Створити новий об'єкт не заповнивши поля "Ім'я", "Унікальний ID", "Тип" "Модель" """
 
@@ -129,6 +135,7 @@ def test_create_new_object_without_filling_in_the_fields_m2m_388(selfreg_user: P
 
 
 # M2M-389 Взаємодія з неактивними полями та розділами
+@mark.testomatio('@Tttttt389')
 def test_interaction_with_inactive_fields_and_sections_m2m_389(selfreg_user: Page):
     """ ||M2M-389|| Взаємодія з неактивними полями та розділами """
 
@@ -145,6 +152,7 @@ def test_interaction_with_inactive_fields_and_sections_m2m_389(selfreg_user: Pag
 
 
 # M2M-390 Відобразити наступну та попередню сторінку зі списку об'єктів.
+@mark.testomatio('@Tttttt390')
 def test_display_the_next_and_previous_page_m2m_390(admin_user: Page):
     """ ||M2M-390|| Відобразити наступну та попередню сторінку зі списку об'єктів. """
     objects_page = ObjectsPage(admin_user)
@@ -155,6 +163,7 @@ def test_display_the_next_and_previous_page_m2m_390(admin_user: Page):
 
 
 # M2M-391 Збільшити/зменшити кількість об'єктів, які відображаються на сторінці
+@mark.testomatio('@Tttttt391')
 def test_increase_decrease_the_number_of_objects_m2m_391(admin_user: Page):
     """ ||M2M-391|| Збільшити/зменшити кількість об'єктів, які відображаються на сторінці """
 
@@ -164,6 +173,7 @@ def test_increase_decrease_the_number_of_objects_m2m_391(admin_user: Page):
 
 
 # M2M-392 Вибрати всі/один об'єкт(и) на панелі
+@mark.testomatio('@Tttttt392')
 def test_select_all_one_object_on_the_panel_m2m_392(admin_user: Page):
     """ ||M2M-392|| Вибрати всі/один об'єкт(и) на панелі """
 
@@ -183,6 +193,7 @@ def test_select_all_one_object_on_the_panel_m2m_392(admin_user: Page):
 
 
 # M2M-393 Відкрити вікно налаштування об'єкта
+@mark.testomatio('@Tttttt393')
 def test_open_object_settings_window_m2m_393(freebill_user: Page):
     """ ||M2M-393|| Відкрити вікно налаштування об'єкта """
 
@@ -194,6 +205,7 @@ def test_open_object_settings_window_m2m_393(freebill_user: Page):
 
 
 # M2M-394 Поставити на паузу об'єкт
+@mark.testomatio('@Tttttt394')
 def test_pause_the_object_m2m_394(selfreg_user: Page, just_remove_units, move_unnit_to_trash):
     """ ||M2M-394|| Поставити на паузу об'єкт """
 
@@ -214,6 +226,7 @@ def test_pause_the_object_m2m_394(selfreg_user: Page, just_remove_units, move_un
 
 
 # M2M-395 Скасувати переведення об'єкта на паузу
+@mark.testomatio('@Tttttt395')
 def test_cancel_pause_the_object_m2m_395(selfreg_user: Page, create_and_remove_one_units):
     """ ||M2M-395|| Скасувати переведення об'єкта на паузу """
 
@@ -233,6 +246,7 @@ def test_cancel_pause_the_object_m2m_395(selfreg_user: Page, create_and_remove_o
 # Group of objects----------------------------------------------------------------------------------------------------------------------------
 
 # M2M-396 Створити нову групу обєктів
+@mark.testomatio('@Tttttt396')
 def test_create_a_new_group_of_objects_m2m_396(freebill_user: Page, create_and_remove_one_group):
     """ ||M2M-396|| Створити нову групу обєктів """
     objects_page = ObjectsPage(freebill_user)
@@ -243,6 +257,7 @@ def test_create_a_new_group_of_objects_m2m_396(freebill_user: Page, create_and_r
 
 
 # M2M-1564 Створити нову групу обєктів не заповнивши обов'язкові поля
+@mark.testomatio('@Ttttt1564')
 def test_create_a_new_group_of_objects_without_name_m2m_1564(freebill_user: Page):
     """ ||M2M-1564|| Створити нову групу обєктів не заповнивши обов'язкові поля """
     objects_page = ObjectsPage(freebill_user)
@@ -257,6 +272,7 @@ def test_create_a_new_group_of_objects_without_name_m2m_1564(freebill_user: Page
 
 
 # M2M-397 Відмінити створення нової групи об'єктів
+@mark.testomatio('@Tttttt397')
 def test_cancel_creating_a_new_group_of_objects_m2m_397(freebill_user: Page):
     """ ||M2M-397|| Відмінити створення нової групи об'єктів """
     objects_page = ObjectsPage(freebill_user)
@@ -268,6 +284,7 @@ def test_cancel_creating_a_new_group_of_objects_m2m_397(freebill_user: Page):
 
 
 # M2M-1542 Додати об'єкти до групи обєктів
+@mark.testomatio('@Ttttt1542')
 def test_add_objects_to_a_group_of_objects_m2m_1542(freebill_user: Page, just_remove_groups):
     """ ||M2M-1542|| Додати об'єкти до групи обєктів """
     objects_page = ObjectsPage(freebill_user)
@@ -288,6 +305,7 @@ def test_add_objects_to_a_group_of_objects_m2m_1542(freebill_user: Page, just_re
 
 
 # M2M-1543 Видалити об'єкти з групи обєктів
+@mark.testomatio('@Ttttt1543')
 def test_remove_objects_from_a_group_of_objects_m2m_1543(freebill_user: Page, create_and_remove_one_group):
     """ ||M2M-1543|| Видалити об'єкти з групи обєктів """
     objects_page = ObjectsPage(freebill_user)
@@ -304,6 +322,7 @@ def test_remove_objects_from_a_group_of_objects_m2m_1543(freebill_user: Page, cr
 
 
 # M2M-401 Відобразити наступну та попередню сторінку зі списку груп.
+@mark.testomatio('@Tttttt401')
 def test_display_the_next_and_previous_page_of_the_group_list_m2m_401(freebill_user: Page, create_and_remove_12_group):
     """ ||M2M-401|| Відобразити наступну та попередню сторінку зі списку груп. """
     objects_page = ObjectsPage(freebill_user)   
@@ -314,6 +333,7 @@ def test_display_the_next_and_previous_page_of_the_group_list_m2m_401(freebill_u
 
 
 # M2M-402 Збільшити/зменшити кількість груп, які відображаються на сторінці
+@mark.testomatio('@Tttttt402')
 def test_increase_decrease_the_number_of_groups_m2m_402(freebill_user: Page, create_and_remove_25_group):
     """ ||M2M-402|| Збільшити/зменшити кількість груп, які відображаються на сторінці """
     objects_page = ObjectsPage(freebill_user)
@@ -324,6 +344,7 @@ def test_increase_decrease_the_number_of_groups_m2m_402(freebill_user: Page, cre
 
 
 # M2M-404 Видалити групу
+@mark.testomatio('@Tttttt404')
 def test_delete_a_group_m2m_404(freebill_user: Page):
     """ ||M2M-404|| Видалити групу """
     objects_page = ObjectsPage(freebill_user)
@@ -339,6 +360,7 @@ def test_delete_a_group_m2m_404(freebill_user: Page):
 
 
 # M2M-403 Видалити останню групу в сторінці
+@mark.testomatio('@Tttttt403')
 def test_remove_last_group_in_list_of_groups_M2M_403(freebill_user: Page, create_and_remove_12_group):
     """ ||M2M-403|| Видалити останню групу в сторінці """
     objects_page = ObjectsPage(freebill_user)
@@ -353,6 +375,7 @@ def test_remove_last_group_in_list_of_groups_M2M_403(freebill_user: Page, create
 
 
 # M2M-405 Відмінити видалення групи
+@mark.testomatio('@Tttttt405')
 def test_cancel_deleting_a_group_m2m_405(freebill_user: Page, create_and_remove_one_group):
     """ ||M2M-405|| Відмінити видалення групи """
     objects_page = ObjectsPage(freebill_user)
@@ -365,6 +388,7 @@ def test_cancel_deleting_a_group_m2m_405(freebill_user: Page, create_and_remove_
 
 
 # M2M-1604 Відобразити учасників групи в порожній групі
+@mark.testomatio('@Ttttt1604')
 def test_dispaly_group_members_in_an_empty_group_m2m_1604(freebill_user: Page, just_remove_groups):
     """ ||M2M-1604|| Відобразити учасників групи в порожній групі """
     objects_page = ObjectsPage(freebill_user)
@@ -383,6 +407,7 @@ def test_dispaly_group_members_in_an_empty_group_m2m_1604(freebill_user: Page, j
 
 
 # M2M-407 Відкрити вікно властивості об'єкта в списку учасників групи
+@mark.testomatio('@Tttttt407')
 def test_open_the_object_properties_window_in_the_list_of_group_members_m2m_407(freebill_user: Page, create_and_remove_one_group):
     """ ||M2M-407|| Відкрити вікно властивості об'єкта в списку учасників групи """
     objects_page = ObjectsPage(freebill_user)
@@ -398,6 +423,7 @@ def test_open_the_object_properties_window_in_the_list_of_group_members_m2m_407(
 
 
 # M2M-408 Відкрити вікно редагування групи об'єктів
+@mark.testomatio('@Tttttt408')
 def test_open_the_group_edit_window_m2m_408(freebill_user: Page, create_and_remove_one_group):
     """ ||M2M-408|| Відкрити вікно редагування групи об'єктів """
     objects_page = ObjectsPage(freebill_user)
@@ -412,6 +438,7 @@ def test_open_the_group_edit_window_m2m_408(freebill_user: Page, create_and_remo
 
 
 # ||M2M-398|| M2M-399 || M2M-400 || Пошук групи з повною валідною назвою\\з не повною валідною назвою\\з не валідною назвою
+@mark.testomatio('@Tttttt398', '@Tttttt399', '@Tttttt400')
 @pytest.mark.parametrize("query, index", [("Test group 0", 1), ("group 0", 1), ("213qwe123", 0)], ids=["||M2M-398|| full_valid_name", "||M2M-399|| not_full_valid_name", "||M2M-400|| not_valid_name"])
 def test_search_for_a_group_m2m_398_399_400(freebill_user: Page, create_and_remove_3_groups, query, index):
     """ ||M2M-398|| M2M-399 || M2M-400 || Пошук групи з повною валідною назвою\\з не повною валідною назвою\\з не валідною назвою """
@@ -427,6 +454,7 @@ def test_search_for_a_group_m2m_398_399_400(freebill_user: Page, create_and_remo
 # Search-------------------------------------------------------------------------------------------------------------------------------------
 
 # Search for an object using filters UNIQUE_ID
+@mark.testomatio('@Ttttt1939', '@Ttttt1867', '@Ttttt1945')
 @pytest.mark.parametrize("query, result", 
 [("1005001010", 1), 
 ("123123", 2), 
@@ -440,6 +468,7 @@ def test_search_for_an_object_using_filters_unique_id(search_units: Page, query:
 
 
 # Search for an object using filters NAME
+@mark.testomatio('@Tttttt377', '@Ttttt1940', '@Ttttt1941')
 @pytest.mark.parametrize("query, result",
 [("Test unit 2", 1),
 ("Test unit", 3),
@@ -453,6 +482,7 @@ def test_search_for_an_object_using_filters_name(search_units: Page, query: str,
 
 
 # Search for an object using filters PHONE_1
+@mark.testomatio('@Ttttt1942')
 @pytest.mark.parametrize("query, result",
 [("380631231122", 1),
 ("068", 2),
@@ -466,6 +496,7 @@ def test_search_object_using_filters_phone_1_m2m_1942(search_units: Page, query:
 
 
 # Search for an object using filters PHONE_2
+@mark.testomatio('@Ttttt1943')
 @pytest.mark.parametrize("query, result",
 [("380681001010", 1),
 ("1122", 2),
