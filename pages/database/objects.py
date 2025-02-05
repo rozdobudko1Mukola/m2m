@@ -45,8 +45,14 @@ class ObjectsPage:
             "confirm_del": self.page.locator("div[role='dialog'] button").nth(0),
             "cancel_del": self.page.locator("div[role='dialog'] button").nth(1),
             "err_msg": self.page.locator("//form/span"),
-            "group_checkboxes": self.page.locator("form input[type='checkbox']")
+            "search_unit_in_group_pop": self.page.locator("form input#outlined-basic")
         }
+
+        self.popap_groups = {
+            "search_unit_in_group_pop": self.page.locator("form input#outlined-basic"),
+            "list_of_units": self.page.locator("div[role='list'] li"),
+            "group_checkboxes": self.page.locator("form input[type='checkbox']")
+            }
 
         self.object_popap_tablist = {
             "new_object_tabs": self.page.locator("div[role='dialog'] div[role='tablist'] button"),
@@ -95,6 +101,7 @@ class ObjectsPage:
         self.row_on_page = {
             "unit_dd_btn": self.page.get_by_role("combobox").nth(1),
             "groups_dd_btn": self.page.locator("div[role='combobox']").nth(2),
+            "unit_in_group_dd": self.page.locator("form div[role='combobox']"),
             "previous_page": self.page.get_by_role("button", name="Go to previous page"),
             "next_page": self.page.get_by_role("button", name="Go to next page"),
             "10": self.page.locator("ul li").nth(0),
@@ -196,6 +203,7 @@ class ObjectsPage:
         return self.row_on_page[total_expect]
 
 
+    # Unit on the page 10 25 50 100
     def increase_decrease_the_number(self, number: str):
         self.row_on_page["unit_dd_btn"].click()
         self.row_on_page[number].click()
@@ -204,22 +212,49 @@ class ObjectsPage:
         return self.unit_table["body_row"]
 
 
+    # Group on the page 10 25 50 100
     def increase_decrease_the_number_group(self, number: str):
         self.row_on_page["groups_dd_btn"].click()
         self.row_on_page[number].click()
         self.page.wait_for_timeout(1000)
         
         return self.group_table["body_row"]
+
+
+    # Unit in group popup 10 25 50 100
+    def increase_decrease_unit_in_grpop_pop(self, number: str):
+    
+        self.row_on_page["unit_in_group_dd"].click()
+        self.row_on_page[number].click()
+        self.page.wait_for_timeout(1000)
+        
+        return self.popap_groups["list_of_units"]
+
+
+    def check_pagelist_unit_in_group(self, arrow_btn: str):
+        self.row_on_page[arrow_btn].click()
+        self.page.wait_for_timeout(1000)
+
+        return self.row_on_page["unit_total_p"].nth(1)
       
 
     def add_new_group(self, name: str, units: int):
         self.head_menu_group_locators["add_group"].click()
         self.object_main_popap_inputs["name"].fill(name)
         for i in range(1, units + 1):
-            self.popap_btn["group_checkboxes"].nth(i).check()
+            self.popap_groups["group_checkboxes"].nth(i).check()
         self.page.wait_for_timeout(500)
 
     def remove_group(self):
         self.group_table["del_btn_in_row"].click()
         self.popap_btn["confirm_del"].click() 
+
+
+    def search_unit_in_group(self, query: str):
+        self.page_tab_buttons["groups"].click()
+        self.head_menu_group_locators["add_group"].click()
+        self.popap_groups["search_unit_in_group_pop"].fill(query)
+        self.page.wait_for_timeout(1000)
+
+        return self.popap_groups["list_of_units"]
 

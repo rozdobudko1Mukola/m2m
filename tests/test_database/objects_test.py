@@ -297,7 +297,7 @@ def test_add_objects_to_a_group_of_objects_m2m_1542(freebill_user: Page, just_re
 
     # Add objects to group
     objects_page.group_table["btns_in_row"].nth(0).click()
-    objects_page.popap_btn["group_checkboxes"].last.check()
+    objects_page.popap_groups["group_checkboxes"].last.check()
     objects_page.popap_btn["ok"].click()
 
     # Check if objects were added to the group
@@ -314,7 +314,7 @@ def test_remove_objects_from_a_group_of_objects_m2m_1543(freebill_user: Page, cr
     # Remove objects from group
     objects_page.page_tab_buttons["groups"].click()
     objects_page.group_table["btns_in_row"].nth(0).click()
-    objects_page.popap_btn["group_checkboxes"].nth(3).click()
+    objects_page.popap_groups["group_checkboxes"].nth(3).click()
     objects_page.popap_btn["ok"].click()
 
     # Check if objects were added to the group
@@ -400,7 +400,7 @@ def test_dispaly_group_members_in_an_empty_group_m2m_1604(freebill_user: Page, j
 
     # Remove objects from group
     objects_page.group_table["btns_in_row"].nth(0).click()
-    objects_page.popap_btn["group_checkboxes"].nth(1).uncheck()
+    objects_page.popap_groups["group_checkboxes"].nth(1).uncheck()
     objects_page.popap_btn["ok"].click()
 
     objects_page.group_table["expand_btn"].click(timeout=500)
@@ -449,8 +449,44 @@ def test_search_for_a_group_m2m_398_399_400(freebill_user: Page, create_and_remo
     objects_page.head_menu_group_locators["group_search_input"].fill(query)
 
     expect(objects_page.group_table["body_row"]).to_have_count(index)
+
+
+# Здійснити пошук об'єктів в вікні створення групи об'єктів
+@mark.testomatio('@Ttttt1565')
+@pytest.mark.parametrize("query, result", [("Alfa Romeo", 2), ("Alfa", 2), ("qwerty!@#", 1)], 
+ids=["full_valid_name", "not_full_valid_name", "not_valid_name"])
+def test_search_unit_in_the_group_popup(admin_user: Page, query: str, result: int):
+    """ ||M2M-1565|| Здійснити пошук об'єктів в вікні створення групи об'єктів """
+    objects_page = ObjectsPage(admin_user)
+
+    expect(objects_page.search_unit_in_group(query)).to_have_count(result) # очікуємо 1 об'єкт. 2 - це тому що спіску завжди одна пуста li
     
     
+# Збільшити/зменшити кількість рядків на сторінці в вікні створення групи об'єктів
+@mark.testomatio('@Ttttt1568')
+def test_increase_decrease_the_units_group_popup(admin_user: Page):
+    """ ||M2M-1568|| Збільшити/зменшити кількість рядків на сторінці в вікні створення групи об'єктів """
+    objects_page = ObjectsPage(admin_user)
+
+    objects_page.page_tab_buttons["groups"].click()
+    objects_page.head_menu_group_locators["add_group"].click()
+
+    for count in ["25", "50", "100", "10"]:
+        expect(objects_page.increase_decrease_unit_in_grpop_pop(count)).to_have_count(int(count) + 1)
+
+
+# Перейти на наступну/попередню сторінку об'єктів в вікні створення групи об'єктів
+@mark.testomatio('@Ttttt1569')
+def test_display_the_next_and_previous_page_units_in_group(admin_user: Page):
+    objects_page = ObjectsPage(admin_user)
+
+    objects_page.page_tab_buttons["groups"].click()
+    objects_page.head_menu_group_locators["add_group"].click()
+    
+    expect(objects_page.check_pagelist_unit_in_group("next_page")).to_contain_text("11-20")
+    admin_user.wait_for_timeout(1000)
+    expect(objects_page.check_pagelist_unit_in_group("previous_page")).to_contain_text("1-10")
+
 
 # Search-------------------------------------------------------------------------------------------------------------------------------------
 
@@ -551,3 +587,5 @@ def test_export_objects_in_file_m2m_1957(search_units: Page, chose_item: str, ex
     if os.path.exists(filename):
         os.remove(filename)
         print(f"Файл {filename} видалено.")
+
+
