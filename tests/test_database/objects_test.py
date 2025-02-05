@@ -244,7 +244,99 @@ def test_cancel_pause_the_object_m2m_395(selfreg_user: Page, create_and_remove_o
     selfreg_user.goto("/units")
 
 
+# Вікно  "Трансфер об'єктів"----------------------------------------------------------------------------------------------------------------------------
+
+
+# Здійснити трансфер об'єкта на обліковий запис, в якого досягнуто ліміт дозволених об'єктів
+@mark.testomatio('@Ttttt1571')
+def test_transfer_the_object_m2m_1571(admin_user: Page):
+    objects_page = ObjectsPage(admin_user)
+    objects_page.head_menu_unit_locators["transfer"].click()
+
+
+    objects_page.transfer_popap_func("input_search_account", "m2m.test.auto+freebill@gmail.com")
+    objects_page.transfer_popap["list_of_accounts"].nth(0).click()
+
+    objects_page.transfer_popap_func("input_search_unit", "Test unit")
+    objects_page.transfer_popap["list_of_units"].nth(0).click()
+
+    objects_page.transfer_popap["ok"].click()
+
+    expect(objects_page.transfer_popap["err_msg"]).to_contain_text("Неможливо здійснити переміщення")
+
+
+# Здійснити пошук облікового запису та об'єктів у вікні "Трансфер об'єктів" за допомогою валідних даних
+@mark.testomatio('@Ttttt1188')
+def test_valid_search_for_account_and_objects_in_transfer_m2m_1188(admin_user: Page):
+    objects_page = ObjectsPage(admin_user)
+    objects_page.head_menu_unit_locators["transfer"].click()
+
+    objects_page.transfer_popap_func("input_search_account", "m2m.test.auto+freebill@gmail.com")
+    expect(objects_page.transfer_popap["list_of_accounts"]).to_have_count(1)
+
+    objects_page.transfer_popap["list_of_accounts"].nth(0).click() # обераемо аккаунт тому що список обʼєктів не зявляється не обравши аккаунт
+    objects_page.transfer_popap_func("input_search_unit", "Test name unit")
+    expect(objects_page.transfer_popap["list_of_units"]).to_have_count(2) 
+
+
+# Здійснити пошук облікового запису та об'єктів у вікні "Трансфер об'єктів" за допомогою не валідних даних
+@mark.testomatio('@Ttttt1189')
+def test_invalid_search_for_account_and_objects_in_transfer_m2m_1189(admin_user: Page):
+    objects_page = ObjectsPage(admin_user)
+    objects_page.head_menu_unit_locators["transfer"].click()
+
+    objects_page.transfer_popap_func("input_search_account", "qwerty!@#")
+    expect(objects_page.transfer_popap["list_of_accounts"]).to_have_count(0)
+
+    # Oбераемо аккаунт тому що список обʼєктів не зявляється не обравши аккаунт
+    objects_page.transfer_popap_func("input_search_account", "m2m.test.auto+freebill@gmail.com")
+    objects_page.transfer_popap["list_of_accounts"].nth(0).click()
+
+    objects_page.transfer_popap_func("input_search_unit", "qwerty!@#")
+    expect(objects_page.transfer_popap["list_of_units"]).to_have_count(1) # дівайдеp як елемнт списку обʼєктів. тому 1 а не 0
+
+
+# Збільшити/зменшити кількість рядків на сторінці в розділах "Облікові записи" та "Об'єкти"
+@mark.testomatio('@Ttttt1190')
+def test_increase_decrease_account_and_object_rows_m2m_1190(admin_user: Page):
+    objects_page = ObjectsPage(admin_user)
+    objects_page.head_menu_unit_locators["transfer"].click()
+
+    for count in ["25", "50", "100", "10"]:
+        expect(objects_page.increase_decrease_the_number_transfer("dd_account", count, "list_of_accounts")).to_have_count(int(count))
+
+    # Oбераемо аккаунт тому що список обʼєктів не зявляється не обравши аккаунт
+    objects_page.transfer_popap_func("input_search_account", "m2m.test.auto+freebill@gmail.com")
+    objects_page.transfer_popap["list_of_accounts"].nth(0).click()
+
+    for count in ["25", "50", "100", "10"]:
+        expect(objects_page.increase_decrease_the_number_transfer("dd_unit", count, "list_of_units")).to_have_count(int(count) + 1) # дівайдеp як елемнт списку обʼєктів. тому + 1
+
+
+# Перейти на наступну/попередню сторінку в розділах "Облікові записи" та "Об'єкти"
+@mark.testomatio('@Ttttt1191')
+def test_display_the_next_and_previous_page_transfer_account_m2m_1191(admin_user: Page):
+    objects_page = ObjectsPage(admin_user)
+    objects_page.head_menu_unit_locators["transfer"].click()
+
+    expect(objects_page.check_pagelist_transfer("next_btn", 0, 1)).to_contain_text("11-20")
+    expect(objects_page.check_pagelist_transfer("prev_btn", 0, 1)).to_contain_text("1-10")
+
+def test_display_the_next_and_previous_page_transfer_unit_m2m_1191(admin_user: Page):
+    objects_page = ObjectsPage(admin_user)
+    objects_page.head_menu_unit_locators["transfer"].click()
+
+    # Oбераемо аккаунт тому що список обʼєктів не зявляється не обравши аккаунт
+    objects_page.transfer_popap_func("input_search_account", "m2m.test.auto+freebill@gmail.com")
+    objects_page.transfer_popap["list_of_accounts"].nth(0).click()
+
+    expect(objects_page.check_pagelist_transfer("next_btn", 1, 3)).to_contain_text("11-20")
+    expect(objects_page.check_pagelist_transfer("prev_btn", 1, 3)).to_contain_text("1-10")
+
+
+
 # Group of objects----------------------------------------------------------------------------------------------------------------------------
+
 
 # M2M-396 Створити нову групу обєктів
 @mark.testomatio('@Tttttt396')

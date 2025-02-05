@@ -25,6 +25,7 @@ class ObjectsPage:
             "export": self.page.locator(".MuiGrid-container div > button:nth-child(2)"),
             "settings": self.page.locator(".MuiGrid-container div > button button"),
             "customize_panel": self.page.locator("ul[role='menu'] input"),
+            "transfer": self.page.locator(".MuiGrid-container div > button:nth-child(4)")
         }
 
         self.filter_list = {
@@ -53,6 +54,23 @@ class ObjectsPage:
             "list_of_units": self.page.locator("div[role='list'] li"),
             "group_checkboxes": self.page.locator("form input[type='checkbox']")
             }
+
+
+        self.transfer_popap = {
+            "input_search_account": self.page.locator("div[role='presentation'] input#outlined-basic").nth(0),
+            "input_search_unit": self.page.locator("div[role='presentation'] input#outlined-basic").nth(1),
+            "list_of_accounts": self.page.locator("div[role='radiogroup'] label"),
+            "list_of_units": self.page.locator("div[role='list'] li"),
+            "dd_account": self.page.locator("div[role='presentation'] div[role='combobox']").nth(0),
+            "dd_unit": self.page.locator("div[role='presentation'] div[role='combobox']").nth(1),
+            "next_btn": self.page.locator("div[role='presentation'] button[title='Go to next page']"),
+            "prev_btn": self.page.locator("div[role='presentation'] button[title='Go to previous page']"),
+            "total_p": self.page.locator("div[role='presentation'] p"),
+            "ok": self.page.locator("div[role='presentation'] button").nth(8),
+            "cancel": self.page.locator("div[role='presentation'] button").nth(7),
+            "err_msg": self.page.locator(".MuiTypography-reg16").last
+        }
+
 
         self.object_popap_tablist = {
             "new_object_tabs": self.page.locator("div[role='dialog'] div[role='tablist'] button"),
@@ -257,4 +275,28 @@ class ObjectsPage:
         self.page.wait_for_timeout(1000)
 
         return self.popap_groups["list_of_units"]
+
+    # Transfer funcrions
+    def transfer_popap_func(self, search_input: str, query: str):
+        self.page.wait_for_load_state("networkidle")
+        self.transfer_popap[search_input].fill(query)
+        self.page.wait_for_timeout(1000)
+
+    
+    def increase_decrease_the_number_transfer(self, dd, number: str, lists):
+        self.transfer_popap[dd].click()
+        self.row_on_page[number].click()
+        self.page.locator("span[role='progressbar']").wait_for(state="hidden")
+
+        return self.transfer_popap[lists]
+
+
+    def check_pagelist_transfer(self, arrow_btn: str, table_arrow, table_total): 
+        self.transfer_popap[arrow_btn].nth(table_arrow).click()
+        self.page.locator("span[role='progressbar']").wait_for(state="hidden")
+
+        return self.transfer_popap["total_p"].nth(table_total)
+
+
+
 
