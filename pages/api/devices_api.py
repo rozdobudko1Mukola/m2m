@@ -13,17 +13,10 @@ class DeviceAPI:
         unique_id = ''.join(random.choices('0123456789', k=random.randint(5, 20)))
         return unique_id
 
-    def create_new_device(self, dev_type: str, name: str, unique_id: str, phone: str):
+    def create_new_device(self, **kwargs):
         """Створює новий пристрій через API."""
         data = {
-            "type": dev_type,
-            "customFields": "",
-            "adminFields": "",
-            "name": name,
-            "uniqueId": unique_id,
-            "phone": phone,
-            "phone2": "123456",
-            "phoneTracker": True
+            key: value for key, value in kwargs.items() if value is not None
         }
         response = self.api_context.post("/api/devices", data=data, headers=self.headers)
         return response
@@ -101,4 +94,67 @@ class DeviceAPI:
             key: value for key, value in kwargs.items() if value is not None
         }
         response = self.api_context.put(f"api/device/{device_id}/connection", data=data, headers=self.headers)
+        return response
+
+
+    def retrieve_admin_fields_for_device(self, device_id: str):
+        """Отримує список пристроїв."""
+        response = self.api_context.get(f"api/device/{device_id}/admin/fields", headers=self.headers)
+        return response
+
+    
+    def update_admin_fields_for_device(self, device_id: str, adminFields: str):
+        """Оновлює додаткові поля для пристрою."""
+        data = {
+            "adminFields": adminFields
+        }
+        response = self.api_context.put(f"api/device/{device_id}/admin/fields", data=data, headers=self.headers)
+        return response
+
+
+    def retrieve_list_of_devices_with_pagination(self, **kwargs):
+        """Отримує список пристроїв з пагінацією."""
+        data = {
+            key: value for key, value in kwargs.items() if value is not None
+        }
+        response = self.api_context.get(f"/api/devices", params=data, headers=self.headers)
+        return response
+
+
+    def device_permissions_ids(self, device_id: str):
+        """Отримує список ID дозволів для пристрою."""
+        response = self.api_context.get(f"/api/permission/device/{device_id}/user/ids", headers=self.headers)
+        return response
+
+    
+    def export_list_of_devices_with_pagination_excel(self, file_ext, **kwargs):
+        """Експортує список пристроїв з пагінацією в Excel."""
+        data = {
+            key: value for key, value in kwargs.items() if value is not None
+        }
+        response = self.api_context.get(f"api/devices/{file_ext}", params=data, headers=self.headers)
+        return response
+
+
+    def retrieve_device_permissions_for_child_user(self, user_id: str, device_id: str):
+        """Отримує права користувача на пристрої."""
+        response = self.api_context.get(f"api/permission/user/{user_id}/device/{device_id}", headers=self.headers)
+        return response
+
+
+    def set_device_permissions_for_child_user(self, user_id: str, device_id: str, **kwargs):
+        """Встановлює права користувача на пристрої."""
+        data = {
+            key: value for key, value in kwargs.items() if value is not None
+        }
+        response = self.api_context.post(f"api/permission/user/{user_id}/device/{device_id}", data=data, headers=self.headers)
+        return response   
+        
+
+    def switch_all_device_permissions_for_child_user(self, user_id: str, device_id: str, state: str):
+        """Встановлює права користувача на пристрої."""
+        data = {
+            "state": state
+        }
+        response = self.api_context.post(f"api/permission/user/{user_id}/device/{device_id}/switch", data=data, headers=self.headers)
         return response
