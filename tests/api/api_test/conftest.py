@@ -5,6 +5,7 @@ from pages.api.wastebin_api import WastebinAPI
 from pages.api.users_api import UsersAPI
 from faker import Faker
 
+
 @pytest.fixture(scope="session")
 def test_data():
     """Фікстура для збереження даних між тестами."""
@@ -38,6 +39,12 @@ def postcondition_permanent_del_device(api_context, token, test_data):
     yield
 
     wastebim_api = WastebinAPI(api_context, token)
+    response = wastebim_api.move_device_to_wastebin(test_data["device_id"])
+    if response.status_code == 404:
+        response = wastebim_api.device_permanent_delete(test_data["device_id"])
+        expect(response).to_be_ok()
+
+    expect(response).to_be_ok()
     response = wastebim_api.device_permanent_delete(test_data["device_id"])
     expect(response).to_be_ok()
 
@@ -62,6 +69,8 @@ def pre_and_post_conditions(api_context, token, test_data):
     yield
 
     wastebim_api = WastebinAPI(api_context, token)
+    response = wastebim_api.move_device_to_wastebin(test_data["device_id"])
+    expect(response).to_be_ok()
     response = wastebim_api.device_permanent_delete(test_data["device_id"])
     expect(response).to_be_ok()
 
@@ -86,3 +95,21 @@ def create_and_del_user_by_accaunt(api_context, token, test_data):
 
     response = user_api.remove_child_user(test_data["user_id"])
     expect(response).to_be_ok()
+
+
+@pytest.fixture(scope="session")
+def fixt_move_device_to_pause(api_context, token, test_data):
+    """Переміщає пристрій в корзину."""
+    device_api = DeviceAPI(api_context, token)
+    response = device_api.move_device_to_pause(device_id=test_data["device_id"])
+    expect(response).to_be_ok()
+    yield
+
+
+@pytest.fixture(scope="session")
+def move_device_to_wastebin(api_context, token, test_data):
+    """Переміщає пристрій в корзину."""
+    wastebin_api = WastebinAPI(api_context, token)
+    response = wastebin_api.move_device_to_wastebin(device_id=test_data["device_id"])
+    expect(response).to_be_ok()
+    yield
