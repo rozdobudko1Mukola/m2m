@@ -43,34 +43,6 @@ def postcondition_permanent_del_device(api_context, token, test_data):
     test_data.pop("device_id", None)
 
 
-
-# @pytest.fixture(scope="session")
-# def pre_and_post_conditions(api_context, token, test_data):
-#     """Фікстура для створення пристрою перед стестом та видалення після тесту."""
-#     device_api = DeviceAPI(api_context, token)
-#     response = device_api.create_new_device(
-#         type="VEHICLE",
-#         name="api Test Device",
-#         uniqueId=device_api.unique_id(),
-#         customFields="",
-#         adminFields="",
-#         phoneTracker=False
-#     )
-#     expect(response).to_be_ok()
-#     json_data = response.json()
-#     test_data["device_id"] = json_data.get("id")   
-
-#     yield
-
-#     wastebim_api = WastebinAPI(api_context, token)
-#     response = wastebim_api.move_device_to_wastebin(test_data["device_id"])
-#     expect(response).to_be_ok()
-#     # response = wastebim_api.retrieve_list_of_deleted_devices_with_pagination(page=1, per_page=10)
-#     # assert response.json()["items"][0]["id"] == test_data["device_id"]
-#     response = wastebim_api.device_permanent_delete(test_data["device_id"])
-#     expect(response).to_be_ok()
-
-
 @pytest.fixture(scope="session")
 def pre_and_post_conditions(api_context, token, test_data):
     """Фікстура для створення пристрою перед тестом та видалення після тесту."""
@@ -101,7 +73,7 @@ def pre_and_post_conditions(api_context, token, test_data):
         test_data.pop("device_id", None)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def create_and_del_user_by_accaunt(api_context, token, test_data):
     """Фікстура для створення користувача перед тестом та видалення після тесту."""
     fake = Faker()
@@ -121,6 +93,7 @@ def create_and_del_user_by_accaunt(api_context, token, test_data):
 
     response = user_api.remove_child_user(test_data["user_id"])
     expect(response).to_be_ok()
+    test_data.pop("user_id", None)
 
 
 @pytest.fixture(scope="session")
