@@ -8,7 +8,7 @@ from playwright.sync_api import expect
 @mark.smoke
 @mark.api
 @mark.testomatio('@Ttttt1050')
-def test_unpause_device(api_context, token, test_data, pre_and_post_conditions):
+def test_unpause_device(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо відновлення пристрою з корзини"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.move_device_to_pause(device_id=test_data["device_id"])
@@ -22,7 +22,7 @@ def test_unpause_device(api_context, token, test_data, pre_and_post_conditions):
 @mark.smoke
 @mark.api
 @mark.testomatio('@Ttttt1753')
-def test_restore_the_device_from_wastebin(api_context, token, test_data, pre_and_post_conditions):
+def test_restore_the_device_from_wastebin(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо відновлення пристрою з корзини"""
     wastebin_api = WastebinAPI(api_context, token)
     
@@ -35,7 +35,7 @@ def test_restore_the_device_from_wastebin(api_context, token, test_data, pre_and
 @mark.smoke
 @mark.api
 @mark.testomatio('@Ttttt1051')
-def test_retrieve_a_list_of_paused_devices_with_pagination(api_context, token, test_data, pre_and_post_conditions):
+def test_retrieve_a_list_of_paused_devices_with_pagination(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо отримання списку пристроїв з корзини"""
     devise_api = DeviceAPI(api_context, token)
     response = devise_api.move_device_to_pause(device_id=test_data["device_id"])
@@ -51,7 +51,7 @@ def test_retrieve_a_list_of_paused_devices_with_pagination(api_context, token, t
 @mark.smoke
 @mark.api
 @mark.testomatio('')
-def test_export_list_of_devices_with_pagination_to_excel(api_context, token, pre_and_post_conditions, fixt_move_device_to_pause):
+def test_export_list_of_devices_with_pagination_to_excel(api_context, token, pre_and_post_conditions_device, fixt_move_device_to_pause):
     """Тестуємо експорт списку пристроїв з пагінацією в Excel"""
     wastebin_api = WastebinAPI(api_context, token)
 
@@ -65,7 +65,7 @@ def test_export_list_of_devices_with_pagination_to_excel(api_context, token, pre
 @mark.smoke
 @mark.api
 @mark.testomatio('')
-def test_export_list_of_devices_with_pagination_to_csv(api_context, token, pre_and_post_conditions, fixt_move_device_to_pause):
+def test_export_list_of_devices_with_pagination_to_csv(api_context, token, pre_and_post_conditions_device, fixt_move_device_to_pause):
     """Тестуємо експорт списку пристроїв з пагінацією в csv"""
     wastebin_api = WastebinAPI(api_context, token)
 
@@ -79,7 +79,7 @@ def test_export_list_of_devices_with_pagination_to_csv(api_context, token, pre_a
 @mark.smoke
 @mark.api
 @mark.testomatio('@Ttttt1754')
-def test_retrieve_list_of_deleted_devices_with_pagination(api_context, token, test_data, pre_and_post_conditions):
+def test_retrieve_list_of_deleted_devices_with_pagination(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо отримання списку видалених пристроїв з корзини"""
     wastebin_api = WastebinAPI(api_context, token)
 

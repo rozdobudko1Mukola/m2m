@@ -2,17 +2,20 @@ import pytest
 from playwright.sync_api import expect
 from pages.api.devices_api import DeviceAPI
 from pages.api.wastebin_api import WastebinAPI
+from pages.api.report_templates_api import ReportTemplatesAPI
 from pages.api.users_api import UsersAPI
 from faker import Faker
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def test_data():
     """Фікстура для збереження даних між тестами."""
     return {}
     
 
-@pytest.fixture(scope="session")
+# Fixtures for the test DevicesAPI
+
+@pytest.fixture(scope="function")
 def create_device_precondition(api_context, token, test_data):
     """Фікстура для створення пристрою перед тестом."""
     device_api = DeviceAPI(api_context, token)
@@ -31,7 +34,7 @@ def create_device_precondition(api_context, token, test_data):
     yield 
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def postcondition_permanent_del_device(api_context, token, test_data):
     """Фікстура для видалення пристрою за його ID. Пристрій повинен бути в корзині."""
 
@@ -43,8 +46,8 @@ def postcondition_permanent_del_device(api_context, token, test_data):
     test_data.pop("device_id", None)
 
 
-@pytest.fixture(scope="session")
-def pre_and_post_conditions(api_context, token, test_data):
+@pytest.fixture(scope="function")
+def pre_and_post_conditions_device(api_context, token, test_data):
     """Фікстура для створення пристрою перед тестом та видалення після тесту."""
     device_api = DeviceAPI(api_context, token)
     response = device_api.create_new_device(
@@ -74,6 +77,26 @@ def pre_and_post_conditions(api_context, token, test_data):
 
 
 @pytest.fixture(scope="function")
+def fixt_move_device_to_pause(api_context, token, test_data):
+    """Переміщає пристрій в корзину."""
+    device_api = DeviceAPI(api_context, token)
+    response = device_api.move_device_to_pause(device_id=test_data["device_id"])
+    expect(response).to_be_ok()
+    yield
+
+
+@pytest.fixture(scope="function")
+def move_device_to_wastebin(api_context, token, test_data):
+    """Переміщає пристрій в корзину."""
+    wastebin_api = WastebinAPI(api_context, token)
+    response = wastebin_api.move_device_to_wastebin(device_id=test_data["device_id"])
+    expect(response).to_be_ok()
+    yield
+
+
+# Fixtures for the test UsersAPI
+
+@pytest.fixture(scope="function")
 def create_and_del_user_by_accaunt(api_context, token, test_data):
     """Фікстура для створення користувача перед тестом та видалення після тесту."""
     fake = Faker()
@@ -96,20 +119,72 @@ def create_and_del_user_by_accaunt(api_context, token, test_data):
     test_data.pop("user_id", None)
 
 
-@pytest.fixture(scope="session")
-def fixt_move_device_to_pause(api_context, token, test_data):
-    """Переміщає пристрій в корзину."""
-    device_api = DeviceAPI(api_context, token)
-    response = device_api.move_device_to_pause(device_id=test_data["device_id"])
+# Fixtures for the test ReportTemplatesAPI
+
+@pytest.fixture(scope="function")
+def create_and_del_report_template(api_context, token, test_data):
+    """Фікстура для створення шаблону звіту перед тестом та видалення після тесту."""
+    report_templates_api = ReportTemplatesAPI(api_context, token)
+    response = report_templates_api.create_new_report_template(
+        name="Test Report Template",
+        elementType="DEVICE"
+    )
     expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["template_id"] = json_data.get("id")
+
     yield
 
-
-@pytest.fixture(scope="session")
-def move_device_to_wastebin(api_context, token, test_data):
-    """Переміщає пристрій в корзину."""
-    wastebin_api = WastebinAPI(api_context, token)
-    response = wastebin_api.move_device_to_wastebin(device_id=test_data["device_id"])
+    response = report_templates_api.remove_report_template(test_data["template_id"])
     expect(response).to_be_ok()
+    test_data.pop("template_id", None)
+
+
+@pytest.fixture(scope="function")
+def create_and_del_report_template_chart(api_context, token, test_data):
+    """Фікстура для створення графіка в шаблоні звіту перед тестом та видалення після тесту."""
+    report_templates_api = ReportTemplatesAPI(api_context, token)
+    response = report_templates_api.create_new_report_template_chart(
+        template_id=test_data["template_id"],
+        name="Test Chart",
+        selectedSensors=["SPEED"]
+    )
+    expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["chart_id"] = json_data.get("id")
+
     yield
 
+    response = report_templates_api.remove_report_template_chart(
+        template_id=test_data["template_id"],
+        chart_id=test_data["chart_id"]
+        )
+    expect(response).to_be_ok()
+    test_data.pop("chart_id", None)
+
+
+@pytest.fixture(scope="function")
+def create_and_del_report_template_table(api_context, token, test_data):
+    """Фікстура для створення таблиці в шаблоні звіту перед тестом та видалення після тесту."""
+    report_templates_api = ReportTemplatesAPI(api_context, token)
+    response = report_templates_api.create_new_report_template_table(
+        template_id=test_data["template_id"],
+        title="Test Table",
+        tableType="DEVICE_REFILL",
+        tableColumns=["REFILL_START_TIME"]
+    )
+    expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["table_id"] = json_data.get("id")
+
+    yield
+
+    response = report_templates_api.remove_report_template_table(
+        template_id=test_data["template_id"],
+        table_id=test_data["table_id"]
+        )
+    expect(response).to_be_ok()
+    test_data.pop("table_id", None)

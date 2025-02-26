@@ -7,14 +7,14 @@ from playwright.sync_api import expect
 @mark.smoke 
 @mark.api
 @mark.testomatio('@Tttttt888')
-def test_create_device(api_context, token, test_data, pre_and_post_conditions):
+def test_create_device(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо створення пристрою"""
     pass
 
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt875')
-def test_move_devise_to_pause(api_context, token, test_data, pre_and_post_conditions):
+def test_move_devise_to_pause(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо переміщення пристрою на паузу"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.move_device_to_pause(device_id=test_data["device_id"])
@@ -24,7 +24,7 @@ def test_move_devise_to_pause(api_context, token, test_data, pre_and_post_condit
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt874')
-def test_update_devise_characteristic(api_context, token, test_data, pre_and_post_conditions):
+def test_update_devise_characteristic(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо оновлення характеристик пристрою"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.update_devise_characteristic(
@@ -45,7 +45,7 @@ def test_update_devise_characteristic(api_context, token, test_data, pre_and_pos
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt873')
-def test_get_device_by_id(api_context, token, test_data, pre_and_post_conditions):
+def test_get_device_by_id(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо отримання пристрою по ID"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.get_device_by_id(device_id=test_data["device_id"])
@@ -59,7 +59,7 @@ def test_get_device_by_id(api_context, token, test_data, pre_and_post_conditions
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt876')
-def test_rename_device(api_context, token, test_data, pre_and_post_conditions):
+def test_rename_device(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо перейменування пристрою"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.rename_device(device_id=test_data["device_id"], name="New Name")
@@ -71,7 +71,7 @@ def test_rename_device(api_context, token, test_data, pre_and_post_conditions):
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt877')
-def test_get_motion_detector_settings_for_device(api_context, token, test_data, pre_and_post_conditions):
+def test_get_motion_detector_settings_for_device(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо отримання налаштувань детектора руху для пристрою"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.get_motion_detector_settings_for_device(device_id=test_data["device_id"])
@@ -83,7 +83,7 @@ def test_get_motion_detector_settings_for_device(api_context, token, test_data, 
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt878')
-def test_change_motion_detector_settings_for_device(api_context, token, test_data, pre_and_post_conditions):
+def test_change_motion_detector_settings_for_device(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо зміну налаштувань детектора руху для пристрою"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.change_motion_detector_settings_for_device(
@@ -99,7 +99,7 @@ def test_change_motion_detector_settings_for_device(api_context, token, test_dat
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt879')
-def test_retrieve_custom_fields_for_device(api_context, token, test_data, pre_and_post_conditions):
+def test_retrieve_custom_fields_for_device(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо отримання додаткових полів для пристрою"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.retrieve_custom_fields_for_device(device_id=test_data["device_id"])
@@ -109,7 +109,7 @@ def test_retrieve_custom_fields_for_device(api_context, token, test_data, pre_an
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt880')
-def test_update_custom_fields_for_device(api_context, token, test_data, pre_and_post_conditions):
+def test_update_custom_fields_for_device(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо оновлення додаткових полів для пристрою"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.update_custom_fields_for_device(device_id=test_data["device_id"], customFields='{\"name test\":\"value test\"}')
@@ -120,7 +120,7 @@ def test_update_custom_fields_for_device(api_context, token, test_data, pre_and_
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt881')
-def test_get_connection_parameters(api_context, token, test_data, pre_and_post_conditions):
+def test_get_connection_parameters(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо отримання параметрів підключення"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.get_connection_parameters(device_id=test_data["device_id"])
@@ -131,7 +131,7 @@ def test_get_connection_parameters(api_context, token, test_data, pre_and_post_c
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt882')
-def test_update_connection_parameters(api_context, token, test_data, pre_and_post_conditions):
+def test_update_connection_parameters(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо оновлення параметрів підключення"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.update_connection_parameters(
@@ -145,7 +145,7 @@ def test_update_connection_parameters(api_context, token, test_data, pre_and_pos
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt883')
-def test_retrieve_admin_fields_for_device(api_context, token, test_data, pre_and_post_conditions):
+def test_retrieve_admin_fields_for_device(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо отримання адміністративних полів для пристрою"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.retrieve_admin_fields_for_device(device_id=test_data["device_id"])
@@ -155,7 +155,7 @@ def test_retrieve_admin_fields_for_device(api_context, token, test_data, pre_and
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt884')
-def test_update_admin_fields_for_device(api_context, token, test_data, pre_and_post_conditions):
+def test_update_admin_fields_for_device(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо оновлення адміністративних полів для пристрою"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.update_admin_fields_for_device(device_id=test_data["device_id"], adminFields='{\"name test_ad\":\"value test_ad\"}')
@@ -166,7 +166,7 @@ def test_update_admin_fields_for_device(api_context, token, test_data, pre_and_p
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt887')
-def test_retrieve_list_of_devices_with_pagination(api_context, token, pre_and_post_conditions):
+def test_retrieve_list_of_devices_with_pagination(api_context, token, pre_and_post_conditions_device):
     """Тестуємо отримання списку пристроїв з пагінацією"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.retrieve_list_of_devices_with_pagination(page=1, per_page=10)
@@ -176,7 +176,7 @@ def test_retrieve_list_of_devices_with_pagination(api_context, token, pre_and_po
 @mark.smoke
 @mark.api
 @mark.testomatio('@T827baa0a')
-def test_device_permissions_ids(api_context, token, test_data, pre_and_post_conditions):
+def test_device_permissions_ids(api_context, token, test_data, pre_and_post_conditions_device):
     """Тестуємо отримання ID дозволів для пристрою"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.device_permissions_ids(device_id=test_data["device_id"])
@@ -186,7 +186,7 @@ def test_device_permissions_ids(api_context, token, test_data, pre_and_post_cond
 @mark.smoke
 @mark.api
 @mark.testomatio('@Ttttt1844')
-def test_export_list_of_devices_with_pagination_excel(api_context, token, pre_and_post_conditions):
+def test_export_list_of_devices_with_pagination_excel(api_context, token, pre_and_post_conditions_device):
     """Тестуємо експорт списку пристроїв з пагінацією в Excel"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.export_list_of_devices_with_pagination_excel(file_ext="xls", page=1, per_page=10)
@@ -197,7 +197,7 @@ def test_export_list_of_devices_with_pagination_excel(api_context, token, pre_an
 @mark.smoke
 @mark.api
 @mark.testomatio('@Ttttt1845')
-def test_export_list_of_devices_with_pagination_csv(api_context, token, pre_and_post_conditions):
+def test_export_list_of_devices_with_pagination_csv(api_context, token, pre_and_post_conditions_device):
     """Тестуємо експорт списку пристроїв з пагінацією в csv"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.export_list_of_devices_with_pagination_excel(file_ext="csv", page=1, per_page=10)
@@ -208,7 +208,7 @@ def test_export_list_of_devices_with_pagination_csv(api_context, token, pre_and_
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt885')
-def test_retrieve_device_permissions_for_child_user(api_context, token, test_data, pre_and_post_conditions, create_and_del_user_by_accaunt):
+def test_retrieve_device_permissions_for_child_user(api_context, token, test_data, pre_and_post_conditions_device, create_and_del_user_by_accaunt):
     """Тестуємо отримання прав користувача на пристрої"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.retrieve_device_permissions_for_child_user(user_id=test_data["user_id"], device_id=test_data["device_id"])
@@ -218,7 +218,7 @@ def test_retrieve_device_permissions_for_child_user(api_context, token, test_dat
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tttttt886')
-def test_set_device_permissions_for_child_user(api_context, token, test_data, pre_and_post_conditions, create_and_del_user_by_accaunt):
+def test_set_device_permissions_for_child_user(api_context, token, test_data, pre_and_post_conditions_device, create_and_del_user_by_accaunt):
     """Тестуємо встановлення прав користувача на пристрої"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.set_device_permissions_for_child_user(
@@ -234,7 +234,7 @@ def test_set_device_permissions_for_child_user(api_context, token, test_data, pr
 @mark.smoke
 @mark.api
 @mark.testomatio('@Tc9d27714')
-def test_switch_all_device_permissions_for_child_user(api_context, token, test_data, pre_and_post_conditions, create_and_del_user_by_accaunt):
+def test_switch_all_device_permissions_for_child_user(api_context, token, test_data, pre_and_post_conditions_device, create_and_del_user_by_accaunt):
     """Тестуємо встановлення прав користувача на пристрої"""
     device_api = DeviceAPI(api_context, token)
     response = device_api.switch_all_device_permissions_for_child_user(
