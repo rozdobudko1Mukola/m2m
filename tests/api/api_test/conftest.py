@@ -3,8 +3,8 @@ from playwright.sync_api import expect
 from pages.api.devices_api import DeviceAPI
 from pages.api.wastebin_api import WastebinAPI
 from pages.api.report_templates_api import ReportTemplatesAPI
+from pages.api.geofences_api import GeofencesAPI
 from pages.api.users_api import UsersAPI
-from faker import Faker
 
 
 @pytest.fixture(scope="function")
@@ -99,11 +99,10 @@ def move_device_to_wastebin(api_context, token, test_data):
 @pytest.fixture(scope="function")
 def create_and_del_user_by_accaunt(api_context, token, test_data):
     """Фікстура для створення користувача перед тестом та видалення після тесту."""
-    fake = Faker()
     user_api = UsersAPI(api_context, token)
 
     response = user_api.create_new_user(
-        email=fake.email(),
+        email="m2m.test.auto+APIAuto@gmail.com",
         password="123456",
         language="UKRAINIAN"
     )
@@ -188,3 +187,27 @@ def create_and_del_report_template_table(api_context, token, test_data):
         )
     expect(response).to_be_ok()
     test_data.pop("table_id", None)
+
+
+# Fixtures for the test geofencesAPI
+@pytest.fixture(scope="function")
+def create_and_remove_geofence(api_context, token, test_data):
+    """Фікстура для створення геозони перед тестом та видалення після тесту."""
+    geofences = GeofencesAPI(api_context, token)
+    response = geofences.create_new_geofence(
+        name="Test Geofence",
+        description="Test Geofence Description",
+        area='{"type":"Circle","coordinates":[30.035527000, 51.835087000],"radius":187.237000000,"radius_units":"km"}',
+        fillColor="#0091DC",
+        strokeColor="#44D600"
+    )
+    expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["geofence_id"] = json_data.get("id")
+
+    yield
+
+    response = geofences.remove_the_geofence(test_data["geofence_id"])
+    expect(response).to_be_ok()
+    test_data.pop("geofence_id", None)

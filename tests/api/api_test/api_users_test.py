@@ -2,7 +2,6 @@ import pytest
 from pytest import mark
 from pages.api.users_api import UsersAPI
 from playwright.sync_api import expect
-from faker import Faker
 
 
 # Fixtures for the test UsersAPI
@@ -26,11 +25,10 @@ def del_user_postcondition(api_context, token, test_data):
 @pytest.fixture(scope="function")
 def create_user_precondition(api_context, token, test_data):
     """Фікстура для створення користувача перед тестом."""
-    fake = Faker()
     user_api = UsersAPI(api_context, token)
 
     response = user_api.create_new_user(
-        email=fake.email(),
+        email="m2m.test.auto+APIAuto@gmail.com",
         password="123456",
         language="UKRAINIAN"
     )
@@ -45,11 +43,10 @@ def create_user_precondition(api_context, token, test_data):
 @pytest.fixture(scope="function")
 def create_and_del_managed_id(api_context, token, test_data):
     """Фікстура для створення користувача перед тестом та видалення після тесту."""
-    fake = Faker()
     user_api = UsersAPI(api_context, token)
 
     response = user_api.create_new_user(
-        email=fake.email(),
+        email="m2m.test.auto+APIAuto_childUSER@gmail.com",
         password="123456",
         language="UKRAINIAN"
     )
@@ -67,7 +64,7 @@ def create_and_del_managed_id(api_context, token, test_data):
 
 # Tests for the API Users  
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt846')
 def test_get_child_user_by_id(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо отримання дитячого користувача по id"""
@@ -78,7 +75,7 @@ def test_get_child_user_by_id(api_context, token, test_data, create_and_del_user
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt847')
 def test_update_child_user(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо оновлення дитячого користувача"""
@@ -89,7 +86,7 @@ def test_update_child_user(api_context, token, test_data, create_and_del_user_by
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt856')
 def test_remove_child_user(api_context, token, test_data, create_user_precondition):
     """Тестуємо видалення дитячого користувача"""
@@ -99,7 +96,7 @@ def test_remove_child_user(api_context, token, test_data, create_user_preconditi
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt848')
 def test_retrieve_list_of_child_users_without_pagination(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо отримання списку дитячих користувачів без пагінації"""
@@ -110,15 +107,14 @@ def test_retrieve_list_of_child_users_without_pagination(api_context, token, tes
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt849')
 def test_create_new_user(api_context, token, test_data, del_user_postcondition):
     """Тестуємо створення нового користувача"""
-    fake = Faker()
     user_api = UsersAPI(api_context, token)
 
     response = user_api.create_new_user(
-        email=fake.email(),
+        email="m2m.test.auto+APIAuto@gmail.com",
         password="123456",
         language="UKRAINIAN"
     )
@@ -128,7 +124,7 @@ def test_create_new_user(api_context, token, test_data, del_user_postcondition):
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt850')
 def test_change_the_child_user_password(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо зміну пароля дитячого користувача"""
@@ -138,7 +134,7 @@ def test_change_the_child_user_password(api_context, token, test_data, create_an
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt851')
 def test_send_invite(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо відправлення запрошення користувачу"""
@@ -148,17 +144,17 @@ def test_send_invite(api_context, token, test_data, create_and_del_user_by_accau
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt852')
 def test_change_email(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо зміну email користувача"""
     user_api = UsersAPI(api_context, token)
-    response = user_api.change_email(test_data["user_id"], email="test@test.com")
+    response = user_api.change_email(test_data["user_id"], email="m2m.test.auto+APIAuto_Change@gmail.com")
     expect(response).to_be_ok()
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt853')
 def test_get_child_user_permissions_for_another_child(api_context, token, test_data, create_and_del_user_by_accaunt, create_and_del_managed_id):
     """Тестуємо отримання дитячого користувача по id"""
@@ -168,7 +164,7 @@ def test_get_child_user_permissions_for_another_child(api_context, token, test_d
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt854')
 def test_grant_permissions_to_child_user_for_another_child(api_context, token, test_data, create_and_del_user_by_accaunt, create_and_del_managed_id):
     """Тестуємо надання прав дитячому користувачу для іншого дитячого користувача"""
@@ -179,7 +175,7 @@ def test_grant_permissions_to_child_user_for_another_child(api_context, token, t
 
 
 @mark.smoke
-@mark.api
+@mark.api_users
 @mark.testomatio('@Tttttt855')
 def test_retrieve_list_of_child_users_with_pagination(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо отримання списку дитячих користувачів з пагінацією"""
