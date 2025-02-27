@@ -50,7 +50,7 @@ def test_retrieve_a_list_of_paused_devices_with_pagination(api_context, token, t
 
 @mark.smoke
 @mark.api
-@mark.testomatio('')
+@mark.testomatio('@Taaefd961')
 def test_export_list_of_devices_with_pagination_to_excel(api_context, token, pre_and_post_conditions_device, fixt_move_device_to_pause):
     """Тестуємо експорт списку пристроїв з пагінацією в Excel"""
     wastebin_api = WastebinAPI(api_context, token)
@@ -64,7 +64,7 @@ def test_export_list_of_devices_with_pagination_to_excel(api_context, token, pre
 
 @mark.smoke
 @mark.api
-@mark.testomatio('')
+@mark.testomatio('@Ted1c317f')
 def test_export_list_of_devices_with_pagination_to_csv(api_context, token, pre_and_post_conditions_device, fixt_move_device_to_pause):
     """Тестуємо експорт списку пристроїв з пагінацією в csv"""
     wastebin_api = WastebinAPI(api_context, token)

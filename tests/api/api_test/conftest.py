@@ -1,10 +1,12 @@
 import pytest
 from playwright.sync_api import expect
+
 from pages.api.devices_api import DeviceAPI
 from pages.api.wastebin_api import WastebinAPI
 from pages.api.report_templates_api import ReportTemplatesAPI
 from pages.api.geofences_api import GeofencesAPI
 from pages.api.users_api import UsersAPI
+from pages.api.device_groups_api import DeviceGroupsAPI
 
 
 @pytest.fixture(scope="function")
@@ -92,6 +94,26 @@ def move_device_to_wastebin(api_context, token, test_data):
     response = wastebin_api.move_device_to_wastebin(device_id=test_data["device_id"])
     expect(response).to_be_ok()
     yield
+
+
+# Fixtures for the test device_groupsAPI------------------------------------------------------------
+@pytest.fixture(scope="function")
+def create_and_del_device_group(api_context, token, test_data):
+    """Фікстура для створення групи пристроїв перед тестом та видалення після тесту."""
+    device_groups_api = DeviceGroupsAPI(api_context, token)
+    response = device_groups_api.create_new_device_group(
+        name="Test Device Group"
+    )
+    expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["device_group_id"] = json_data.get("id")
+
+    yield
+
+    response = device_groups_api.remove_device_group(test_data["device_group_id"])
+    expect(response).to_be_ok()
+    test_data.pop("device_group_id", None)
 
 
 # Fixtures for the test UsersAPI
