@@ -30,4 +30,82 @@ class ReportsAPI:
     def get_a_report_trips_for_device(self, device_id: int, dateFrom: str, dateTo: str):
         """Метод для отримання звіту про поїздки пристрою."""
         response = self.api_context.get(f"/api/report/device/{device_id}/trips?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response 
+
+
+    def export_report_trips_for_device_to_file(self, device_id: int, file_ext: str, dateFrom: str, dateTo: str):
+        """Метод для експорту звіту про поїздки пристрою в файл."""
+        response = self.api_context.get(f"/api/report/device/{device_id}/trips/{file_ext}?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def get_a_summary_report_for_single_device(self, device_id: int, dateFrom: str, dateTo: str):
+        """Метод для отримання зведеного звіту по пристрою."""
+        response = self.api_context.get(f"/api/report/device/{device_id}/summary?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def export_summary_report_for_single_device_to_file(self, device_id: int, file_ext: str, dateFrom: str, dateTo: str):
+        """Метод для експорту зведеного звіту по пристрою в файл."""
+        response = self.api_context.get(f"/api/report/device/{device_id}/summary/{file_ext}?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def get_a_report_on_device_stops(self, device_id: int, dateFrom: str, dateTo: str):
+        """Метод для отримання звіту про зупинки пристрою."""
+        response = self.api_context.get(f"/api/report/device/{device_id}/stops?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def export_report_on_device_stops_to_file(self, device_id: int, file_ext: str, dateFrom: str, dateTo: str):
+        """Метод для експорту звіту про зупинки пристрою в файл."""
+        response = self.api_context.get(f"/api/report/device/{device_id}/stops/{file_ext}?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def get_a_report_on_the_device_entry_into_the_geofence(self, device_id: int, dateFrom: str, dateTo: str):
+        """Метод для отримання звіту про в'їзд пристрою в геозону."""
+        response = self.api_context.get(f"/api/report/device/{device_id}/report/geofences?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def export_report_on_the_device_entry_into_the_geofence_to_file(self, device_id: int, file_ext: str, dateFrom: str, dateTo: str):
+        """Метод для експорту звіту про в'їзд пристрою в геозону в файл."""
+        response = self.api_context.get(f"/api/report/device/{device_id}/report/geofences/{file_ext}?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def get_a_report_trips_for_devices_group(self, devices_group_id: int, dateFrom: str, dateTo: str):
+        """Метод для отримання звіту про поїздки групи пристроїв."""
+        response = self.api_context.get(f"/api/report/device/group/{devices_group_id}/trips?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def export_report_trips_for_devices_group_to_file(self, devices_group_id: int, file_ext: str, dateFrom: str, dateTo: str):
+        """Метод для експорту звіту про поїздки групи пристроїв в файл."""
+        response = self.api_context.get(f"/api/report/device/group/{devices_group_id}/trips/{file_ext}?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def get_a_summary_report_for_devices_group(self, devices_group_id: int, dateFrom: str, dateTo: str):
+        """Метод для отримання зведеного звіту по групі пристроїв."""
+        response = self.api_context.get(f"/api/report/device/group/{devices_group_id}/summary?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def export_summary_report_for_devices_group_to_file(self, devices_group_id: int, file_ext: str, dateFrom: str, dateTo: str):
+        """Метод для експорту зведеного звіту по групі пристроїв в файл."""
+        response = self.api_context.get(f"/api/report/device/group/{devices_group_id}/summary/{file_ext}?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def get_report_of_stops_for_devices_group(self, devices_group_id: int, dateFrom: str, dateTo: str):
+        """Метод для отримання звіту про зупинки групи пристроїв."""
+        response = self.api_context.get(f"/api/report/device/group/{devices_group_id}/stops?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
+        return response
+
+
+    def export_report_of_stops_for_devices_group_to_file(self, devices_group_id: int, file_ext: str, dateFrom: str, dateTo: str):
+        """Метод для експорту звіту про зупинки групи пристроїв в файл."""
+        response = self.api_context.get(f"/api/report/device/group/{devices_group_id}/stops/{file_ext}?dateFrom={dateFrom}&dateTo={dateTo}", headers=self.headers)
         return response
