@@ -126,3 +126,115 @@ class AccountAPI:
         }
         response = self.api_context.get(f"/api/account/statistics/devices/{file_ext}", params=data, headers=self.headers)
         return response
+
+
+    def retrieve_a_list_of_accounts_with_pagination(self, **kwargs):
+        """Метод для отримання списку облікових записів з пагінацією."""
+        data = {
+            key: value for key, value in kwargs.items() if value is not None 
+        }
+        response = self.api_context.get("/api/accounts", params=data, headers=self.headers)
+        return response
+
+
+    def retrieve_a_list_of_accounts_without_pagination(self):
+        """Метод для отримання списку облікових записів без пагінації."""
+        response = self.api_context.get("/api/accounts/all", headers=self.headers)
+        return response
+
+
+    def retrieve_account_data(self):
+        """Метод для отримання даних облікового запису."""
+        response = self.api_context.get("/api/account", headers=self.headers)
+        return response
+
+
+    def get_child_account_payment_statistics_from_interval_with_pagination(self, account_id, **kwargs):
+        """Метод для отримання статистики платежів дочірнього облкового запису з пагінацією."""
+        data = {
+            key: value for key, value in kwargs.items() if value is not None 
+        }
+        response = self.api_context.get(f"/api/account/{account_id}/statistics/payment", params=data, headers=self.headers)
+        return response
+
+
+    def get_devices_statistics_for_child_account_from_interval_with_pagination(self, account_id, **kwargs):
+        """Метод для отримання статистики пристроїв дочірнього облкового запису з пагінацією."""
+        data = {
+            key: value for key, value in kwargs.items() if value is not None 
+        }
+        response = self.api_context.get(f"/api/account/{account_id}/statistics/devices", params=data, headers=self.headers)
+        return response
+
+
+    def retrieve_child_account_content_counters(self, account_id):
+        """Метод для отримання лічильників контенту дочірнього облкового запису."""
+        response = self.api_context.get(f"/api/account/{account_id}/content", headers=self.headers)
+        return response
+
+
+    def retrieve_a_list_of_users_available_to_create_an_account(self):
+        """Метод для отримання списку користувачів, доступних для створення облікового запису."""
+        response = self.api_context.get("/api/account/users/available", headers=self.headers)
+        return response
+
+
+    def get_account_payment_statistics_from_interval_with_pagination(self, **kwargs):
+        """Метод для отримання статистики платежів облкового запису з пагінацією."""
+        data = {
+            key: value for key, value in kwargs.items() if value is not None 
+        }
+        response = self.api_context.get("/api/account/statistics/payment", params=data, headers=self.headers)
+        return response
+
+
+    def get_devices_statistics_from_interval_with_pagination(self, **kwargs):
+        """Метод для отримання статистики пристроїв облкового запису з пагінацією."""
+        data = {
+            key: value for key, value in kwargs.items() if value is not None 
+        }
+        response = self.api_context.get("/api/account/statistics/devices", params=data, headers=self.headers)
+        return response
+
+
+    def retrieve_the_account_billing_plan(self):
+        """Метод для отримання плану облкового запису."""
+        response = self.api_context.get(f"/api/account/plan", headers=self.headers)
+        return response
+
+
+    def retrieve_auth_account_content_counters(self):
+        """Метод для отримання лічильників контенту облкового запису."""
+        response = self.api_context.get("/api/account/content", headers=self.headers)
+        return response
+
+
+    def edit_a_billing_plan_discount_for_a_child_account(self, account_id, **kwargs):
+        """Метод для редагування знижки на план для дочірнього облкового запису."""
+        data = {
+            key: value for key, value in kwargs.items() if value is not None 
+        }
+        response = self.api_context.put(f"/api/account/{account_id}/plan/discount", data=data, headers=self.headers)
+        return response
+
+
+    def remove_the_account(self, account_id):
+        """Метод для видалення облкового запису."""
+        response = self.api_context.delete(f"/api/account/{account_id}", headers=self.headers)
+        return response
+
+
+    def get_child_account_permission_for_another_child(self, account_id, managed_id):
+        """Метод для отримання дозволу дочірнього облкового запису для іншого дочірнього облкового запису."""
+        response = self.api_context.get(f"/api/permission/account/{account_id}/managed/{managed_id}", headers=self.headers)
+        return response
+
+
+    def grant_permissions_to_child_account_for_another_child(self, account_id, managed_id, permission, state):
+        """Метод для надання дозволу дочірньому облковому запису для іншого дочірнього облкового запису."""
+        data = {
+            "permission": permission,
+            "state": state
+        }
+        response = self.api_context.post(f"/api/permission/account/{account_id}/managed/{managed_id}", data=data, headers=self.headers)
+        return response

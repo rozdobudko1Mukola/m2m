@@ -82,16 +82,15 @@ def test_update_account_properties(api_context, admin_token, test_data, create_a
 @mark.api
 @mark.smoke
 @mark.testomatio("@Tttttt927")
-@mark.skip(reason="Тест на видалення аккаунта.")
+@mark.skip(reason="Тест на видалення аккаунта.") 
 def test_remove_account(api_context, admin_token, test_data, create_and_del_account):
     """Тест на видалення аккаунта."""
     account_api = AccountAPI(api_context, admin_token)
-    response = account_api.remove_account(test_data["account_id"])
+
+    response = account_api.remove_the_account(test_data["account_id_ch"])
     expect(response).to_be_ok()
-    print(response.json())
 
 
-@mark.api
 @mark.smoke
 @mark.testomatio("@Tttttt928")
 def test_update_account_state(api_context, admin_token, test_data, create_and_del_account):
@@ -127,16 +126,45 @@ def test_update_billing_plan_for_child_account(api_context, admin_token, test_da
     assert response.json()["smsCost"] == 1.0
 
 
-# @mark.api
-# @mark.smoke
-# @mark.testomatio()
-# @mark.skip(reason="Тест на отримання знижки на план для дочірнього облікового запису.")
-# def test_get_a_billing_plan_discount_for_a_child_account(api_context, admin_token, test_data, create_and_del_account):
-#     """Тест на отримання знижки на план для дочірнього облікового запису."""
-#     account_api = AccountAPI(api_context, admin_token)
-#     response = account_api.get_a_billing_plan_discount_for_a_child_account(test_data["account_id"])
-#     expect(response).to_be_ok()
-#     print(response.json())
+@mark.api
+@mark.smoke
+@mark.testomatio('@Tbd767b95')
+def test_get_a_billing_plan_discount_for_a_child_account(api_context, admin_token, test_data, create_and_del_account):
+    """Тест на отримання знижки на план для дочірнього облікового запису."""
+    account_api = AccountAPI(api_context, admin_token)
+
+    response = account_api.update_billing_plan_for_child_account(
+        test_data["account_id"],
+        name="Безкоштовний тариф",
+        useDiscount='true'
+    )
+    expect(response).to_be_ok()
+
+    response = account_api.get_a_billing_plan_discount_for_a_child_account(test_data["account_id"])
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio('@Tb986584b')
+def test_edit_a_billing_plan_discount_for_a_child_account(api_context, admin_token,test_data, create_and_del_account):
+    """Тест на редагування знижки на план для дочірнього облікового запису."""
+    account_api = AccountAPI(api_context, admin_token)
+
+    response = account_api.update_billing_plan_for_child_account(
+        test_data["account_id"],
+        name="Безкоштовний тариф",
+        useDiscount='true'
+    )
+    expect(response).to_be_ok()
+
+    response = account_api.edit_a_billing_plan_discount_for_a_child_account(
+        test_data["account_id"],
+        rows=[{
+        "devicesCount": 1,
+        "discountSize": 1
+    }])
+    expect(response).to_be_ok()
 
 
 @mark.api
@@ -154,7 +182,167 @@ def test_make_payment_on_account(api_context, admin_token, test_data, create_and
     expect(response).to_be_ok()
 
 
-# Export to file tests for the test AccountAPI
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt936")
+def test_retrieve_a_list_of_accounts_with_pagination(api_context, admin_token):
+    """Тест на отримання списку облікових записів з пагінацією."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.retrieve_a_list_of_accounts_with_pagination(page=1, per_page=10)
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt937")
+def test_retrieve_a_list_of_accounts_without_pagination(api_context, admin_token):
+    """Тест на отримання списку облікових записів без пагінації."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.retrieve_a_list_of_accounts_without_pagination()
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt938")
+def test_retrieve_account_data(api_context, admin_token):
+    """Тест на отримання даних облікового запису."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.retrieve_account_data()
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt939")
+def test_get_child_account_payment_statistics_from_interval_with_pagination(api_context, admin_token):
+    """Тест на отримання статистики платежів для дочірнього облікового запису з пагінацією."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.get_child_account_payment_statistics_from_interval_with_pagination(
+        account_id="473", # id аккаунта для теста
+        dateFrom="2025-01-01T00:00:00Z",
+        dateTo="2025-01-01T23:59:59Z",
+        page=1,
+        per_page=10
+    )
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt942")
+def test_get_devices_statistics_for_child_account_from_interval_with_pagination(api_context, admin_token):
+    """Тест на отримання статистики пристроїв для дочірнього облікового запису з пагінацією."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.get_devices_statistics_for_child_account_from_interval_with_pagination(
+        account_id="473", # id аккаунта для теста
+        dateFrom="2025-01-01T00:00:00Z",
+        dateTo="2025-01-01T23:59:59Z",
+        page=1,
+        per_page=10
+    )
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt945")
+def test_retrieve_child_account_content_counters(api_context, admin_token):
+    """Тест на отримання лічильників контенту дочірнього облікового запису."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.retrieve_child_account_content_counters(account_id="473")
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt946")
+def test_retrieve_a_list_of_users_available_to_create_an_account(api_context, admin_token):
+    """Тест на отримання списку користувачів, доступних для створення облікового запису."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.retrieve_a_list_of_users_available_to_create_an_account()
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt947")
+def test_get_account_payment_statistics_from_interval_with_pagination(api_context, admin_token):
+    """Тест на отримання статистики платежів облкового запису з пагінацією."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.get_account_payment_statistics_from_interval_with_pagination(
+        dateFrom="2025-01-01T00:00:00Z",
+        dateTo="2025-01-01T23:59:59Z",
+        page=1,
+        per_page=10
+    )
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt950")
+def test_get_devices_statistics_from_interval_with_pagination(api_context, admin_token):
+    """Тест на отримання статистики пристроїв облкового запису з пагінацією."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.get_devices_statistics_from_interval_with_pagination(
+        dateFrom="2025-01-01T00:00:00Z",
+        dateTo="2025-01-01T23:59:59Z",
+        page=1,
+        per_page=10
+    )
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt953")
+def test_retrieve_the_account_billing_plan(api_context, admin_token):
+    """Тест на отримання плану облкового запису."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.retrieve_the_account_billing_plan()
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt954")
+def test_retrieve_auth_account_content_counters(api_context, admin_token):
+    """Тест на отримання лічильників контенту облкового запису."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.retrieve_auth_account_content_counters()
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt932")
+def test_get_child_account_permission_for_another_child(api_context, admin_token, test_data, create_and_del_account):
+    """Тест на отримання дозволів дочірнього облкового запису для іншого дочірнього облкового запису."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.get_child_account_permission_for_another_child(
+        account_id=test_data["account_id"],
+        managed_id="473" # id аккаунта для теста
+    )
+    expect(response).to_be_ok()
+
+
+@mark.api
+@mark.smoke
+@mark.testomatio("@Tttttt933")
+def test_grant_permissions_to_child_account_for_another_child(api_context, admin_token, test_data, create_and_del_account):
+    """Тест на надання дозволів дочірньому облковому запису для іншого дочірнього облкового запису."""
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.grant_permissions_to_child_account_for_another_child(
+        account_id=test_data["account_id"],
+        managed_id="473", # id аккаунта для теста
+        permission="VIEW_ELEMENT",
+        state='true'
+    )
+    expect(response).to_be_ok()
+    assert response.json().get("VIEW_ELEMENT") == True
+
+# Export to file tests for the test AccountAPI ------------------------------------------------------------
 
 @mark.api
 @mark.smoke
@@ -305,7 +493,7 @@ def test_export_device_statistics_to_csv_file(api_context, admin_token):
 
 @mark.api
 @mark.smoke
-@mark.testomatio('@@Tttttt951')
+@mark.testomatio('@Tttttt951')
 def test_export_device_statistics_to_xls_file(api_context, admin_token):
     """Тест на експорт статистики пристроїв в файл."""
     account_api = AccountAPI(api_context, admin_token)
