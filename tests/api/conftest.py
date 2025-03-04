@@ -40,6 +40,19 @@ def token(api_context: APIRequestContext):
     json_data = response.json()
     return json_data.get("token")
 
+
+@pytest.fixture(scope="session")
+def admin_token(api_context: APIRequestContext):
+    """Отримує токен адміна для авторизації для API."""
+    user_email = os.getenv("ADMIN_USER_EMAIL")
+    user_password = os.getenv("ADMIN_USER_PASSWORD")
+
+    response = api_context.post("/api/login", data={"email": user_email, "password": user_password})
+    expect(response).to_be_ok()
+    
+    json_data = response.json()
+    return json_data.get("token")
+
 # @pytest.fixture(scope="session")
 # def device_api(api_context, token):
 #     """Повертає об'єкт DeviceAPI із залогіненим користувачем."""

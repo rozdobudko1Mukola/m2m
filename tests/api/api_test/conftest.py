@@ -6,12 +6,13 @@ from pages.api.wastebin_api import WastebinAPI
 from pages.api.report_templates_api import ReportTemplatesAPI
 from pages.api.geofences_api import GeofencesAPI
 from pages.api.users_api import UsersAPI
+from pages.api.account_api import AccountAPI
 from pages.api.device_groups_api import DeviceGroupsAPI
 
 
 @pytest.fixture(scope="function")
 def test_data():
-    """Фікстура для збереження даних між тестами."""
+    """Фікстура для збереження даних між тестами для всих апі тестів."""
     return {}
     
 
@@ -116,11 +117,12 @@ def create_and_del_device_group(api_context, token, test_data):
     test_data.pop("device_group_id", None)
 
 
-# Fixtures for the test UsersAPI
+# Fixtures for the test UsersAPI ------------------------------------------------------------
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="function") 
 def create_and_del_user_by_accaunt(api_context, token, test_data):
     """Фікстура для створення користувача перед тестом та видалення після тесту."""
+    
     user_api = UsersAPI(api_context, token)
 
     response = user_api.create_new_user(
@@ -140,7 +142,36 @@ def create_and_del_user_by_accaunt(api_context, token, test_data):
     test_data.pop("user_id", None)
 
 
-# Fixtures for the test ReportTemplatesAPI
+# Fixtures for the test AccountAPI------------------------------------------------------------
+
+@pytest.fixture(scope="function")
+def create_and_del_account(api_context, admin_token, test_data):
+    """Фікстура для створення облікового запису перед тестом та видалення після тесту.
+    Видалення облікового запису здійснюється через видалення юзера цього облікового запису"""
+
+    account_api = AccountAPI(api_context, admin_token)
+    response = account_api.create_an_account_for_a_new_user(
+        email="m2m.test.auto+APIAuto@gmail.com",
+        password="123456",
+        language="UKRAINIAN",
+        accountType="CLIENT", 
+        billingPlanTemplateId="7"
+    )
+    expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["user_id"] = json_data.get("userId")
+    test_data["account_id"] = json_data.get("id")
+
+    yield  
+
+    user_api = UsersAPI(api_context, admin_token)
+
+    response = user_api.remove_child_user(test_data["user_id"])
+    expect(response).to_be_ok()
+
+
+# Fixtures for the test ReportTemplatesAPI------------------------------------------------------------
 
 @pytest.fixture(scope="function")
 def create_and_del_report_template(api_context, token, test_data):
