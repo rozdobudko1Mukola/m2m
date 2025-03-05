@@ -64,7 +64,7 @@ def create_and_del_managed_id(api_context, token, test_data):
 
 # Tests for the API Users  
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt846')
 def test_get_child_user_by_id(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо отримання дитячого користувача по id"""
@@ -75,7 +75,7 @@ def test_get_child_user_by_id(api_context, token, test_data, create_and_del_user
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt847')
 def test_update_child_user(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо оновлення дитячого користувача"""
@@ -86,7 +86,7 @@ def test_update_child_user(api_context, token, test_data, create_and_del_user_by
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt856')
 def test_remove_child_user(api_context, token, test_data, create_user_precondition):
     """Тестуємо видалення дитячого користувача"""
@@ -96,7 +96,7 @@ def test_remove_child_user(api_context, token, test_data, create_user_preconditi
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt848')
 def test_retrieve_list_of_child_users_without_pagination(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо отримання списку дитячих користувачів без пагінації"""
@@ -107,7 +107,7 @@ def test_retrieve_list_of_child_users_without_pagination(api_context, token, tes
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt849')
 def test_create_new_user(api_context, token, test_data, del_user_postcondition):
     """Тестуємо створення нового користувача"""
@@ -124,7 +124,7 @@ def test_create_new_user(api_context, token, test_data, del_user_postcondition):
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt850')
 def test_change_the_child_user_password(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо зміну пароля дитячого користувача"""
@@ -134,7 +134,7 @@ def test_change_the_child_user_password(api_context, token, test_data, create_an
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt851')
 def test_send_invite(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо відправлення запрошення користувачу"""
@@ -144,7 +144,7 @@ def test_send_invite(api_context, token, test_data, create_and_del_user_by_accau
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt852')
 def test_change_email(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо зміну email користувача"""
@@ -154,7 +154,7 @@ def test_change_email(api_context, token, test_data, create_and_del_user_by_acca
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt853')
 def test_get_child_user_permissions_for_another_child(api_context, token, test_data, create_and_del_user_by_accaunt, create_and_del_managed_id):
     """Тестуємо отримання дитячого користувача по id"""
@@ -164,7 +164,7 @@ def test_get_child_user_permissions_for_another_child(api_context, token, test_d
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt854')
 def test_grant_permissions_to_child_user_for_another_child(api_context, token, test_data, create_and_del_user_by_accaunt, create_and_del_managed_id):
     """Тестуємо надання прав дитячому користувачу для іншого дитячого користувача"""
@@ -175,7 +175,7 @@ def test_grant_permissions_to_child_user_for_another_child(api_context, token, t
 
 
 @mark.smoke
-@mark.api_users
+@mark.api
 @mark.testomatio('@Tttttt855')
 def test_retrieve_list_of_child_users_with_pagination(api_context, token, test_data, create_and_del_user_by_accaunt):
     """Тестуємо отримання списку дитячих користувачів з пагінацією"""

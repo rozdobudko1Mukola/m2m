@@ -8,6 +8,8 @@ from pages.api.geofences_api import GeofencesAPI
 from pages.api.users_api import UsersAPI
 from pages.api.account_api import AccountAPI
 from pages.api.device_groups_api import DeviceGroupsAPI
+from pages.api.sim_card_api import SimCardAPI 
+
 
 
 @pytest.fixture(scope="function")
@@ -242,7 +244,8 @@ def create_and_del_report_template_table(api_context, token, test_data):
     test_data.pop("table_id", None)
 
 
-# Fixtures for the test geofencesAPI
+# Fixtures for the test geofencesAPI ------------------------------------------------------------
+
 @pytest.fixture(scope="function")
 def create_and_remove_geofence(api_context, token, test_data):
     """Фікстура для створення геозони перед тестом та видалення після тесту."""
@@ -264,3 +267,28 @@ def create_and_remove_geofence(api_context, token, test_data):
     response = geofences.remove_the_geofence(test_data["geofence_id"])
     expect(response).to_be_ok()
     test_data.pop("geofence_id", None)
+
+
+# Fixtures for the test sim_card_api ------------------------------------------------------------
+
+@pytest.fixture(scope="function")
+def create_and_remove_simcard(api_context, admin_token, test_data):
+    """Фікстура для створення SIM-карти перед тестом."""
+    sim_card_api = SimCardAPI(api_context, admin_token)
+    response = sim_card_api.create_new_simcard(
+        icon="KYIVSTAR",
+        iccid="123000111",
+        phone="+380000000000",
+        operator="KYIVSTAR",
+        roaming="true"
+    )
+    expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["simcard_id"] = json_data.get("id")
+
+    yield
+
+    response = sim_card_api.remove_the_simcard(test_data["simcard_id"])
+    expect(response).to_be_ok()
+    test_data.pop("simcard_id", None)
