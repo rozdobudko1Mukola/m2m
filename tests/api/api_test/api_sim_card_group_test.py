@@ -50,7 +50,7 @@ def add_simcard_to_group(api_context, admin_token, test_data):
 # Test for the SimCard API ---------------------------------------------------
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tttttt910')
 def test_create_new_simcard_group(api_context, admin_token, test_data, remove_simcard_group):
     """Тест на створення нової групи SIM-карт."""
     sim_card_group_api = SimCardGroupAPI(api_context, admin_token)
@@ -67,7 +67,7 @@ def test_create_new_simcard_group(api_context, admin_token, test_data, remove_si
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tttttt903')
 def test_remove_simcard_group(api_context, admin_token, test_data, create_new_simcard_group):
     """Тест на видалення групи SIM-карт."""
     sim_card_group_api = SimCardGroupAPI(api_context, admin_token)
@@ -78,7 +78,7 @@ def test_remove_simcard_group(api_context, admin_token, test_data, create_new_si
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tttttt901')
 def test_get_simcard_group_by_id(api_context, admin_token, test_data, create_add_remove_simcard_group):
     """Тест на отримання групи SIM-карт по ID."""
     sim_card_group_api = SimCardGroupAPI(api_context, admin_token)
@@ -90,7 +90,7 @@ def test_get_simcard_group_by_id(api_context, admin_token, test_data, create_add
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tttttt902')
 def test_update_simcard_group_properties(api_context, admin_token, test_data, create_add_remove_simcard_group):
     """Тест на оновлення властивостей групи SIM-карт."""
     sim_card_group_api = SimCardGroupAPI(api_context, admin_token)
@@ -105,7 +105,7 @@ def test_update_simcard_group_properties(api_context, admin_token, test_data, cr
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tttttt909')
 def test_retrieve_a_list_of_simcard_groups_with_pagination(api_context, admin_token):
     """Тест на отримання списку груп SIM-карт з пагінацією."""
     sim_card_group_api = SimCardGroupAPI(api_context, admin_token)
@@ -119,7 +119,7 @@ def test_retrieve_a_list_of_simcard_groups_with_pagination(api_context, admin_to
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tttttt911')
 def test_add_simcard_to_group(api_context, admin_token, test_data, create_add_remove_simcard_group, create_and_remove_simcard):
     """Тест на додавання SIM-карти до групи."""
     sim_card_group_api = SimCardGroupAPI(api_context, admin_token)
@@ -134,7 +134,7 @@ def test_add_simcard_to_group(api_context, admin_token, test_data, create_add_re
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tttttt912')
 def test_remove_simcard_from_group(api_context, admin_token, test_data, create_add_remove_simcard_group, create_and_remove_simcard, add_simcard_to_group):
     """Тест на видалення SIM-карти з групи."""
     sim_card_group_api = SimCardGroupAPI(api_context, admin_token)
@@ -148,7 +148,7 @@ def test_remove_simcard_from_group(api_context, admin_token, test_data, create_a
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tttttt916')
 def test_retrieve_a_list_of_simcards_from_group(api_context, admin_token, test_data, create_add_remove_simcard_group, create_and_remove_simcard, add_simcard_to_group):
     """Тест на отримання списку SIM-карт з групи."""
     sim_card_group_api = SimCardGroupAPI(api_context, admin_token)

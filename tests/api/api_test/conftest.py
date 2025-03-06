@@ -10,6 +10,8 @@ from pages.api.account_api import AccountAPI
 from pages.api.device_groups_api import DeviceGroupsAPI
 from pages.api.sim_card_api import SimCardAPI 
 from pages.api.sim_card_group_api import SimCardGroupAPI
+from pages.api.managers import ManagersAPI
+from pages.api.device_commands_api import deviceCommandsAPI
 
 
 
@@ -165,6 +167,7 @@ def create_and_del_account(api_context, admin_token, test_data):
     json_data = response.json()
     test_data["user_id"] = json_data.get("userId")
     test_data["account_id"] = json_data.get("id")
+    test_data["email"] = json_data.get("email")
 
     yield  
 
@@ -314,3 +317,51 @@ def create_add_remove_simcard_group(api_context, admin_token, test_data):
     response = sim_card_group_api.remove_simcard_group(test_data["simcard_group_id"])
     expect(response).to_be_ok()
     test_data.pop("simcard_group_id", None)
+
+
+# Fixtures for the test Managers API ------------------------------------------------------------
+
+@pytest.fixture(scope="function")
+def create_and_del_manager(api_context, admin_token, test_data):
+    """Фікстура для створення менеджера перед тестом та видалення після тесту."""
+    managers_api = ManagersAPI(api_context, admin_token)
+    response = managers_api.create_new_account_manager(
+        firstName="autoTest",
+        lastName="api",
+        phone="380000000000",
+        email="m2m.test.auto+APIAuto_manager@gmail.com"
+    )
+
+    expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["manager_id"] = json_data.get("id")
+
+    yield
+
+    response = managers_api.delete_account_manager(test_data["manager_id"])
+    expect(response).to_be_ok()
+    test_data.pop("manager_id", None)
+
+
+# Fixtures for the test Device Commands ------------------------------------------------------------
+
+@pytest.fixture(scope="function")
+def create_and_remove_command_for_device(api_context, token, test_data):
+    """Create command and remove command for device."""
+    device_commands = deviceCommandsAPI(api_context, token)
+    response = device_commands.create_command_for_device(
+        device_id=test_data["device_id"],
+        description="test name command",
+        data="Api test massage in command",
+        type="CUSTOM"
+    )
+    expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["command_id"] = json_data.get("id")
+
+    yield
+
+    response = device_commands.remove_device_command_by_id(test_data["device_id"], test_data["command_id"])
+    expect(response).to_be_ok()
