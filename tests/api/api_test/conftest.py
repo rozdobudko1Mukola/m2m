@@ -9,6 +9,7 @@ from pages.api.users_api import UsersAPI
 from pages.api.account_api import AccountAPI
 from pages.api.device_groups_api import DeviceGroupsAPI
 from pages.api.sim_card_api import SimCardAPI 
+from pages.api.sim_card_group_api import SimCardGroupAPI
 
 
 
@@ -269,7 +270,7 @@ def create_and_remove_geofence(api_context, token, test_data):
     test_data.pop("geofence_id", None)
 
 
-# Fixtures for the test sim_card_api ------------------------------------------------------------
+# Fixtures for the test sim card ------------------------------------------------------------
 
 @pytest.fixture(scope="function")
 def create_and_remove_simcard(api_context, admin_token, test_data):
@@ -292,3 +293,24 @@ def create_and_remove_simcard(api_context, admin_token, test_data):
     response = sim_card_api.remove_the_simcard(test_data["simcard_id"])
     expect(response).to_be_ok()
     test_data.pop("simcard_id", None)
+
+
+@pytest.fixture(scope="function")
+def create_add_remove_simcard_group(api_context, admin_token, test_data):
+    """Фікстура для створення групи SIM-карт перед тестом та видалення після тесту."""
+    sim_card_group_api = SimCardGroupAPI(api_context, admin_token)
+    response = sim_card_group_api.create_new_simcard_group(
+        name="Test Group",
+        groupType="OPERATOR",
+        icon="KYIVSTAR"
+    )
+    expect(response).to_be_ok()
+
+    json_data = response.json()
+    test_data["simcard_group_id"] = json_data.get("id")
+
+    yield
+
+    response = sim_card_group_api.remove_simcard_group(test_data["simcard_group_id"])
+    expect(response).to_be_ok()
+    test_data.pop("simcard_group_id", None)

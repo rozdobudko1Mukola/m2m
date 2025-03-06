@@ -39,7 +39,7 @@ def remove_simcard_postcondition(api_context, admin_token, test_data):
 # Test for the SimCard API ---------------------------------------------------
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Ttttt1065')
 def test_create_new_simcard(api_context, admin_token, test_data, remove_simcard_postcondition):
     """Тест на створення нової SIM-карти."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -58,7 +58,7 @@ def test_create_new_simcard(api_context, admin_token, test_data, remove_simcard_
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Ttttt1058')
 def test_remove_the_simcard(api_context, admin_token, test_data, create_simcard_precondition):
     """Тест на видалення SIM-карти."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -68,7 +68,7 @@ def test_remove_the_simcard(api_context, admin_token, test_data, create_simcard_
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Ttttt1056')
 def test_get_simcard_by_id(api_context, admin_token, test_data, create_and_remove_simcard):
     """Тест на отримання SIM-карти по ID."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -81,7 +81,7 @@ def test_get_simcard_by_id(api_context, admin_token, test_data, create_and_remov
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Ttttt1057')
 def test_update_simcard_properties(api_context, admin_token, test_data, create_and_remove_simcard):
     """Тест на оновлення властивостей SIM-карти."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -97,7 +97,7 @@ def test_update_simcard_properties(api_context, admin_token, test_data, create_a
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Ttttt1064')
 def test_retrieve_a_list_of_simcards_with_pagination(api_context, admin_token, test_data, create_and_remove_simcard):
     """Тест на отримання списку SIM-карт з пагінацією."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -110,7 +110,7 @@ def test_retrieve_a_list_of_simcards_with_pagination(api_context, admin_token, t
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Ttttt1065')
 def test_assign_device_to_simcard(api_context, admin_token, test_data, create_and_remove_simcard, pre_and_post_conditions_device):
     """Тест на призначення пристрою до SIM-карти."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -124,7 +124,7 @@ def test_assign_device_to_simcard(api_context, admin_token, test_data, create_an
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@T3cbc4bdf')
 def test_assign_account_to_simcard(api_context, admin_token, test_data, create_and_remove_simcard, create_and_del_account):
     """Тест на призначення акаунта до SIM-карти."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -138,7 +138,7 @@ def test_assign_account_to_simcard(api_context, admin_token, test_data, create_a
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Ttttt1059')
 def test_export_a_list_of_simcards_with_pagination_to_xls(api_context, admin_token, test_data):
     """Тест на експорт списку SIM-карт з пагінацією в файл."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -153,7 +153,7 @@ def test_export_a_list_of_simcards_with_pagination_to_xls(api_context, admin_tok
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@T09efbcd8')
 def test_export_a_list_of_simcards_with_pagination_to_csv(api_context, admin_token, test_data):
     """Тест на експорт списку SIM-карт з пагінацією в файл."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -168,7 +168,7 @@ def test_export_a_list_of_simcards_with_pagination_to_csv(api_context, admin_tok
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Ttttt1068')
 def test_get_child_account_simcard_statistics(api_context, admin_token, test_data, create_and_del_account):
     """Тест на отримання статистики SIM-карт за дитячим акаунтом."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -184,23 +184,23 @@ def test_get_child_account_simcard_statistics(api_context, admin_token, test_dat
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@T9a53e8a9')
 def test_export_simcard_statistics_for_child_account_to_xls(api_context, admin_token, test_data, create_and_del_account):
     """Тест на експорт статистики SIM-карт за дитячим акаунтом в файл."""
     sim_card_api = SimCardAPI(api_context, admin_token)
     response = sim_card_api.export_simcard_statistics_for_child_account_to_file(
         account_id=test_data["account_id"],
-        file_ext="xls",
+        file_ext="excel",
         dateFrom="2025-01-01T00:00:00Z",
         dateTo="2025-01-01T23:59:59Z"
     )
     expect(response).to_be_ok()
-    assert response.headers.get("content-disposition") == 'attachment; filename="simcard_statistics.xls"', f"Expected Content-Disposition: attachment; filename=simcard_statistics.xls, but got: {response.headers.get('Content-Disposition')}"
+    assert response.headers.get("content-disposition") == 'attachment; filename="sim_card_statistics.xls"', f"Expected Content-Disposition: attachment; filename=sim_card_statistics.xls, but got: {response.headers.get('Content-Disposition')}"
 
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tf53310b3')
 def test_export_simcard_statistics_for_child_account_to_csv(api_context, admin_token, test_data, create_and_del_account):
     """Тест на експорт статистики SIM-карт за дитячим акаунтом в файл."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -211,12 +211,12 @@ def test_export_simcard_statistics_for_child_account_to_csv(api_context, admin_t
         dateTo="2025-01-01T23:59:59Z"
     )
     expect(response).to_be_ok()
-    assert response.headers.get("content-disposition") == 'attachment; filename="simcard_statistics.csv"', f"Expected Content-Disposition: attachment; filename=simcard_statistics.csv, but got: {response.headers.get('Content-Disposition')}"
+    assert response.headers.get("content-disposition") == 'attachment; filename="sim_card_statistics.csv"', f"Expected Content-Disposition: attachment; filename=sim_card_statistics.csv, but got: {response.headers.get('Content-Disposition')}"
 
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@T6d84ba20')
 def test_get_auth_account_simcard_statistics(api_context, admin_token):
     """Тест на отримання статистики SIM-карт за авторизованим акаунтом."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -231,22 +231,22 @@ def test_get_auth_account_simcard_statistics(api_context, admin_token):
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Tb2b4befe')
 def test_export_simcard_statistics_to_xls(api_context, admin_token):
     """Тест на експорт статистики SIM-карт за авторизованим акаунтом в файл."""
     sim_card_api = SimCardAPI(api_context, admin_token)
     response = sim_card_api.export_simcard_statistics_to_file(
-        file_ext="xls",
+        file_ext="excel",
         dateFrom="2025-01-01T00:00:00Z",
         dateTo="2025-01-01T23:59:59Z"
     )
     expect(response).to_be_ok()
-    assert response.headers.get("content-disposition") == 'attachment; filename="simcard_statistics.xls"', f"Expected Content-Disposition: attachment; filename=simcard_statistics.xls, but got: {response.headers.get('Content-Disposition')}"
+    assert response.headers.get("content-disposition") == 'attachment; filename="sim_card_statistics.xls"', f"Expected Content-Disposition: attachment; filename=sim_card_statistics.xls, but got: {response.headers.get('Content-Disposition')}"
 
 
 @mark.api
 @mark.smoke
-@mark.testomatio('')
+@mark.testomatio('@Ta7b4832c')
 def test_export_simcard_statistics_to_csv(api_context, admin_token):
     """Тест на експорт статистики SIM-карт за авторизованим акаунтом в файл."""
     sim_card_api = SimCardAPI(api_context, admin_token)
@@ -256,4 +256,4 @@ def test_export_simcard_statistics_to_csv(api_context, admin_token):
         dateTo="2025-01-01T23:59:59Z"
     )
     expect(response).to_be_ok()
-    assert response.headers.get("content-disposition") == 'attachment; filename="simcard_statistics.csv"', f"Expected Content-Disposition: attachment; filename=simcard_statistics.csv, but got: {response.headers.get('Content-Disposition')}"
+    assert response.headers.get("content-disposition") == 'attachment; filename="sim_card_statistics.csv"', f"Expected Content-Disposition: attachment; filename=sim_card_statistics.csv, but got: {response.headers.get('Content-Disposition')}"
