@@ -1,7 +1,6 @@
 import pytest
 from pytest import mark
 from pages.api.managers import ManagersAPI 
-from pages.api.auth_api import AuthAPI
 from playwright.sync_api import expect
 
 
@@ -161,8 +160,6 @@ def test_set_account_to_manager(api_context, admin_token, test_data, create_and_
 @mark.skip("Test is not ready") # Skip test, figure out how to fix it later
 def test_send_request_to_manager(api_context, admin_token, test_data, create_and_del_manager, create_and_del_account, set_remove_account_to_manager, get_new_account_token):
     """Тест на відправлення запиту менеджеру."""
-    auth_api = AuthAPI(api_context)
-    
     managers_api = ManagersAPI(api_context, admin_token)
 
     response = managers_api.send_request_to_manager("Test message")

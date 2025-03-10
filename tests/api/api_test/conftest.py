@@ -140,12 +140,14 @@ def create_and_del_user_by_accaunt(api_context, token, test_data):
 
     json_data = response.json()
     test_data["user_id"] = json_data.get("id")
+    test_data["user_email"] = json_data.get("email")
 
     yield
 
     response = user_api.remove_child_user(test_data["user_id"])
     expect(response).to_be_ok()
     test_data.pop("user_id", None)
+    test_data.pop("user_email", None)
 
 
 # Fixtures for the test AccountAPI------------------------------------------------------------

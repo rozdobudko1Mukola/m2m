@@ -1,5 +1,4 @@
 from playwright.sync_api import APIRequestContext
-from pages.api.auth_api import AuthAPI
 from pages.base_page import BasePage
 import random
 
