@@ -12,6 +12,7 @@ from pages.api.sim_card_api import SimCardAPI
 from pages.api.sim_card_group_api import SimCardGroupAPI
 from pages.api.managers import ManagersAPI
 from pages.api.device_commands_api import deviceCommandsAPI
+from pages.api.geofence_groups_api import GeofenceGroupsAPI
 
 
 
@@ -271,6 +272,25 @@ def create_and_remove_geofence(api_context, token, test_data):
     response = geofences.remove_the_geofence(test_data["geofence_id"])
     expect(response).to_be_ok()
     test_data.pop("geofence_id", None)
+
+
+@pytest.fixture(scope="function")
+def create_and_remove_new_geofences_group(api_context, token, test_data):
+    """Тест на створення нової групи геозон."""
+    geofence_groups_api = GeofenceGroupsAPI(api_context, token)
+
+    response = geofence_groups_api.create_new_geofences_group(
+        name="Test group",
+        customFields="",
+        adminFields=""
+    )
+    expect(response).to_be_ok()
+    test_data["geofence_group_id"] = response.json()["id"]
+
+    yield
+
+    response = geofence_groups_api.remove_the_geofences_group(group_id=test_data["geofence_group_id"])
+    expect(response).to_be_ok()
 
 
 # Fixtures for the test sim card ------------------------------------------------------------
