@@ -61,6 +61,7 @@ def test_remove_device_group(api_context, token, test_data, create_new_device_gr
 @mark.api
 @mark.smoke
 @mark.testomatio('@T5e7f8122')
+@mark.skip("Функціонал в процесі переробки. Після релізу функціоналу переписати тест")
 def test_retrieve_devices_group_related_permissions(api_context, token, test_data, create_and_del_device_group):
     device_groups = DeviceGroupsAPI(api_context, token)
     response = device_groups.retrieve_devices_group_related_permissions(test_data["device_group_id"])
@@ -73,6 +74,7 @@ def test_retrieve_devices_group_related_permissions(api_context, token, test_dat
 @mark.api
 @mark.smoke
 @mark.testomatio('@Tc461dc4f')
+@mark.skip("Функціонал в процесі переробки. Після релізу функціоналу переписати тест")
 def test_update_devices_group_related_permissions(api_context, token, test_data, create_and_del_device_group):
     device_groups = DeviceGroupsAPI(api_context, token)
     response = device_groups.update_devices_group_related_permissions(
