@@ -13,8 +13,8 @@ def precondition_login(api_context, test_data):
     """Фікстура для отримання токена."""
     auth_api = AuthAPI(api_context, None)
     response = auth_api.sign_in(
-        email=os.getenv("SELFREG_USER_EMAIL"),
-        password=os.getenv("SELFREG_USER_PASSWORD")
+        email="m2m.test.auto+test_auth@gmail.com",
+        password="m2m.test.auto+test_auth@gmail.com"
     )
     expect(response).to_be_ok()
     test_data['refreshToken'] = response.json()["refreshToken"]
@@ -40,10 +40,10 @@ def precondition_sign_up(api_context, test_data):
 
 
 @pytest.fixture(scope="function")
-def token(api_context):
+def token_auth(api_context):
     """Отримує токен авторизації для API."""
-    user_email = os.getenv("SELFREG_USER_EMAIL")
-    user_password = os.getenv("SELFREG_USER_PASSWORD")
+    user_email = "m2m.test.auto+test_auth@gmail.com"
+    user_password = "m2m.test.auto+test_auth@gmail.com"
 
     response = api_context.post("/api/login", data={"email": user_email, "password": user_password})
     expect(response).to_be_ok()
@@ -57,20 +57,20 @@ def token(api_context):
 @mark.api
 @mark.smoke
 @mark.testomatio('@Tttttt481')
-def test_get_profile(api_context, token):
+def test_get_profile(api_context, token_auth):
     """Тест на отримання профілю користувача."""
-    auth_api = AuthAPI(api_context, token)
+    auth_api = AuthAPI(api_context, token_auth)
     response = auth_api.get_profile()
     expect(response).to_be_ok()
-    assert response.json()["email"] == "m2m.test.auto@gmail.com"
+    assert response.json()["email"] == "m2m.test.auto+test_auth@gmail.com"
 
 
 @mark.api
 @mark.smoke
 @mark.testomatio('@Tttttt482')
-def test_update_profile(api_context, token):
+def test_update_profile(api_context, token_auth):
     """Тест на оновлення профілю користувача."""
-    auth_api = AuthAPI(api_context, token)
+    auth_api = AuthAPI(api_context, token_auth)
     response = auth_api.update_profile(
         firstName="Test"
     )
@@ -94,9 +94,9 @@ def test_login_as_child_user(api_context, token, test_data, create_and_del_user_
 @mark.api
 @mark.smoke
 @mark.testomatio('@Tttttt812')
-def test_verify_access_token(api_context, token):
+def test_verify_access_token(api_context, token_auth):
     """Тест на перевірку доступу."""
-    auth_api = AuthAPI(api_context, token)
+    auth_api = AuthAPI(api_context, token_auth)
     response = auth_api.verify_access_token()
     expect(response).to_be_ok()
     assert response.json()["message"] == "Token valid"
@@ -122,7 +122,7 @@ def test_send_an_email_to_reset_password(api_context):
     """Тест на відправлення листа для скидання пароля."""
     auth_api = AuthAPI(api_context, token=None)
     response = auth_api.send_an_email_to_reset_password(
-        resetEmail=os.getenv("SELFREG_USER_EMAIL")
+        resetEmail="m2m.test.auto+test_auth@gmail.com"
     )
     expect(response).to_be_ok()
     assert response.json()["message"] == "email.sent"
@@ -188,12 +188,12 @@ def test_refresh_confirmation_link(api_context, test_data, precondition_sign_up)
 @mark.api
 @mark.smoke
 @mark.testomatio('@Tttttt818')
-def test_change_password(api_context, token):
+def test_change_password(api_context, token_auth):
     """Тест на зміну пароля."""
-    auth_api = AuthAPI(api_context, token)
+    auth_api = AuthAPI(api_context, token_auth)
     response = auth_api.change_password(
-        oldPassword=os.getenv("SELFREG_USER_PASSWORD"),
-        newPassword=os.getenv("SELFREG_USER_PASSWORD")
+        oldPassword="m2m.test.auto+test_auth@gmail.com",
+        newPassword="m2m.test.auto+test_auth@gmail.com"
     )
     expect(response).to_be_ok()
     
@@ -201,11 +201,11 @@ def test_change_password(api_context, token):
 @mark.api
 @mark.smoke
 @mark.testomatio('@Tttttt810')
-def test_send_email_to_change_email_address(api_context, token):
+def test_send_email_to_change_email_address(api_context, token_auth):
     """Тест на відправлення листа для зміни адреси електронної пошти."""
-    auth_api = AuthAPI(api_context, token)
+    auth_api = AuthAPI(api_context, token_auth)
     response = auth_api.send_email_to_change_email_address(
-        newEmail=os.getenv("SELFREG_USER_EMAIL")
+        newEmail="m2m.test.auto+test_auth@gmail.com"
     )
     expect(response).to_be_ok()
     print(response.json())
@@ -216,11 +216,11 @@ def test_send_email_to_change_email_address(api_context, token):
 @mark.smoke
 @mark.testomatio('@Ttttt1721')
 @mark.skip("Токен приходить на пошту, потрібно доробити тест із доступом до пошти ")
-def test_confirmation_of_change_email(api_context, token):
+def test_confirmation_of_change_email(api_context, token_auth):
     """Тест на підтвердження зміни адреси електронної пошти."""
-    auth_api = AuthAPI(api_context, token)
+    auth_api = AuthAPI(api_context, token_auth)
     response = auth_api.confirmation_of_change_email(
-        token=os.getenv("SELFREG_USER_EMAIL")
+        token="token"
     )
     expect(response).to_be_ok()
     assert response.json()["message"] == "email.changed"
@@ -233,8 +233,8 @@ def test_sign_in(api_context):
     """Тест на вхід."""
     auth_api = AuthAPI(api_context, token=None)
     response = auth_api.sign_in(
-        email=os.getenv("SELFREG_USER_EMAIL"),
-        password=os.getenv("SELFREG_USER_PASSWORD")
+        email="m2m.test.auto+test_auth@gmail.com",
+        password="m2m.test.auto+test_auth@gmail.com"
     )
     expect(response).to_be_ok()
-    assert response.json()['user']["email"] == os.getenv("SELFREG_USER_EMAIL")
+    assert response.json()['user']["email"] == "m2m.test.auto+test_auth@gmail.com"
