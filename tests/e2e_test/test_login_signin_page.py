@@ -3,8 +3,8 @@ from pytest import mark
 import random
 import os
 from playwright.sync_api import Page, expect
-from pages.login import LoginPage
-from pages.base_page import BasePage
+from pages.e2e.login import LoginPage
+from pages.e2e.base_page import BasePage
 
 
 valid_user_email = "dkononenko1994@ukr.net"

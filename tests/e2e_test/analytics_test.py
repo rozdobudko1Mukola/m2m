@@ -1,6 +1,6 @@
 import pytest
 from pytest import mark
-from pages.analytics_page import AnalyticsPage
+from pages.e2e.analytics_page import AnalyticsPage
 from playwright.sync_api import Page, expect
 
 

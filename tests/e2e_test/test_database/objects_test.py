@@ -2,9 +2,9 @@ import os
 import pytest
 from pytest import mark
 from playwright.sync_api import Page, expect
-from pages.database.objects import ObjectsPage
-from pages.base_page import BasePage
-from pages.database.on_pause import onPausePage
+from pages.e2e.database.objects import ObjectsPage
+from pages.e2e.base_page import BasePage
+from pages.e2e.database.on_pause import onPausePage
 
 
 VEHICLE_DEVICE = {

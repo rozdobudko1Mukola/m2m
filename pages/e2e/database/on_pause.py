@@ -1,5 +1,5 @@
 from playwright.sync_api import Page
-from pages.database.objects import ObjectsPage
+from pages.e2e.database.objects import ObjectsPage
 
 
 class onPausePage:

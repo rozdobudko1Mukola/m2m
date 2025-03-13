@@ -1,5 +1,5 @@
 from playwright.sync_api import APIRequestContext
-from pages.base_page import BasePage
+from pages.e2e.base_page import BasePage
 import random
 
 class DeviceAPI:

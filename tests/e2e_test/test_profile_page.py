@@ -1,10 +1,10 @@
 import pytest
 from pytest import mark
 from datetime import datetime
-from pages.support_page import SupportPage
-from pages.base_page import BasePage
-from pages.login import LoginPage
-from pages.profil_page import ProfilePage  
+from pages.e2e.support_page import SupportPage
+from pages.e2e.base_page import BasePage
+from pages.e2e.login import LoginPage
+from pages.e2e.profil_page import ProfilePage  
 from playwright.sync_api import Page, expect
 
 

@@ -1,7 +1,7 @@
 import pytest
 from playwright.sync_api import sync_playwright, Browser, Page
-from pages.database.objects import ObjectsPage
-from pages.database.on_pause import onPausePage
+from pages.e2e.database.objects import ObjectsPage
+from pages.e2e.database.on_pause import onPausePage
 
 
 

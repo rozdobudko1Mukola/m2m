@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright, Browser, Page
-from pages.login import LoginPage
+from pages.e2e.login import LoginPage
 
 LOCALE = 'uk-UA'
 TIMEZONE_ID = 'Europe/Kiev'
