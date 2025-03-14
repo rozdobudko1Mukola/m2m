@@ -187,7 +187,7 @@ def test_retrieve_list_of_child_users_with_pagination(api_context, token, test_d
 
 @mark.smoke
 @mark.api
-@mark.testomatio('')
+@mark.testomatio('@T72706037')
 def test_export_a_list_of_user_with_paginated_to_xls(api_context, token, create_and_del_user_by_accaunt):
     """Тестуємо експорт списку користувачів з пагінацією в файл"""
     user_api = UsersAPI(api_context, token)
@@ -202,7 +202,7 @@ def test_export_a_list_of_user_with_paginated_to_xls(api_context, token, create_
 
 @mark.smoke
 @mark.api
-@mark.testomatio('')
+@mark.testomatio('@T797bba04')
 def test_export_a_list_of_user_with_paginated_to_csv(api_context, token, create_and_del_user_by_accaunt):
     """Тестуємо експорт списку користувачів з пагінацією в файл"""
     user_api = UsersAPI(api_context, token)
