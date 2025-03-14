@@ -183,3 +183,34 @@ def test_retrieve_list_of_child_users_with_pagination(api_context, token, test_d
     response = user_api.retrieve_list_of_child_users_with_pagination(page=1, per_page=10)
     expect(response).to_be_ok()
     assert response.json()["items"][0]["id"] == test_data["user_id"]
+
+
+@mark.smoke
+@mark.api
+@mark.testomatio('')
+def test_export_a_list_of_user_with_paginated_to_xls(api_context, token, create_and_del_user_by_accaunt):
+    """Тестуємо експорт списку користувачів з пагінацією в файл"""
+    user_api = UsersAPI(api_context, token)
+    response = user_api.export_a_list_of_user_with_paginated_to_file(
+        ext_file="xls",
+        page=1,
+        per_page=10        
+        )
+    expect(response).to_be_ok()
+    assert response.headers.get("content-disposition") == 'attachment; filename="users.xls"', f"Expected Content-Disposition: attachment; filename=users.xls, but got: {response.headers.get('Content-Disposition')}"
+
+
+@mark.smoke
+@mark.api
+@mark.testomatio('')
+def test_export_a_list_of_user_with_paginated_to_csv(api_context, token, create_and_del_user_by_accaunt):
+    """Тестуємо експорт списку користувачів з пагінацією в файл"""
+    user_api = UsersAPI(api_context, token)
+    response = user_api.export_a_list_of_user_with_paginated_to_file(
+        ext_file="csv",
+        page=1,
+        per_page=10        
+        )
+    expect(response).to_be_ok()
+    assert response.headers.get("content-disposition") == 'attachment; filename="users.csv"', f"Expected Content-Disposition: attachment; filename=users.csv, but got: {response.headers.get('Content-Disposition')}"
+

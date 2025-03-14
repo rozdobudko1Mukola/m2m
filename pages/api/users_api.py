@@ -88,3 +88,12 @@ class UsersAPI:
             }
         response = self.api_context.get(f"/api/users/paginated", params=params, headers=self.headers)
         return response
+
+
+    def export_a_list_of_user_with_paginated_to_file(self, ext_file, **kwargs):
+        """Експортує список користувачів з пагінацією в файл."""
+        params = {
+            key: value for key, value in kwargs.items() if value is not None
+        }
+        response = self.api_context.get(f"/api/users/{ext_file}", params=params, headers=self.headers)
+        return response
