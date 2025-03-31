@@ -37,7 +37,7 @@ class ProfilePage:
 
         # dropdown list locator
         self.dropdown_list = self.page.locator("ul")
-        self.main_dd_button = self.page.locator("//main//div[@role='button']")
+        self.main_dd_button = self.page.locator("//h3/button")
 
         # security tab locators
         self.change_pass_btn = self.page.get_by_role("button", name="Змінити пароль")
@@ -124,20 +124,40 @@ class ProfilePage:
         return self.err_msg
 
 
-    def repalce_username(self, f_name="", l_name="", phone="") -> str:
+    def repalce_username(self, f_name: str) -> str:
         self.f_name_input.clear()
         self.f_name_input.fill(f_name)
+        self.save_btn.click()
+        self.submit_popup_btn.click()
+
+
+    def repalce_lastname(self, l_name: str) -> str:
         self.l_name_input.clear()
         self.l_name_input.fill(l_name)
+        self.save_btn.click()
+        self.submit_popup_btn.click()
+
+    
+    def replace_phone(self, phone: str) -> str:
         self.phone_input.clear()
         self.phone_input.fill(phone)
         self.save_btn.click()
         self.submit_popup_btn.click()
 
 
+    def change_timezone(self, option: str, index: int) -> str:
+        self.dd_language_timezone.nth(index).click()
+        self.listbox.locator("li", has_text=option).click()
+        self.page.wait_for_load_state("networkidle")
+        self.save_btn.click()
+        self.submit_popup_btn.click()
+        return self.page.locator("header h1")
+
+    
     def change_language(self, option: str, index: int) -> str:
         self.dd_language_timezone.nth(index).click()
-        self.listbox.locator(f"//li[text()='{option}']").click()
+        self.listbox.locator(f"//li[@data-value='{option}']").click()
+        self.page.wait_for_load_state("networkidle")
         self.save_btn.click()
         self.submit_popup_btn.click()
         return self.page.locator("header h1")

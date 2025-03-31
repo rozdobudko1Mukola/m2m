@@ -134,7 +134,7 @@ def test_change_user_name_m2m_22(selfreg_user: Page):
 @mark.testomatio('@Ttttttt23')
 def test_change_user_last_name_m2m_23(selfreg_user: Page):
     profile_page = ProfilePage(selfreg_user)
-    profile_page.repalce_username(l_name=test_data['last user name'])
+    profile_page.repalce_lastname(l_name=test_data['last user name'])
 
     expect(profile_page.l_name_input).to_have_value(test_data["last user name"]) # Перевіряємо зміну прізвища користувача
 
@@ -144,16 +144,16 @@ def test_change_user_last_name_m2m_23(selfreg_user: Page):
 def test_change_site_language_m2m_24(selfreg_user: Page):
     profile_page = ProfilePage(selfreg_user)
 
-    expect(profile_page.change_language("English", 0)).to_have_text("User") # Перевіряємо зміну мови на "English"
-    expect(profile_page.change_language("Русский", 0)).to_have_text("Профиль пользователя") # Перевіряємо зміну мови на "Русский"
-    expect(profile_page.change_language("Українська", 0)).to_have_text("Профіль користувача") # Перевіряємо зміну мови на "Українська"
+    expect(profile_page.change_language("ENGLISH", 0)).to_have_text("User") # Перевіряємо зміну мови на "English"
+    expect(profile_page.change_language("RUSSIAN", 0)).to_have_text("Профиль пользователя") # Перевіряємо зміну мови на "Русский"
+    expect(profile_page.change_language("UKRAINIAN", 0)).to_have_text("Профіль користувача") # Перевіряємо зміну мови на "Українська"
 
 
 # M2M-25 Change the phone number
 @mark.testomatio('@Ttttttt25')
 def test_change_phone_number_m2m_25(selfreg_user: Page):
     profile_page = ProfilePage(selfreg_user)
-    profile_page.repalce_username(phone=test_data['phone number'])
+    profile_page.replace_phone(test_data['phone number'])
 
     expect(profile_page.phone_input).to_have_value(test_data["phone number"]) # Перевіряємо зміну номера телефону
 
@@ -162,10 +162,10 @@ def test_change_phone_number_m2m_25(selfreg_user: Page):
 @mark.testomatio('@Ttttttt26')
 def test_change_user_time_zone_m2m_26(selfreg_user: Page):
     profile_page = ProfilePage(selfreg_user)
-    profile_page.change_language("Europe/Istanbul [+03:00] Turkey Time", 1)
+    profile_page.change_timezone("Europe/Istanbul [+03:00] Turkey Time", 1)
 
     expect(profile_page.dd_language_timezone.nth(1)).to_contain_text("Europe/Istanbul [+03:00] Turkey Time") # Перевіряємо зміну часового поясу
-    profile_page.change_language("Europe/Kyiv [+02:00] за східноєвропейським часом", 1) # Повертаємо часовий пояс на попередній
+    profile_page.change_language("Europe/Kyiv", 1) # Повертаємо часовий пояс на попередній
 
 
 # M2M-27 Switch between drop-down lists
@@ -173,7 +173,7 @@ def test_change_user_time_zone_m2m_26(selfreg_user: Page):
 def test_switch_between_drop_down_lists_m2m_27(selfreg_user: Page):
     profile_page = ProfilePage(selfreg_user)
 
-    profile_page.main_dd_button.nth(0).click(timeout=500)
+    profile_page.main_dd_button.nth(0).click()
     expect(profile_page.dd_language_timezone.nth(1)).not_to_be_visible() # Перевіряємо перехід між списками
     profile_page.main_dd_button.nth(1).click(timeout=500)
     expect(profile_page.change_pass_btn).to_be_visible() # Перевіряємо перехід між списками

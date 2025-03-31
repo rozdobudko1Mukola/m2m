@@ -100,7 +100,7 @@ class ObjectsPage:
             "unique_id": self.page.locator("input[name='uniqueId']"),
             "phone_1": self.page.locator("form input#outlined-basic").nth(0),
             "phone_2": self.page.locator("form input#outlined-basic").nth(1),
-            "model": self.page.locator("input#combo-box-demo"),
+            "model": self.page.locator("//input[@role='combobox']"),
             "device_type": self.page.locator("#demo-simple-select"),
             "protocol": self.page.locator("form input").nth(3),
             "adress_server": self.page.locator("form input").nth(5),
