@@ -117,7 +117,7 @@ class ObjectsPage:
 
     # Row on the page locators
         self.row_on_page = {
-            "unit_dd_btn": self.page.get_by_role("combobox").nth(1),
+            "unit_dd_btn": self.page.locator("div[role='combobox']").nth(1),
             "groups_dd_btn": self.page.locator("div[role='combobox']").nth(2),
             "unit_in_group_dd": self.page.locator("form div[role='combobox']"),
             "previous_page": self.page.get_by_role("button", name="Go to previous page"),
@@ -127,7 +127,8 @@ class ObjectsPage:
             "50": self.page.locator("ul li").nth(2),
             "100": self.page.locator("ul li").nth(3),
             "unit_total_p": self.page.locator("#display-tabpanel-0 .MuiTablePagination-displayedRows"),
-            "groups_total_p": self.page.locator("#display-tabpanel-1 .MuiTablePagination-displayedRows")
+            "groups_total_p": self.page.locator("#display-tabpanel-1 .MuiTablePagination-displayedRows"),
+            "unit_dd_btn_2": self.page.get_by_role("combobox").nth(1)
         }
         
     # group head menu locators
@@ -223,7 +224,7 @@ class ObjectsPage:
 
     # Unit on the page 10 25 50 100
     def increase_decrease_the_number(self, number: str):
-        self.row_on_page["unit_dd_btn"].click()
+        self.row_on_page["unit_dd_btn_2"].click()
         self.row_on_page[number].click()
         self.page.wait_for_timeout(1000)
         
@@ -232,10 +233,14 @@ class ObjectsPage:
 
     # Group on the page 10 25 50 100
     def increase_decrease_the_number_group(self, number: str):
-        self.row_on_page["groups_dd_btn"].click()
+        if self.row_on_page["groups_dd_btn"].is_visible(): # if obgects is present in the list of objects
+            self.row_on_page["groups_dd_btn"].click()
+        elif self.row_on_page["unit_dd_btn"].is_visible(): # if obgects is not present in the list of objects
+            self.row_on_page["unit_dd_btn"].click()
+
         self.row_on_page[number].click()
-        self.page.wait_for_timeout(1000)
-        
+        self.page.wait_for_timeout(500)
+
         return self.group_table["body_row"]
 
 

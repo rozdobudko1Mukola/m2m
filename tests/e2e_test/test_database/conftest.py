@@ -1,166 +1,14 @@
 import pytest
-from playwright.sync_api import sync_playwright, Browser, Page
-from pages.e2e.database.objects import ObjectsPage
-from pages.e2e.database.on_pause import onPausePage
-
-
-
-# Group Fixtures ------------------------------------------------------------
-
-@pytest.fixture
-def create_and_remove_one_group(freebill_user: Page):
-    objects_page = ObjectsPage(freebill_user)
-
-    # Create group
-    objects_page.page_tab_buttons["groups"].click()
-    objects_page.add_new_group("Test_group", 3)
-    objects_page.popap_btn["ok"].click()
-    freebill_user.wait_for_selector("#display-tabpanel-1 table")
-
-    yield
-
-    # Remove group
-    freebill_user.wait_for_timeout(1000)
-    while objects_page.group_table["body_row"].count() > 0:
-        objects_page.remove_group()
-        freebill_user.wait_for_timeout(500)
-
-
-@pytest.fixture()
-def create_and_remove_12_group(freebill_user: Page, index=13):
-    objects_page = ObjectsPage(freebill_user)
-
-    # Create group
-    objects_page.page_tab_buttons["groups"].click()
-    for i in range(index):
-        objects_page.add_new_group(f"Test group {i}", 3)
-        objects_page.popap_btn["ok"].click()
-
-    yield
-
-    # Remove group
-    freebill_user.wait_for_timeout(1000)
-    while objects_page.group_table["body_row"].count() > 0:
-        objects_page.remove_group()
-        freebill_user.wait_for_timeout(500)
-
-
-@pytest.fixture()
-def create_and_remove_3_groups(freebill_user: Page, index=3):
-    objects_page = ObjectsPage(freebill_user)
-
-    # Create group
-    objects_page.page_tab_buttons["groups"].click()
-    for i in range(index):
-        objects_page.add_new_group(f"Test group {i}", 3)
-        objects_page.popap_btn["ok"].click()
-
-    yield
-
-    # Remove group
-    if objects_page.head_menu_group_locators["group_search_input"].input_value() != "":
-        objects_page.head_menu_group_locators["group_search_input"].fill("")
-        freebill_user.wait_for_timeout(1000)
-
-        while objects_page.group_table["body_row"].count() > 0:
-            objects_page.remove_group()
-            freebill_user.wait_for_timeout(500)
-
-
-@pytest.fixture
-def create_and_remove_25_group(freebill_user: Page, index=26):
-    objects_page = ObjectsPage(freebill_user)
-
-    # Create group
-    objects_page.page_tab_buttons["groups"].click()
-    for i in range(index):
-        objects_page.add_new_group(f"Test group {i}", 3)
-        objects_page.popap_btn["ok"].click()
-
-    yield
-
-    # Remove group
-    freebill_user.wait_for_timeout(1000)
-    while objects_page.group_table["body_row"].count() > 0:
-        objects_page.remove_group()
-        freebill_user.wait_for_timeout(500)
-
-
-@pytest.fixture
-def just_remove_groups(freebill_user: Page):
-    objects_page = ObjectsPage(freebill_user)
-
-    yield 
-    # Remove group
-    freebill_user.wait_for_timeout(1000)
-    while objects_page.group_table["body_row"].count() > 0:
-        objects_page.remove_group()
-        freebill_user.wait_for_timeout(500)
-
-
-# Units Fixtures --------------------------------------------------------------
-
-@pytest.fixture
-def create_and_remove_one_units(selfreg_user: Page):
-    objects_page = ObjectsPage(selfreg_user)
-
-    # Preconditions add object
-    objects_page.precondition_add_multiple_objects(1, "Auto_Test", "180455679224", "180455679224", "Teltonika FMB965", "VEHICLE")
-    objects_page.object_main_popap_inputs["name"].wait_for(state="detached")
-    selfreg_user.wait_for_timeout(500)
-
-    yield  # Provide the data to the test
-
-    # Delete all objects from pause to trash after test
-    selfreg_user.wait_for_timeout(1000)
-    while objects_page.unit_table["body_row"].count() > 0:
-        objects_page.move_to_trash_all_object()
-        selfreg_user.wait_for_timeout(500)
-
-
-@pytest.fixture
-def just_remove_units(selfreg_user: Page):
-    objects_page = ObjectsPage(selfreg_user)
-
-    yield  # Provide the data to the test
-
-    # Delete all objects from pause to trash after test
-    selfreg_user.wait_for_timeout(1000)
-    while objects_page.unit_table["body_row"].count() > 0:
-        objects_page.move_to_trash_all_object()
-        selfreg_user.wait_for_timeout(500)
-
-@pytest.fixture
-def move_unnit_to_trash(selfreg_user: Page):
-    objects_page = ObjectsPage(selfreg_user)
-
-    yield  # Provide the data to the test
-
-    on_pause_page = onPausePage(selfreg_user)
-    on_pause_page.all_unit_move_to_trash()
-
-# @pytest.fixture
-# def just_remove_units(selfreg_user: Page):
-#     print("\nTearing down resources...")
-#     objects_page = ObjectsPage(selfreg_user)
-
-#     yield  # Provide the data to the test
-#     # Teardown: Clean up resources (if any) after the test
-#     print("\nTearing down resources...")
-#     objects_page.pause_all_object()
-#     # Delete all objects from pause to trash after test
-#     on_pause_page = onPausePage(selfreg_user)
-#     on_pause_page.all_unit_move_to_trash()
-
-
-#### -----Fixtures with use in APi ------------------------------------------------
-
-import pytest
 from typing import List
 from pages.api.wastebin_api import WastebinAPI
 from playwright.sync_api import APIRequestContext 
 from playwright.sync_api import expect
 from pages.api.devices_api import DeviceAPI
+from pages.api.device_groups_api import DeviceGroupsAPI
+
+
+#### -----Fixtures with use in APi ------------------------------------------------
+# # Units Fixtures --------------------------------------------------------------
 
 
 @pytest.fixture(scope="function")
@@ -200,8 +48,6 @@ def remove_units_by_api(api_context: APIRequestContext, token: str, test_data):
                 break  # Перериваємо цикл після успішного видалення пристрою
 
 
-
-
 @pytest.fixture
 def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, test_data, request):
     """Фікстура для створення та видалення пристроїв через API після кожного тесту.
@@ -216,9 +62,9 @@ def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, t
     test_data["uniqueId"] = []
 
     # Створюємо пристрої та зберігаємо їхні ID
-    for _ in range(num_devices):
+    for i in range(1, num_devices + 1):
         response = device_api.create_new_device(
-            name="Test device",
+            name=f"Test device {i}",
             type="VEHICLE",
             uniqueId=device_api.unique_id()
         )
@@ -251,3 +97,75 @@ def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, t
     
     # Очистка test_data після видалення пристроїв
     test_data.pop("device_ids", None)
+
+
+# Group Fixtures ----------------------------------------------------------------------------------------------------------------------------------------
+
+@pytest.fixture(scope="function")
+def create_and_del_device_groups(api_context, token, test_data, request):
+    """
+    Фікстура для створення заданої кількості груп пристроїв перед тестом та їх видалення після.
+    Кількість визначається параметром request.param (наприклад: @pytest.mark.parametrize(create_and_del_device_groups, [3], indirect=True)).
+    """
+    device_groups_api = DeviceGroupsAPI(api_context, token)
+    
+    # Список ID створених груп
+    test_data["device_group_ids"] = []
+    
+    # Кількість груп для створення
+    num_groups = request.param if hasattr(request, "param") else 1
+
+    # Створення груп
+    for i in range(num_groups):
+        response = device_groups_api.create_new_device_group(
+            name=f"Test Device Group {i + 1}"
+        )
+        expect(response).to_be_ok()
+        group_id = response.json().get("id")
+        test_data["device_group_ids"].append(group_id)
+
+    yield test_data["device_group_ids"]
+
+    # Видалення створених груп
+    for group_id in test_data["device_group_ids"]:
+        try:
+            response = device_groups_api.remove_device_group(group_id)
+            expect(response).to_be_ok()
+        except Exception:
+            pass  # Якщо група не знайдена або вже видалена, просто пропустимо
+
+    # Очищення test_data
+    test_data.pop("device_group_ids", None)
+
+
+@pytest.fixture(scope="function")
+def delete_device_groups_after_test(api_context, token, test_data):
+    """
+    Фікстура для видалення груп пристроїв після виконання тесту.
+    Очікує, що test_data["device_group_ids"] буде містити список ID груп для видалення.
+    """
+    yield  # Тест виконується тут
+
+    device_groups_api = DeviceGroupsAPI(api_context, token)
+
+    # Пошук усіх груп
+    response = device_groups_api.retrieve_a_list_of_devices_groups_with_pagination(page=1, per_page=10)
+    expect(response).to_be_ok()
+
+    items = response.json().get("items", [])
+
+    # Запишемо всі ID груп, які треба видалити, в список
+    group_ids = test_data.get("device_group_ids", [])
+
+    for group in items:
+        # якщо хочеш фільтрувати тільки певні групи (наприклад, назва = "Test_group")
+        if group["name"] == "Test_group":
+            group_ids.append(group["id"])
+
+    # Тепер видаляємо всі зібрані ID
+    for group_id in group_ids:
+        response = device_groups_api.remove_device_group(group_id)
+        expect(response).to_be_ok()
+
+    # Очистка test_data
+    test_data.pop("device_group_ids", None)
