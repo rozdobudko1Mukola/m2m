@@ -197,17 +197,25 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
     test_data["phone"] = []
     test_data["phone2"] = []
     test_data["device_name"] = []
+    test_data["model"] = []
 
     # Створюємо пристрої та зберігаємо їхні ID
     for i in range(1, num_devices + 1):
+        # Для перної кількості обʼєктів ми запвнюємо поле phone, для непарної - phone2.
+        phone = "+380123456789" if i % 2 != 0 else ""
+        phone2 = "" if i % 2 != 0 else "+380980000000"
+
+        customFields = "{\"custom Field Name\":\"custom Field value\"}" if i % 2 != 0 else "{\"name 123\":\" value 123\"}"
+        adminFields = "{\"name 123\":\"value 123\"}" if i % 2 != 0 else "{\"admin Field name\":\"admin Field value\"}"
+
         response = device_api.create_new_device(
             name=f"Test device {i}",
             type="VEHICLE",
             uniqueId=device_api.unique_id(),
-            customFields="{\"custom Field Name\":\"custom Field value\"}",
-            adminFields="{\"admin Field name\":\"admin Field value\"}",
-            phone="+380123456789",
-            phone2="+380980000000"
+            customFields=customFields,
+            adminFields=adminFields,
+            phone=phone,
+            phone2=phone2
         )
         expect(response).to_be_ok()
         
@@ -218,20 +226,22 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
         test_data["adminFields"].append(response.json().get("adminFields"))
         test_data["device_name"].append(response.json().get("name"))
 
+        model = "M2M Mobile Tracker" if i % 2 != 0 else "TK104" # Для парної кількості обʼєктів ми запвнюємо поле model як TK104, для непарної - M2M Mobile Tracker.
+
         response = device_api.update_connection_parameters(
             device_id=test_data["unit_id"],
             uniqueId=device_api.unique_id(),
-            phone="+380123456789",
-            phone2="+380980000000",
-            model="M2M Mobile Tracker"
+            phone=phone,
+            phone2=phone2,
+            model=model
         )
     
         expect(response).to_be_ok()
         test_data["uniqueId"].append(response.json().get("uniqueId"))
         test_data["phone"].append(response.json().get("phone"))
         test_data["phone2"].append(response.json().get("phone2"))
-        test_data["model"] = response.json().get("model")
-    
+        test_data["model"].append(response.json().get("model"))
+
     # Передаємо список створених ID у тест
     yield test_data
     

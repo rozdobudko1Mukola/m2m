@@ -600,99 +600,377 @@ def test_display_the_next_and_previous_page_units_in_group(admin_user: Page):
 
 
 # # Search-------------------------------------------------------------------------------------------------------------------------------------
+
 class TestSearchObjectByFilters:
 
-    # Search for an object using filters NAME valid full name
+# Filter Пошук об'єкта за Ім'ям з повною валідною назвою
     @mark.objects
     @mark.unit
     @mark.testomatio('@Tttttt377')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
-    def test_search_for_an_object_using_filters_name_377(user_page, test_data, full_unit_create_and_remove_by_api):
-        """ ||Tttttt377|| Пошук об'єкта за фільтрами  """
-
-        objects_page = ObjectsPage(selfreg_user)
+    def test_search_for_an_object_using_filters_name_377(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        """ ||Tttttt377|| Пошук об'єкта за фільтрами """
+        objects_page = ObjectsPage(user_page)
         objects_page.search_object("DEVICE_NAME", test_data["device_name"][0])
+
         expect(objects_page.unit_table["body_row"]).to_have_count(1)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][0])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][0])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["phone"][0])
 
 
-# # Search for an object using filters PHONE_1
-# @mark.objects
-# @mark.unit
-# @mark.testomatio('@Ttttt1942')
-# @pytest.mark.parametrize("query, result",
-# [("380631231122", 1),
-# ("068", 2),
-# ("345345345", 0)], ids=["full valid value", "not full valid value", "not valid value"])
-# def test_search_object_using_filters_phone_1_m2m_1942(search_units: Page, query: str, result: int):
-#     """ ||M2M-406|| Пошук об'єкта за фільтрами """
+# Filter Пошук об'єкта за Ім'ям з частковою валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T7b7eb3cb')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_name_T7b7eb3cb(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        """ ||@T7b7eb3cb|| Пошук об'єкта за фільтрами """
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("DEVICE_NAME", test_data["device_name"][1].replace("Test ", ""))
 
-#     objects_page = ObjectsPage(search_units)
-#     objects_page.search_object("PHONE_1", query)
-#     expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
-
-
-# # Search for an object using filters PHONE_2
-# @mark.objects
-# @mark.unit
-# @mark.testomatio('@Ttttt1943')
-# @pytest.mark.parametrize("query, result",
-# [("380681001010", 1),
-# ("1122", 2),
-# ("345345345", 0)], ids=["full valid value", "not full valid value", "not valid value"])
-# def test_search_object_using_filters_phone_2_m2m_1943(search_units: Page, query: str, result: int):
-#     """ ||M2M-406|| Пошук об'єкта за фільтрами """
-
-#     objects_page = ObjectsPage(search_units)
-#     objects_page.search_object("PHONE_2", query)
-#     expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
+        expect(objects_page.unit_table["body_row"]).to_have_count(1)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][1])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][1])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["phone"][1])
 
 
-# # Filter Пошук за параметром "Обліковий запис"
-# @mark.objects
-# @mark.unit
-# @mark.testomatio('@Ttttt1946')
-# @pytest.mark.parametrize("query, result",
-# [("m2m.test.auto+search_unit@gmail.com", 3),
-# ("search_unit@gmai", 3),
-# ("qwerty@ddd", 0)], ids=["full valid value", "not full valid value", "not valid value"])
-# def test_search_object_using_filters_account_m2m_1946(search_units: Page, query: str, result: int):
-#     """ ||M2M-406|| Пошук об'єкта за фільтрами """
+# Filter Пошук об'єкта за Ім'ям з не валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T0a7858f3')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_name_T0a7858f3(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        """ ||@T0a7858f3|| Пошук об'єкта за фільтрами """
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("DEVICE_NAME", "qwerty123")
 
-#     objects_page = ObjectsPage(search_units)
-#     objects_page.search_object("ACCOUNT", query)
-#     expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
+        expect(objects_page.unit_table["body_row"]).to_have_count(0)
 
 
-# # Здійснити експорт списку об'єктів в форматі CSV / XLS
-# @mark.objects
-# @mark.unit
-# @mark.testomatio('@Ttttt1957')
-# @pytest.mark.parametrize("chose_item, expected_format", [("second", ".csv"), ("first", ".xls")], ids=["CSV", "XLS"])
-# def test_export_objects_in_file_m2m_1957(search_units: Page, chose_item: str, expected_format: str):
-#     """ ||M2M-1957|| Здійснити експорт списку об'єктів в форматі CSV """
+# Filter Пошук об'єкта за Унікальним ID з повною валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Ttttt1939')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_Ttttt1939(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        """ ||@Ttttt1939|| Пошук об'єкта за фільтрами """
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("UNIQUE_ID", test_data["uniqueId"][0])
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(1)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][0])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][0])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["phone"][0])
+
+
+# Filter Пошук об'єкта за Унікальним ID з часковою валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T48506b7a')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T48506b7a(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        """ ||@T48506b7a|| Пошук об'єкта за фільтрами """
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("UNIQUE_ID", str(test_data["uniqueId"][1])[:5])
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(1)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][1])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][1])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["phone"][1])
+
+
+# Filter Пошук об'єкта за унікальним ID з не валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Ttttt1867')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_Ttttt1867(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        """ ||@Ttttt1867|| Пошук об'єкта за фільтрами """
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("UNIQUE_ID", "qwerty123")
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(0)
+
+
+# Filter Пошук об'єкта за параметром "Номер телефону" з валідною назвою сім 1
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T09500e2a')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T09500e2a(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        """ ||@T09500e2a|| Пошук об'єкта за фільтрами """
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("PHONE_1", test_data["phone"][0])
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(2)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][0])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][0])
+        expect(objects_page.unit_table["body_row"].nth(1)).to_contain_text(test_data["device_name"][2])
+        expect(objects_page.unit_table["body_row"].nth(1)).to_contain_text(test_data["uniqueId"][2])
+
+
+# Filter Пошук об'єкта за параметром "Номер телефону" з валідною назвою сім 2
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Ttttt1942')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_Ttttt1942(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        """ ||@Ttttt1942|| Пошук об'єкта за фільтрами """
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("PHONE_1", test_data["phone2"][1])
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(1)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][1])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][1])
+
+
+# Filter Пошук об'єкта за параметром "Номер телефону" з часковою валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T2ba28e23')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T2ba28e23(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("PHONE_1", str(test_data["phone2"][1])[:5])
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(1)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][1])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][1])
+
+
+# Filter Пошук об'єкта за параметром "Номер телефону" з невалідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T883e1170')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T883e1170(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("PHONE_1", "qwerty123")
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(0)
+
+
+# Filter Пошук за параметром "Обліковий запис" з повною валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Ttttt1946')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_Ttttt1946(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        user_email = os.getenv("SELFREG_USER_EMAIL")  # ⬅️ отримуємо email з .env
+
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("ACCOUNT", user_email)
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(3)
+
+
+# Filter Пошук за параметром "Обліковий запис" з НЕ повною валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T2f97bc09')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T2f97bc09(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        user_email = os.getenv("SELFREG_USER_EMAIL")  # ⬅️ отримуємо email з .env
+        username = user_email.split("@")[0]  # або домен — [1]
+
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("ACCOUNT", username)
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(3)
+
+
+# Filter Пошук за параметром "Обліковий запис" з не валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Ttttt1951')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_Ttttt1951(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("ACCOUNT", "qwerty123")
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(0)
+
+
+# Filter Пошук за параметром "Модель трекеру" з повною валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T0954169c')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T0954169c(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("MODEL_TRECKER", test_data["model"][1])
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(1)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][1])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][1])
+
+
+# Filter Пошук за параметром "Модель трекеру" з НЕ повною валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Tc1ab5e20')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_Tc1ab5e20(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("MODEL_TRECKER", str(test_data["model"][0])[:5])
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(2)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][0])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][0])   
+        expect(objects_page.unit_table["body_row"].nth(1)).to_contain_text(test_data["device_name"][2])
+        expect(objects_page.unit_table["body_row"].nth(1)).to_contain_text(test_data["uniqueId"][2])    
+
+
+# Filter Пошук за параметром "Модель трекеру" з не валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Tfb936487')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_Tfb936487(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("MODEL_TRECKER", "qawerty123")
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(0)
+
     
-#     base_page = BasePage(search_units)
-#     objects_page = ObjectsPage(search_units)
+# Filter Пошук за параметром "Адміністративні поля" Повною валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Tfb936487')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_Tfb936487(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("ADMIN_FIELDS", "value 123")
 
-#     objects_page.head_menu_unit_locators["export"].click()
+        expect(objects_page.unit_table["body_row"]).to_have_count(2)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][0])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][0])
+        expect(objects_page.unit_table["body_row"].nth(1)).to_contain_text(test_data["device_name"][2])
+        expect(objects_page.unit_table["body_row"].nth(1)).to_contain_text(test_data["uniqueId"][2])
 
-#     # Викликаємо функцію завантаження
-#     download = base_page.trigger_download(chose_item)
 
-#     # Перевіряємо, що файл справді завантажився
-#     assert download is not None, "Файл не завантажився!"
-#     filename = f"downloads/{download.suggested_filename}"
-#     print(f"Файл завантажено: {filename}")
-#     assert filename.lower().endswith(expected_format), f"Файл має неправильне розширення: {filename}"
+# Filter Пошук за параметром "Адміністративні поля" НЕ Повною валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T06840ffd')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T06840ffd(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("ADMIN_FIELDS", "admin")
 
-#     # Зберігаємо файл
-#     download.save_as(filename)
+        expect(objects_page.unit_table["body_row"]).to_have_count(1)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][1])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][1])
 
-#     # Очищення після тесту
-#     if os.path.exists(filename):
-#         os.remove(filename)
-#         print(f"Файл {filename} видалено.")
+
+# Filter Пошук за параметром "Адміністративні поля" з не валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T1cd32951')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T1cd32951(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("ADMIN_FIELDS", "qwerty 123")
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(0)
+
+
+# Filter Пошук за параметром "Довільні поля" з Повною валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T4bca3ad1')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T4bca3ad1(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("CUSTOM_FIELDS", "custom Field value")
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(2)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][0])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][0])
+        expect(objects_page.unit_table["body_row"].nth(1)).to_contain_text(test_data["device_name"][2])
+        expect(objects_page.unit_table["body_row"].nth(1)).to_contain_text(test_data["uniqueId"][2])
+
+
+# Filter Пошук за параметром "Довільні поля" НЕ Повною валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Ta4686336')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_Ta4686336(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("CUSTOM_FIELDS", "123")
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(1)
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["device_name"][1])
+        expect(objects_page.unit_table["body_row"].nth(0)).to_contain_text(test_data["uniqueId"][1])
+
+
+# Filter Пошук за параметром "Довільні поля" з не валідною назвою
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@T9f1dd8d8')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_T9f1dd8d8(self, user_page, test_data, full_unit_create_and_remove_by_api):
+        objects_page = ObjectsPage(user_page)
+        objects_page.search_object("CUSTOM_FIELDS", "qwerty 123")
+
+        expect(objects_page.unit_table["body_row"]).to_have_count(0)
+
+
+# Здійснити експорт списку об'єктів в форматі CSV / XLS
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Ttttt1957')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    @pytest.mark.parametrize("chose_item, expected_format", [("second", ".csv"), ("first", ".xls")], ids=["CSV", "XLS"])
+    def test_export_objects_in_file_m2m_Ttttt1957(self, user_page, chose_item: str, expected_format: str, full_unit_create_and_remove_by_api):
+        """ ||M2M-1957|| Здійснити експорт списку об'єктів в форматі CSV """
+        
+        base_page = BasePage(user_page)
+        objects_page = ObjectsPage(user_page)
+
+        objects_page.head_menu_unit_locators["export"].click()
+
+        # Викликаємо функцію завантаження
+        download = base_page.trigger_download(chose_item)
+
+        # Перевіряємо, що файл справді завантажився
+        assert download is not None, "Файл не завантажився!"
+        filename = f"downloads/{download.suggested_filename}"
+        print(f"Файл завантажено: {filename}")
+        assert filename.lower().endswith(expected_format), f"Файл має неправильне розширення: {filename}"
+
+        # Зберігаємо файл
+        download.save_as(filename)
+
+        # Очищення після тесту
+        if os.path.exists(filename):
+            os.remove(filename)
+            print(f"Файл {filename} видалено.")
 
 
 
