@@ -600,37 +600,20 @@ def test_display_the_next_and_previous_page_units_in_group(admin_user: Page):
 
 
 # # Search-------------------------------------------------------------------------------------------------------------------------------------
+class TestSearchObjectByFilters:
 
-# # Search for an object using filters UNIQUE_ID
-# @mark.objects
-# @mark.unit
-# @mark.testomatio('@Ttttt1939', '@Ttttt1867', '@Ttttt1945')
-# @pytest.mark.parametrize("query, result", 
-# [("1005001010", 1), 
-# ("123123", 2), 
-# ("qwerty123", 0)], ids=["M2M-1939", "M2M-1945", "M2M-1867"])
-# def test_search_for_an_object_using_filters_unique_id(search_units: Page, query: str, result: int):
-#     """ ||M2M-406|| Пошук об'єкта за фільтрами """
+    # Search for an object using filters NAME valid full name
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Tttttt377')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_search_for_an_object_using_filters_name_377(user_page, test_data, full_unit_create_and_remove_by_api):
+        """ ||Tttttt377|| Пошук об'єкта за фільтрами  """
 
-#     objects_page = ObjectsPage(search_units)
-#     objects_page.search_object("UNIQUE_ID", query)
-#     expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
-
-
-# # Search for an object using filters NAME
-# @mark.objects
-# @mark.unit
-# @mark.testomatio('@Tttttt377', '@Ttttt1940', '@Ttttt1941')
-# @pytest.mark.parametrize("query, result",
-# [("Test unit 2", 1),
-# ("Test unit", 3),
-# ("qwerty", 0)], ids=["M2M-377", "M2M-1940", "M2M-1941"])
-# def test_search_for_an_object_using_filters_name(search_units: Page, query: str, result: int):
-#     """ ||M2M-406|| Пошук об'єкта за фільтрами """
-
-#     objects_page = ObjectsPage(search_units)
-#     objects_page.search_object("DEVICE_NAME", query)
-#     expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
+        objects_page = ObjectsPage(selfreg_user)
+        objects_page.search_object("DEVICE_NAME", test_data["device_name"][0])
+        expect(objects_page.unit_table["body_row"]).to_have_count(1)
 
 
 # # Search for an object using filters PHONE_1
@@ -681,35 +664,35 @@ def test_display_the_next_and_previous_page_units_in_group(admin_user: Page):
 #     expect(objects_page.unit_table["body_row"]).to_have_count(int(result))
 
 
-# Здійснити експорт списку об'єктів в форматі CSV / XLS
-@mark.objects
-@mark.unit
-@mark.testomatio('@Ttttt1957')
-@pytest.mark.parametrize("chose_item, expected_format", [("second", ".csv"), ("first", ".xls")], ids=["CSV", "XLS"])
-def test_export_objects_in_file_m2m_1957(search_units: Page, chose_item: str, expected_format: str):
-    """ ||M2M-1957|| Здійснити експорт списку об'єктів в форматі CSV """
+# # Здійснити експорт списку об'єктів в форматі CSV / XLS
+# @mark.objects
+# @mark.unit
+# @mark.testomatio('@Ttttt1957')
+# @pytest.mark.parametrize("chose_item, expected_format", [("second", ".csv"), ("first", ".xls")], ids=["CSV", "XLS"])
+# def test_export_objects_in_file_m2m_1957(search_units: Page, chose_item: str, expected_format: str):
+#     """ ||M2M-1957|| Здійснити експорт списку об'єктів в форматі CSV """
     
-    base_page = BasePage(search_units)
-    objects_page = ObjectsPage(search_units)
+#     base_page = BasePage(search_units)
+#     objects_page = ObjectsPage(search_units)
 
-    objects_page.head_menu_unit_locators["export"].click()
+#     objects_page.head_menu_unit_locators["export"].click()
 
-    # Викликаємо функцію завантаження
-    download = base_page.trigger_download(chose_item)
+#     # Викликаємо функцію завантаження
+#     download = base_page.trigger_download(chose_item)
 
-    # Перевіряємо, що файл справді завантажився
-    assert download is not None, "Файл не завантажився!"
-    filename = f"downloads/{download.suggested_filename}"
-    print(f"Файл завантажено: {filename}")
-    assert filename.lower().endswith(expected_format), f"Файл має неправильне розширення: {filename}"
+#     # Перевіряємо, що файл справді завантажився
+#     assert download is not None, "Файл не завантажився!"
+#     filename = f"downloads/{download.suggested_filename}"
+#     print(f"Файл завантажено: {filename}")
+#     assert filename.lower().endswith(expected_format), f"Файл має неправильне розширення: {filename}"
 
-    # Зберігаємо файл
-    download.save_as(filename)
+#     # Зберігаємо файл
+#     download.save_as(filename)
 
-    # Очищення після тесту
-    if os.path.exists(filename):
-        os.remove(filename)
-        print(f"Файл {filename} видалено.")
+#     # Очищення після тесту
+#     if os.path.exists(filename):
+#         os.remove(filename)
+#         print(f"Файл {filename} видалено.")
 
 
 

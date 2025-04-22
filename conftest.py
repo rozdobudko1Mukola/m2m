@@ -323,3 +323,54 @@ def pytest_addoption(parser):
         default="staging",
         help="Вибір середовища для тестів (prod, staging, dev)",
     )
+
+
+#  ГПТ дав універсальну фікстуру. треба перевірити чи працює
+
+
+LOCALE = "uk-UA"
+TIMEZONE_ID = "Europe/Kyiv"
+
+@pytest.fixture(params=["CLIENT", "ADMIN", "SELFREG", "FREEBILL", "SEARCHUNIT"])
+@pytest.fixture(scope="class")
+def user_page(browser: Browser, request, pytestconfig) -> Page:
+    user_type = request.param.upper()  # наприклад: "SELFREG", "ADMIN"
+    base_url = os.getenv("BASE_URL")
+    user_email = os.getenv(f"{user_type}_USER_EMAIL")
+    user_password = os.getenv(f"{user_type}_USER_PASSWORD")
+    auth_storage_path = get_auth_storage_path(base_url, user_type.lower())
+
+    # Створення сесії, якщо ще не збережено
+    if not auth_storage_path.exists():
+        context = browser.new_context(locale=LOCALE, timezone_id=TIMEZONE_ID, base_url=base_url)
+        page = context.new_page()
+
+        login_page = LoginPage(page)
+        if login_page.sucsefull_login(user_email, user_password):
+            context.storage_state(path=str(auth_storage_path))
+        else:
+            raise Exception(f"Не вдалося залогінитись як {user_type}")
+
+        page.close()
+        context.close()
+
+    # Використання існуючої сесії
+    context = browser.new_context(
+        storage_state=str(auth_storage_path),
+        locale=LOCALE,
+        timezone_id=TIMEZONE_ID,
+        base_url=base_url,
+    )
+    page = context.new_page()
+    trace_file_path = start_tracing(context, request.node.name)
+
+    yield page
+
+    # Зупинка трасування
+    if request.node.rep_call.failed:
+        stop_tracing(context, trace_file_path)
+    else:
+        stop_tracing(context)
+
+    page.close()
+    context.close()

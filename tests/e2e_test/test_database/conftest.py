@@ -13,7 +13,7 @@ from pages.api.device_groups_api import DeviceGroupsAPI
 
 @pytest.fixture(scope="function")
 def test_data():
-    """Фікстура для збереження даних між тестами для всих апі тестів."""
+    """Фікстура для збереження даних між тестами."""
     return {}
 
 
@@ -169,3 +169,94 @@ def delete_device_groups_after_test(api_context, token, test_data):
 
     # Очистка test_data
     test_data.pop("device_group_ids", None)
+
+
+
+### Searshcing fixtures -------------------------------------------------------------
+
+@pytest.fixture(scope="class")
+def test_data():
+    """Фікстура для збереження даних між тестами."""
+    return {}
+
+
+@pytest.fixture(scope="class")
+def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: str, test_data, request):
+    """Фікстура для створення та видалення пристроїв через API після кожного тесту.
+    Кількість пристроїв визначається параметром request.param."""
+    
+    device_api = DeviceAPI(api_context, token)
+    wastebin_api = WastebinAPI(api_context, token)
+
+    # Визначаємо кількість пристроїв для створення (за замовчуванням 1)
+    num_devices = request.param if hasattr(request, "param") else 1
+    test_data["device_ids"] = []
+    test_data["uniqueId"] = []
+    test_data["customFields"] = []
+    test_data["adminFields"] = []
+    test_data["phone"] = []
+    test_data["phone2"] = []
+    test_data["device_name"] = []
+
+    # Створюємо пристрої та зберігаємо їхні ID
+    for i in range(1, num_devices + 1):
+        response = device_api.create_new_device(
+            name=f"Test device {i}",
+            type="VEHICLE",
+            uniqueId=device_api.unique_id(),
+            customFields="{\"custom Field Name\":\"custom Field value\"}",
+            adminFields="{\"admin Field name\":\"admin Field value\"}",
+            phone="+380123456789",
+            phone2="+380980000000"
+        )
+        expect(response).to_be_ok()
+        
+        test_data["unit_id"] = response.json().get("id")
+
+        test_data["device_ids"].append(response.json().get("id"))
+        test_data["customFields"].append(response.json().get("customFields"))
+        test_data["adminFields"].append(response.json().get("adminFields"))
+        test_data["device_name"].append(response.json().get("name"))
+
+        response = device_api.update_connection_parameters(
+            device_id=test_data["unit_id"],
+            uniqueId=device_api.unique_id(),
+            phone="+380123456789",
+            phone2="+380980000000",
+            model="M2M Mobile Tracker"
+        )
+    
+        expect(response).to_be_ok()
+        test_data["uniqueId"].append(response.json().get("uniqueId"))
+        test_data["phone"].append(response.json().get("phone"))
+        test_data["phone2"].append(response.json().get("phone2"))
+        test_data["model"] = response.json().get("model")
+    
+    # Передаємо список створених ID у тест
+    yield test_data
+    
+    # Отримуємо всі ID з усіх трьох джерел
+    active_ids = {
+        device["id"]
+        for device in device_api.retrieve_list_of_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+    }
+
+    paused_ids = {
+        device["id"]
+        for device in wastebin_api.retrieve_a_list_of_paused_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+    }
+
+    deleted_ids = {
+        device["id"]
+        for device in wastebin_api.retrieve_list_of_deleted_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+    }
+
+    # Переміщаємо все, що ще не в кошику
+    for device_id in active_ids.union(paused_ids):
+        move_response = wastebin_api.move_device_to_wastebin(device_id)
+        expect(move_response).to_be_ok()
+
+    # Видаляємо усе, що в кошику
+    for device_id in deleted_ids.union(active_ids).union(paused_ids):
+        delete_response = wastebin_api.device_permanent_delete(device_id)
+        expect(delete_response).to_be_ok()  
