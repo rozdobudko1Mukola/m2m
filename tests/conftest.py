@@ -9,6 +9,11 @@ from pages.api.devices_api import DeviceAPI
 # Завантаження змінних середовища
 def load_env(env):
     """Завантаження `.env` файлу для вибраного середовища."""
+
+    # Якщо вибране середовище — 'dev', використовуємо конфігурацію 'staging'
+    if env == "dev":
+        env = "staging"
+
     env_file = f".env.{env}"
     if not Path(env_file).exists():
         raise FileNotFoundError(f"Environment file '{env_file}' not found")
