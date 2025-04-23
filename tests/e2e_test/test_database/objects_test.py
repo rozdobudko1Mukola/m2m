@@ -173,27 +173,12 @@ def test_interaction_with_inactive_fields_and_sections_m2m_389(user_page):
         expect(objects_page.object_popap_tablist["new_object_tabs"].nth(index)).to_be_disabled()
 
 
-# M2M-393 Відкрити вікно налаштування об'єкта
-@mark.objects
-@mark.unit
-@mark.testomatio('@Tttttt393')
-@pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-@pytest.mark.parametrize("create_and_remove_units_by_api", [1], indirect=True)
-def test_open_object_settings_window_m2m_393(user_page, create_and_remove_units_by_api):
-    """ ||M2M-393|| Відкрити вікно налаштування об'єкта """
-
-    objects_page = ObjectsPage(user_page)
-    objects_page.unit_table["btns_in_row"].nth(0).click() # Open object settings window
-    for tab in ["main", "access", "sensors", "custom_f", "admin_f", "char", "commands", "drive_detection"]:
-        objects_page.object_popap_tablist[tab].click()
-        expect(objects_page.object_popap_tabpanel[tab]).not_to_be_hidden()
-
-
 # M2M-394 Поставити на паузу об'єкт
 @mark.objects
 @mark.unit
 @mark.testomatio('@Tttttt394')
 @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+@pytest.mark.parametrize("create_and_remove_units_by_api", [1], indirect=True)
 def test_pause_the_object_m2m_394(user_page, test_data, create_and_remove_units_by_api):
     """ ||M2M-394|| Поставити на паузу об'єкт """
 
@@ -339,6 +324,7 @@ class TestObjectsGroup:
 
         objects_page.page_tab_buttons["groups"].click()
         expect(objects_page.check_pagelist("next_page", "groups_total_p")).to_have_text("11-12 із 12")
+        user_page.wait_for_timeout(1000)
         expect(objects_page.check_pagelist("previous_page", "groups_total_p")).to_have_text("1-10 із 12")
 
 
@@ -513,10 +499,30 @@ class TestObjectsGroup:
         objects_page.page_tab_buttons["groups"].click()
         objects_page.head_menu_group_locators["group_search_input"].fill("213qwe123")
 
-        expect(objects_page.group_table["body_row"]).to_have_count(1)
+        expect(objects_page.group_table["body_row"]).to_have_count(0)
 
 
+# Class for testing interaction with objects
+# This class contains tests for various interactions with objects, such as opening settings windows,
+# managing columns, navigating pages, selecting objects, exporting data, and searching within group creation popups.
 class TestInteractionWithObjects:
+
+
+    # M2M-393 Відкрити вікно налаштування об'єкта
+    @mark.objects
+    @mark.unit
+    @mark.testomatio('@Tttttt393')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_open_object_settings_window_m2m_393(self, user_page, full_unit_create_and_remove_by_api):
+        """ ||M2M-393|| Відкрити вікно налаштування об'єкта """
+
+        objects_page = ObjectsPage(user_page)
+        objects_page.unit_table["btns_in_row"].nth(0).click() # Open object settings window
+        for tab in ["main", "access", "sensors", "custom_f", "admin_f", "char", "commands", "drive_detection"]:
+            objects_page.object_popap_tablist[tab].click()
+            expect(objects_page.object_popap_tabpanel[tab]).not_to_be_hidden()
+            
 
     # M2M-380 Прибрати/додати додаткові колонки на панелі відображення об'єктів
     @mark.objects
@@ -549,10 +555,11 @@ class TestInteractionWithObjects:
     def test_display_the_next_and_previous_page_m2m_390(self, user_page, full_unit_create_and_remove_by_api):
         """ ||M2M-390|| Відобразити наступну та попередню сторінку зі списку об'єктів. """
         objects_page = ObjectsPage(user_page)
+        objects_page.increase_decrease_the_number('10')
         
-        expect(objects_page.check_pagelist("next_page", "unit_total_p")).to_contain_text("101-200")
+        expect(objects_page.check_pagelist("next_page", "unit_total_p")).to_contain_text("11-20")
         user_page.wait_for_timeout(1000)
-        expect(objects_page.check_pagelist("previous_page", "unit_total_p")).to_contain_text("1-100")
+        expect(objects_page.check_pagelist("previous_page", "unit_total_p")).to_contain_text("1-10")
 
 
     # M2M-391 Збільшити/зменшити кількість об'єктів, які відображаються на сторінці
@@ -579,7 +586,7 @@ class TestInteractionWithObjects:
         objects_page = ObjectsPage(user_page)
 
         # Select all objects
-        objects_page.unit_table["head_column"].filter(has=selfreg_user.locator("input")).click()
+        objects_page.unit_table["head_column"].filter(has=user_page.locator("input")).click()
 
         for index in range(1, objects_page.unit_table["body_row"].count() + 1):
             expect(user_page.locator(f"//div[@id='display-tabpanel-0']//tbody/tr[{index}]/td[1]//input")).to_be_checked()

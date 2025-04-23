@@ -150,7 +150,7 @@ class ObjectsPage:
             "btns_in_row": self.page.locator("#display-tabpanel-1 table tbody tr td button"),
             "expand_btn": self.page.locator("svg[role='openGroup']"),
             "del_btn_in_row": self.page.locator("#display-tabpanel-1 tbody tr:first-child td:last-child button"),
-            "alert_msg": self.page.locator("div[role='alert']")
+            "alert_msg": self.page.locator("div[role='tabpanel'] div[role='alert']")
         }
 
 # -----------------------------------------------------------------------------
