@@ -100,7 +100,10 @@ def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, t
     # Видаляємо усе, що в кошику
     for device_id in deleted_ids.union(active_ids).union(paused_ids):
         delete_response = wastebin_api.device_permanent_delete(device_id)
-        expect(delete_response).to_be_ok()  
+        expect(delete_response).to_be_ok()
+    
+    # Очищення test_data
+    test_data.pop("device_ids", None)
 
 
 # Group Fixtures ----------------------------------------------------------------------------------------------------------------------------------------
@@ -274,6 +277,9 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
     for device_id in deleted_ids.union(active_ids).union(paused_ids):
         delete_response = wastebin_api.device_permanent_delete(device_id)
         expect(delete_response).to_be_ok()  
+
+    # Очищення test_data
+    test_data.pop("device_ids", None)
 
 
 @pytest.fixture(scope="class")

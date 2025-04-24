@@ -227,7 +227,7 @@ def test_change_password_invalid_new_pass_m2m_31(selfreg_user: Page):
     profile_page.change_password(test_data['login_current_pass'], test_data['invalid_new_pass'], test_data['new pass'])
 
     expect(profile_page.base_page.mandatory_fields_msg.first).to_have_text("Мінімум 6 сиволів") # Перевіряємо вивід повідомлення про невірний пароль
-    expect(profile_page.base_page.mandatory_fields_msg.last).to_have_text("Цей пароль не відповідає паролю, який ви ввели раніше") # Перевіряємо вивід повідомлення про невірний пароль
+    expect(profile_page.base_page.mandatory_fields_msg.last).to_have_text("Паролі не співпадають") # Перевіряємо вивід повідомлення про невірний пароль
 
 
 # M2M-788 Change the password to a new one using invalid values in the "Enter new password again" input field
@@ -237,7 +237,7 @@ def test_change_password_invalid_repeat_pass_m2m_788(selfreg_user: Page):
 
     profile_page.change_password(test_data['login_current_pass'], test_data['new pass'], test_data['invalid_new_pass'])
 
-    expect(profile_page.base_page.mandatory_fields_msg).to_have_text("Цей пароль не відповідає паролю, який ви ввели раніше") # Перевіряємо вивід повідомлення про невірний пароль
+    expect(profile_page.base_page.mandatory_fields_msg).to_have_text("Паролі не співпадають") # Перевіряємо вивід повідомлення про невірний пароль
     expect(profile_page.red_fild_err_border.last).to_have_css("border-color", profile_page.base_page.color_of_red) # Перевіряємо червоний колір поля
 
 

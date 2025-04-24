@@ -241,7 +241,7 @@ def test_create_new_user_invalid_data(page: Page):
 
     expect(base_page.mandatory_fields_msg.first).to_have_text("Введіть корекно Email")
     expect(base_page.mandatory_fields_msg.nth(1)).to_have_text("Мінімум 6 сиволів")
-    expect(base_page.mandatory_fields_msg.last).to_have_text("Цей пароль не відповідає паролю, який ви ввели раніше")
+    expect(base_page.mandatory_fields_msg.last).to_have_text("Паролі не співпадають")
 
 
 # M2M-13 Create a new user without confirming the terms and conditions of use
