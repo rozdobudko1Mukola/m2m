@@ -18,19 +18,27 @@ def del_user_postcondition(api_context, admin_token, test_data):
     expect(response).to_be_ok()
 
 
+@pytest.fixture
+def env(request):
+    return request.config.getoption("--env")
+
+
 # Tests for the test AccountAPI
 @mark.api
 @mark.smoke
 @mark.testomatio('@Tttttt934')
-def test_create_an_account_for_a_new_user(api_context, admin_token, test_data, del_user_postcondition):
+def test_create_an_account_for_a_new_user(api_context, admin_token, test_data, del_user_postcondition, env):
     """Тест на створення облікового запису для нового користувача."""
     account_api = AccountAPI(api_context, admin_token)
+
+    billing_plan_id_free = "12" if env == "staging" else "1"
+
     response = account_api.create_an_account_for_a_new_user(
         email="m2m.test.auto+APIAuto@gmail.com",
         password="123456",
         language="UKRAINIAN",
         accountType="REGISTERED", 
-        billingPlanTemplateId="12"
+        billingPlanTemplateId=billing_plan_id_free
     )
     expect(response).to_be_ok()
 
@@ -41,13 +49,16 @@ def test_create_an_account_for_a_new_user(api_context, admin_token, test_data, d
 @mark.api
 @mark.smoke
 @mark.testomatio('@Tttttt935')
-def test_create_an_account_from_existing_user(api_context, admin_token, test_data, create_and_del_user_by_accaunt):
+def test_create_an_account_from_existing_user(api_context, admin_token, test_data, create_and_del_user_by_accaunt, env):
     """Тест на створення облікового запису для існуючого користувача."""
     account_api = AccountAPI(api_context, admin_token)
+
+    billing_plan_id_free = "12" if env == "staging" else "1"
+
     response = account_api.create_an_account_from_existing_user(
         userId=test_data["user_id"],
         accountType="REGISTERED",
-        billingPlanTemplateId="12"
+        billingPlanTemplateId=billing_plan_id_free
     )
     expect(response).to_be_ok()
 
@@ -219,7 +230,7 @@ def test_get_child_account_payment_statistics_from_interval_with_pagination(api_
     """Тест на отримання статистики платежів для дочірнього облікового запису з пагінацією."""
     account_api = AccountAPI(api_context, admin_token)
     response = account_api.get_child_account_payment_statistics_from_interval_with_pagination(
-        account_id="473", # id аккаунта для теста
+        account_id="768", # id аккаунта для теста
         dateFrom="2025-01-01T00:00:00Z",
         dateTo="2025-01-01T23:59:59Z",
         page=1,
@@ -235,7 +246,7 @@ def test_get_devices_statistics_for_child_account_from_interval_with_pagination(
     """Тест на отримання статистики пристроїв для дочірнього облікового запису з пагінацією."""
     account_api = AccountAPI(api_context, admin_token)
     response = account_api.get_devices_statistics_for_child_account_from_interval_with_pagination(
-        account_id="473", # id аккаунта для теста
+        account_id="768", # id аккаунта для теста
         dateFrom="2025-01-01T00:00:00Z",
         dateTo="2025-01-01T23:59:59Z",
         page=1,
@@ -250,7 +261,7 @@ def test_get_devices_statistics_for_child_account_from_interval_with_pagination(
 def test_retrieve_child_account_content_counters(api_context, admin_token):
     """Тест на отримання лічильників контенту дочірнього облікового запису."""
     account_api = AccountAPI(api_context, admin_token)
-    response = account_api.retrieve_child_account_content_counters(account_id="473")
+    response = account_api.retrieve_child_account_content_counters(account_id="768")
     expect(response).to_be_ok()
 
 
@@ -322,7 +333,7 @@ def test_get_child_account_permission_for_another_child(api_context, admin_token
     account_api = AccountAPI(api_context, admin_token)
     response = account_api.get_child_account_permission_for_another_child(
         account_id=test_data["account_id"],
-        managed_id="473" # id аккаунта для теста
+        managed_id="768" # id аккаунта для теста
     )
     expect(response).to_be_ok()
 
@@ -335,7 +346,7 @@ def test_grant_permissions_to_child_account_for_another_child(api_context, admin
     account_api = AccountAPI(api_context, admin_token)
     response = account_api.grant_permissions_to_child_account_for_another_child(
         account_id=test_data["account_id"],
-        managed_id="473", # id аккаунта для теста
+        managed_id="768", # id аккаунта для теста
         permission="VIEW_ELEMENT",
         state='true'
     )
@@ -381,7 +392,7 @@ def test_export_payment_statistics_for_child_account_to_csv_file(api_context, ad
     """Тест на експорт статистики платежів для дочірнього облікового запису в файл."""
     account_api = AccountAPI(api_context, admin_token)
     response = account_api.export_payment_statistics_for_child_account_to_file(
-        account_id="473", # id аккаунта для теста m2m.test.auto@gmail.com
+        account_id="768", # id аккаунта для теста m2m.test.auto@gmail.com
         file_ext="csv",
         dateFrom="2025-01-01T00:00:00Z",
         dateTo="2025-01-01T23:59:59Z",
@@ -399,7 +410,7 @@ def test_export_payment_statistics_for_child_account_to_xls_file(api_context, ad
     """Тест на експорт статистики платежів для дочірнього облікового запису в файл."""
     account_api = AccountAPI(api_context, admin_token)
     response = account_api.export_payment_statistics_for_child_account_to_file(
-        account_id="473", # id аккаунта для теста m2m.test.auto@gmail.com
+        account_id="768", # id аккаунта для теста m2m.test.auto@gmail.com
         file_ext="xls",
         dateFrom="2025-01-01T00:00:00Z",
         dateTo="2025-01-01T23:59:59Z",
@@ -417,7 +428,7 @@ def test_export_device_statistics_for_child_account_to_csv_file(api_context, adm
     """Тест на експорт статистики пристроїв для дочірнього облікового запису в файл."""
     account_api = AccountAPI(api_context, admin_token)
     response = account_api.export_device_statistics_for_child_account_to_file(
-        account_id="473", # id аккаунта для теста m2m.test.auto@gmail.com
+        account_id="768", # id аккаунта для теста m2m.test.auto@gmail.com
         file_ext="csv",
         dateFrom="2025-01-01T00:00:00Z",
         dateTo="2025-01-01T23:59:59Z",
@@ -435,7 +446,7 @@ def test_export_device_statistics_for_child_account_to_xls_file(api_context, adm
     """Тест на експорт статистики пристроїв для дочірнього облікового запису в файл."""
     account_api = AccountAPI(api_context, admin_token)
     response = account_api.export_device_statistics_for_child_account_to_file(
-        account_id="473", # id аккаунта для теста m2m.test.auto@gmail.com
+        account_id="768", # id аккаунта для теста m2m.test.auto@gmail.com
         file_ext="xls",
         dateFrom="2025-01-01T00:00:00Z",
         dateTo="2025-01-01T23:59:59Z",

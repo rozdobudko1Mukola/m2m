@@ -20,7 +20,12 @@ from pages.api.geofence_groups_api import GeofenceGroupsAPI
 def test_data():
     """Фікстура для збереження даних між тестами для всих апі тестів."""
     return {}
-    
+
+
+@pytest.fixture
+def env(request):
+    return request.config.getoption("--env")
+
 
 # Fixtures for the test DevicesAPI
 
@@ -153,9 +158,11 @@ def create_and_del_user_by_accaunt(api_context, token, test_data):
 # Fixtures for the test AccountAPI------------------------------------------------------------
 
 @pytest.fixture(scope="function")
-def create_and_del_account(api_context, admin_token, test_data):
+def create_and_del_account(api_context, admin_token, test_data, env):
     """Фікстура для створення облікового запису перед тестом та видалення після тесту.
     Видалення облікового запису здійснюється через видалення юзера цього облікового запису"""
+
+    billing_plan_id_comercial = "7" if env == "staging" else "18"
 
     account_api = AccountAPI(api_context, admin_token)
     response = account_api.create_an_account_for_a_new_user(
@@ -163,7 +170,7 @@ def create_and_del_account(api_context, admin_token, test_data):
         password="123456",
         language="UKRAINIAN",
         accountType="CLIENT", 
-        billingPlanTemplateId="7"
+        billingPlanTemplateId=billing_plan_id_comercial
     )
     expect(response).to_be_ok()
 

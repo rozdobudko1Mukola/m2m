@@ -59,7 +59,7 @@ def test_export_list_of_devices_with_pagination_to_excel(api_context, token, pre
     # expect(response).to_be_ok()
     response = wastebin_api.export_list_of_devices_with_pagination_to_file(file_ext="xls", page=1, per_page=10)
     expect(response).to_be_ok()
-    assert response.headers.get("content-disposition") == 'attachment; filename="devices.xls"', f"Expected Content-Disposition: attachment; filename=devices.xlsx, but got: {response.headers.get('Content-Disposition')}"
+    assert response.headers.get("content-disposition") == 'attachment; filename="paused_devices.xls"', f"Expected Content-Disposition: attachment; filename=paused_devices.xlsx, but got: {response.headers.get('Content-Disposition')}"
 
 
 @mark.smoke
@@ -73,7 +73,7 @@ def test_export_list_of_devices_with_pagination_to_csv(api_context, token, pre_a
     # expect(response).to_be_ok()
     response = wastebin_api.export_list_of_devices_with_pagination_to_file(file_ext="csv", page=1, per_page=10)
     expect(response).to_be_ok()
-    assert response.headers.get("content-disposition") == 'attachment; filename="devices.csv"', f"Expected Content-Disposition: attachment; filename=devices.xlsx, but got: {response.headers.get('Content-Disposition')}"
+    assert response.headers.get("content-disposition") == 'attachment; filename="paused_devices.csv"', f"Expected Content-Disposition: attachment; filename=paused_devices.xlsx, but got: {response.headers.get('Content-Disposition')}"
 
 
 @mark.smoke
