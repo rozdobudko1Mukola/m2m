@@ -142,6 +142,8 @@ class ObjectsPage:
             "head_column": self.page.locator("#display-tabpanel-0 table thead tr th"),
             "body_row": self.page.locator("#display-tabpanel-0 table tbody tr"),
             "btns_in_row": self.page.locator("#display-tabpanel-0 table tbody tr td button"),
+            "edit_btn": self.page.locator("button[role='edit']"),
+            "pause_btn": self.page.locator("button[role='remove']"),
         }
         
         self.group_table = {

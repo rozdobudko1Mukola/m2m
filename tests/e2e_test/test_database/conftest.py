@@ -13,7 +13,7 @@ from pages.api.device_groups_api import DeviceGroupsAPI
 
 @pytest.fixture(scope="function")
 def test_data():
-    """Фікстура для збереження даних між тестами."""
+    """Фікстура для збереження даних між тестами function."""
     return {}
 
 
@@ -183,7 +183,7 @@ def delete_device_groups_after_test(api_context, token, test_data):
 
 @pytest.fixture(scope="class")
 def test_data():
-    """Фікстура для збереження даних між тестами."""
+    """Фікстура для збереження даних між тестами class."""
     return {}
 
 
