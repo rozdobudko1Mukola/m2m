@@ -13,6 +13,10 @@ class CustomAdminFieldsPage:
         
         self.empty_fields = self.page.locator("form input[value='']") # nth(0) - first empty name field nth(1) - second empty value field
 
+        self.error = {
+            "msg": self.page.locator("form p"),
+        }
+
         self.modal_window = {
             "modal_title": self.page.locator("h2[id='alert-dialog-title']"),
             "cancl_btn": self.page.locator("div[role='dialog']").nth(1).locator("button").nth(0),

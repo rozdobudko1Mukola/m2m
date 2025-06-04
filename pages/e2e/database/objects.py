@@ -43,6 +43,7 @@ class ObjectsPage:
         self.popap_btn = {
             "cancel": self.page.locator("button:has(+ button[type='submit'])"),
             "ok": self.page.locator("button[type='submit']"),
+            "x_btn": self.page.locator("div[role='dialog'] h2 svg"),
             "confirm_del": self.page.locator("div[role='dialog'] button").nth(0),
             "cancel_del": self.page.locator("div[role='dialog'] button").nth(1),
             "err_msg": self.page.locator("//form/span"),
