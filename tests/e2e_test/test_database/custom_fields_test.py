@@ -5,9 +5,10 @@ from pages.e2e.database.objects import ObjectsPage
 from pages.e2e.database.admin_custom_fields import CustomAdminFieldsPage
 from playwright.sync_api import APIRequestContext 
 from pages.api.devices_api import DeviceAPI
+import time
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def revove_custom_filds(api_context: APIRequestContext, token: str, test_data):
     """Видалити кастомні поля"""
     yield
@@ -30,8 +31,8 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T56f7967a')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
-    def test_open_custom_fields_tab(self, user_page, full_unit_create_and_remove_by_api):
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
+    def test_open_custom_fields_tab(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
         """ ||T56f7967a|| Відкрити вкладку "Довільні поля" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
@@ -50,8 +51,8 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@Tbd40696c')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
-    def test_fill_custom_fields_tab(self, user_page, full_unit_create_and_remove_by_api):
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
+    def test_fill_custom_fields_tab(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
         """ ||Tbd40696c|| Заповнити дані вкладки "Довільні поля" мінімально допустимими значеннями в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
@@ -76,8 +77,8 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T53fa39e0')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
-    def test_fill_custom_fields_tab_max(self, user_page, full_unit_create_and_remove_by_api):
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
+    def test_fill_custom_fields_tab_max(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
         """ ||T53fa39e0|| Заповнити дані вкладки "Довільні поля" максимально допустимими значеннями в попапі налаштування обʼєкту """
         
         name_f = "name! from counting words and characters, online editor help you to improve word choice and writing!" # 100 symbols
@@ -106,8 +107,8 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T34f0b7cc')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
-    def test_remove_custom_fields(self, user_page, full_unit_create_and_remove_by_api):
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
+    def test_remove_custom_fields(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
         """ ||@T34f0b7cc|| Видалення рядку з даними вкладки "Довільні поля" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
@@ -128,8 +129,8 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T053fd448')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
-    def test_fill_only_name_fild(self, user_page, full_unit_create_and_remove_by_api):
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
+    def test_fill_only_name_fild(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
         """ Створити рядок в вкладці "Довільні поля" заповнивши тільки поле "Імʼя" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
@@ -147,8 +148,8 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T3a44f6cc')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
-    def test_fill_only_value_fild(self, user_page, full_unit_create_and_remove_by_api):
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
+    def test_fill_only_value_fild(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
         """ Створити рядок в вкладці "Довільні поля" заповнивши тільки поле "Значення" в попапі налаштування обʼєкту @function @negative """
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
@@ -166,13 +167,13 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T30777dcd')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
     def test_edit_custom_fields(self, user_page, full_unit_create_and_remove_by_api):
         """ ||T30777dcd|| Редагування рядку з даними вкладки "Довільні поля" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
 
-        objects_page.unit_table["edit_btn"].nth(0).click() # Open object settings window
+        objects_page.unit_table["edit_btn"].nth(2).click() # Open object settings window
         objects_page.object_popap_tablist["custom_f"].click()
 
         custom_fields_page.get_field("value", 0).fill("test") # Fill the first empty value field with new value
@@ -186,13 +187,13 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T4652de4e')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
-    def test_edit_custom_fields_empty_value(self, user_page, full_unit_create_and_remove_by_api):
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
+    def test_edit_custom_fields_empty_value(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
         """ ||T4652de4e|| Редагування рядку з даними вкладки "Довільні поля" вказавши пусті дані поля "Значення" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
 
-        objects_page.unit_table["edit_btn"].nth(0).click()
+        objects_page.unit_table["edit_btn"].nth(2).click()
         # Open object settings window
         objects_page.object_popap_tablist["custom_f"].click()
         custom_fields_page.get_field("value", 0).fill("")
@@ -209,8 +210,8 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@Tc7eef2e0')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
-    def test_check_modal_window(self, user_page, full_unit_create_and_remove_by_api):
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
+    def test_check_modal_window(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
         """ ||Tc7eef2e0|| Перевірка появи модального вікна при переході на іншу вкладку якшо є не збережені дані у вкладці "Довільні поля" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
@@ -235,13 +236,13 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@Te9322835')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
-    def test_check_modal_window_close_popap(self, user_page, full_unit_create_and_remove_by_api):
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [4], indirect=True)
+    def test_check_modal_window_close_popap(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
         """ ||Te9322835|| Перевірка появи модального вікна при закриті попапу налаштування обʼєкту якшо є не збережені дані у вкладці "Довільні поля" """
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
 
-        objects_page.unit_table["edit_btn"].nth(1).click() # Open object settings window
+        objects_page.unit_table["edit_btn"].nth(2).click() # Open object settings window
         objects_page.object_popap_tablist["custom_f"].click()
 
         custom_fields_page.fill_field("name", "test_name") # Fill the first empty name field
@@ -251,8 +252,9 @@ class TestCustomFields:
 
         expect(custom_fields_page.modal_window["modal_title"]).to_be_visible() # Check that the modal window is visible
         custom_fields_page.modal_window["save_btn"].click()
+        time.sleep(1)  # Wait for the modal to close
 
-        objects_page.unit_table["edit_btn"].nth(1).click() # Open object settings window
+        objects_page.unit_table["edit_btn"].nth(2).click() # Open object settings window
         objects_page.object_popap_tablist["custom_f"].click()
 
         expect(custom_fields_page.get_field("name", 0)).to_have_value("test_name")
