@@ -282,37 +282,37 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
     test_data.pop("device_ids", None)
 
 
-@pytest.fixture(scope="class")
-def cleanup_devices():
+# @pytest.fixture(scope="class")
+# def cleanup_devices():
 
-    device_api = DeviceAPI(api_context, token)
-    wastebin_api = WastebinAPI(api_context, token)
+#     device_api = DeviceAPI(api_context, token)
+#     wastebin_api = WastebinAPI(api_context, token)
 
-    # Отримуємо всі ID з усіх трьох джерел
-    active_ids = {
-        device["id"]
-        for device in device_api.retrieve_list_of_devices_with_pagination(page=1, per_page=50).json().get("items", [])
-    }
+#     # Отримуємо всі ID з усіх трьох джерел
+#     active_ids = {
+#         device["id"]
+#         for device in device_api.retrieve_list_of_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+#     }
 
-    paused_ids = {
-        device["id"]
-        for device in wastebin_api.retrieve_a_list_of_paused_devices_with_pagination(page=1, per_page=50).json().get("items", [])
-    }
+#     paused_ids = {
+#         device["id"]
+#         for device in wastebin_api.retrieve_a_list_of_paused_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+#     }
 
-    deleted_ids = {
-        device["id"]
-        for device in wastebin_api.retrieve_list_of_deleted_devices_with_pagination(page=1, per_page=50).json().get("items", [])
-    }
+#     deleted_ids = {
+#         device["id"]
+#         for device in wastebin_api.retrieve_list_of_deleted_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+#     }
 
-    # Переміщаємо все, що ще не в кошику
-    for device_id in active_ids.union(paused_ids):
-        move_response = wastebin_api.move_device_to_wastebin(device_id)
-        expect(move_response).to_be_ok()
+#     # Переміщаємо все, що ще не в кошику
+#     for device_id in active_ids.union(paused_ids):
+#         move_response = wastebin_api.move_device_to_wastebin(device_id)
+#         expect(move_response).to_be_ok()
 
-    # Видаляємо усе, що в кошику
-    for device_id in deleted_ids.union(active_ids).union(paused_ids):
-        delete_response = wastebin_api.device_permanent_delete(device_id)
-        expect(delete_response).to_be_ok()
+#     # Видаляємо усе, що в кошику
+#     for device_id in deleted_ids.union(active_ids).union(paused_ids):
+#         delete_response = wastebin_api.device_permanent_delete(device_id)
+#         expect(delete_response).to_be_ok()
 
-    # Повертаємо очищене середовище, якщо це потрібно для тестів
-    yield
+#     # Повертаємо очищене середовище, якщо це потрібно для тестів
+#     yield
