@@ -27,6 +27,9 @@ class TestCustomFields:
 
     err_text_msg = "Обов'язкове поле"  # Error message for required field
     err_color_msg = "rgb(211, 47, 47)"  # Red color for error message
+    err_msg_100_symbols = "Максимум 100 символів"  # Error message for max length of 100 symbols
+    form_err_text = "Поле з таким іменем вже існує. Змініть ім'я для поля" # Error message for duplicate field name
+
     
     # Відкрити вкладку "Довільні поля" в попапі налаштування обʼєкту
     @mark.objects
@@ -88,7 +91,7 @@ class TestCustomFields:
         """ ||T53fa39e0|| Заповнити дані вкладки "Довільні поля" максимально допустимими значеннями в попапі налаштування обʼєкту """
         
         name_f = "name! from counting words and characters, online editor help you to improve word choice and writing!" # 100 symbols
-        value_f = "value! from counting words and characters, online editor help you to improve word choice and writing!" # 100 symbols
+        value_f = "value! from counting words and characters, online editor help you to improve word choice and writing" # 100 symbols
         
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
@@ -292,3 +295,100 @@ class TestCustomFields:
 
         expect(custom_fields_page.get_field("name", 0)).to_have_value("test_name")
         expect(custom_fields_page.get_field("value", 0)).to_have_value("test_value")
+
+
+    # Перевірка появи модального вікна при переході на іншу вкладку якшо дані збережені у вкладці "Довільні поля" @function @positive
+    @mark.objects
+    @mark.custom_fields
+    @mark.testomatio('@T3a7c1543')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_check_modal_window_using_valid_data(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
+        """ ||T3a7c1543|| Перевірка появи модального вікна при переході на іншу вкладку якшо дані збережені у вкладці "Довільні поля" @function @positive """
+        objects_page = ObjectsPage(user_page)
+        custom_fields_page = CustomAdminFieldsPage(user_page)
+
+        objects_page.unit_table["edit_btn"].nth(0).click() # Open object settings window
+        expect(objects_page.object_main_popap_inputs["model"]).not_to_be_empty() # Check that the model field is not empty
+
+        objects_page.object_popap_tablist["custom_f"].click()
+
+        custom_fields_page.fill_field("name", "test_name") # Fill the first empty name field
+        custom_fields_page.fill_field("value", "test_value") # Fill the first empty value field
+        custom_fields_page.save_btn.click() # Click the save button
+        expect(custom_fields_page.save_btn).to_be_disabled() # Check that the save button is disabled
+
+        objects_page.object_popap_tablist["main"].click()
+
+        objects_page.object_popap_tablist["custom_f"].click()
+        expect(custom_fields_page.get_field("name", 0)).to_have_value("test_name")
+        expect(custom_fields_page.get_field("value", 0)).to_have_value("test_value")
+
+
+    # Заповнити дані вкладки "Довільні поля" вказавши НЕ валідну довжину симовлів в поя вводу в попапі налаштування обʼєкту
+    @mark.objects
+    @mark.custom_fields
+    @mark.testomatio('@T7cad8ff8')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_fill_custom_fields_tab_invalid_length(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
+        """ ||T7cad8ff8|| Заповнити дані вкладки "Довільні поля" вказавши НЕ валідну довжину симовлів в поя вводу в попапі налаштування обʼєкту """
+        
+        # 101 symbols, invalid length
+        invalid_name_f = "In the Details overview you can see the average speaking and reading time for your text, while Readin"  # 101 symbols, invalid length
+        
+        objects_page = ObjectsPage(user_page)
+        custom_fields_page = CustomAdminFieldsPage(user_page)
+
+        objects_page.unit_table["edit_btn"].nth(0).click() # Open object settings window
+        expect(objects_page.object_main_popap_inputs["model"]).not_to_be_empty() # Check that the model field is not empty
+
+        objects_page.object_popap_tablist["custom_f"].click()
+
+        custom_fields_page.fill_field("name", invalid_name_f) # Fill the first empty name field
+        custom_fields_page.fill_field("value", invalid_name_f) # Fill the first empty value field
+        custom_fields_page.save_btn.click() # Click the save button
+
+        # Поля вводу "Імʼя" та "Значення" підсвічуються червоним кольором
+        expect(custom_fields_page.error["input_border"].nth(0)).to_have_css("border-color", self.err_color_msg) # Check that the input border color is red in name field
+        expect(custom_fields_page.error["input_border"].nth(1)).to_have_css("border-color", self.err_color_msg) # Check that the input border color is red in value field
+        # Під полями вводу відображаються повідомлення про помилку "Максимум 100 символів"
+        expect(custom_fields_page.error["msg"].nth(0)).to_have_text(self.err_msg_100_symbols) # Check that the error message is displayed under the name field
+        expect(custom_fields_page.error["msg"].nth(1)).to_have_text(self.err_msg_100_symbols) # Check that the error message is displayed under the value field
+
+
+    # Додавання декількох рядків з однаковими даними у вкладці "Довільні поля" в попапі налаштування обʼєкту
+    @mark.objects
+    @mark.custom_fields
+    @mark.testomatio('@T30141880')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_add_multiple_custom_fields(self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds):
+        """ ||T30141880|| Додавання декількох рядків з однаковими даними у вкладці "Довільні поля" в попапі налаштування обʼєкту """
+        
+        objects_page = ObjectsPage(user_page)
+        custom_fields_page = CustomAdminFieldsPage(user_page)
+
+        objects_page.unit_table["edit_btn"].nth(0).click() # Open object settings window
+        expect(objects_page.object_main_popap_inputs["model"]).not_to_be_empty() # Check that the model field is not empty
+
+        objects_page.object_popap_tablist["custom_f"].click()
+
+        custom_fields_page.fill_field("name", "test_name") # Fill the first empty name field
+        custom_fields_page.fill_field("value", "test_value") # Fill the first empty value field
+        custom_fields_page.save_btn.click() # Click the save button
+
+        expect(custom_fields_page.get_field("name", 0)).to_have_value("test_name") # Check that the first name field is filled
+        expect(custom_fields_page.get_field("value", 0)).to_have_value("test_value") # Check that the first value field is filled
+        expect(custom_fields_page.empty_fields.nth(0)).to_be_enabled() # Check that the first empty name field is enabled
+        expect(custom_fields_page.empty_fields.nth(1)).to_be_enabled() # Check that the first empty value field is enabled
+        expect(custom_fields_page.save_btn).to_be_disabled() # Check that the save button is disabled
+        expect(custom_fields_page.del_btn.nth(0)).to_be_enabled() # Check that the delete button is enabled
+        # Add another row with the same data
+
+        custom_fields_page.fill_field("name", "test_name") # Fill the second empty name field
+        custom_fields_page.fill_field("value", "test_value1") # Fill the second empty value field
+        custom_fields_page.save_btn.click() # Click the save button
+
+        expect(custom_fields_page.error["form_err_msg"]).to_be_visible() # Check that the error message is displayed
+        expect(custom_fields_page.error["form_err_msg"]).to_have_text(self.form_err_text) # Check that the error message is correct

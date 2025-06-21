@@ -15,6 +15,8 @@ class CustomAdminFieldsPage:
 
         self.error = {
             "msg": self.page.locator("form p"),
+            "input_border": self.page.locator("form fieldset"),
+            "form_err_msg": self.page.locator("form > span")
         }
 
         self.modal_window = {
