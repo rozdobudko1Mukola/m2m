@@ -99,7 +99,8 @@
 # @pytest.mark.parametrize("number", [25, 50, 100, 10]) # test all possible values
 # def test_increase_decrease_number_of_objects_m2m_778(client_user: Page, number):
 #     analytics_page = AnalyticsPage(client_user)
-#     assert len(analytics_page.change_device_list(number)) == number, f"Expected {number} devices, but got {len(analytics_page.unit_list)}"
+#     assert len(analytics_page.change_device_list(number)) == number,
+# f"Expected {number} devices, but got {len(analytics_page.unit_list)}"
 #     assert analytics_page.row_per_page_dd.inner_text() == str(number)
 
 
@@ -107,13 +108,8 @@
 # @mark.testomatio('@Tttttt779')
 # def test_next_previous_page_of_list_m2m_779(client_user: Page):
 #     analytics_page = AnalyticsPage(client_user)
-#     assert analytics_page.next_page() is True, f"Expected to go to the next page, but got {analytics_page.next_page()}"
+#     assert analytics_page.next_page() is True,
+# f"Expected to go to the next page, but got {analytics_page.next_page()}"
 #     expect(analytics_page.device_of_devices_text.last).to_contain_text("11-20")
 #     analytics_page.previos_page_btn.click(delay=500)
 #     expect(analytics_page.device_of_devices_text.last).to_contain_text("1-10")
-
-
-
-
-
-

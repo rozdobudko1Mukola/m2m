@@ -37,7 +37,7 @@ def test_valid_login(page: Page):
     login_page.accept_btn.click()
 
     expect(page).to_have_url("/monitoring")
-    
+
 
 # M2M-2 Authorization of a registered user with an invalid email
 @mark.testomatio('@Tttttttt2')
@@ -68,7 +68,7 @@ def test_invalid_password_login(page: Page):
 def test_unregistered_user_login(page: Page):
     login_page = LoginPage(page)
     login_page.login(unregisteret_user_email, valid_password)
-    login_page.accept_btn.click() 
+    login_page.accept_btn.click()
 
     expect(login_page.error_block).to_be_visible(timeout=10000)
 
@@ -117,7 +117,7 @@ def test_restore_password_invalid_email(page: Page):
     login_page.accept_btn.click()
 
     expect(base_page.red_fild_color, "color should be red").to_have_css("border-color", color_of_red)
-    expect(base_page.mandatory_fields_msg.first).to_have_text("Введіть корекно Email")  
+    expect(base_page.mandatory_fields_msg.first).to_have_text("Введіть корекно Email")
 
 
 # M2M-7 Switch to another account using the "Sign in as" button
@@ -135,10 +135,9 @@ def test_sign_in_as(page: Page):
     login_page.login_as(valid_user_email, valid_password, ch_user_email)
 
     base_page.profile_menu_btn.click()
-    
+
     expect(login_page.user_email_profile_input).to_have_value(ch_user_email)
-    
-    
+
 
 # M2M-8 In the "Sign in as" window, use the search
 @mark.testomatio('@Tttttttt8')
@@ -248,7 +247,6 @@ def test_create_new_user_invalid_data(page: Page):
 @mark.testomatio('@Ttttttt13')
 def test_create_new_user_without_confirm(page: Page):
     login_page = LoginPage(page)
-    base_page = BasePage(page)
 
     login_page.sign_up_btn.click()
     login_page.sign_up(valid_user_email, valid_password, valid_password, "ua")
@@ -260,7 +258,6 @@ def test_create_new_user_without_confirm(page: Page):
 @mark.testomatio('@Ttttt1310')
 def test_create_new_user_with_registered_data(page: Page):
     login_page = LoginPage(page)
-    base_page = BasePage(page)
 
     login_page.sign_up_btn.click()
     login_page.sign_up(valid_user_email, valid_password, valid_password, "ua")
@@ -284,6 +281,7 @@ def test_view_password_on_sign_up_page(page: Page):
 
     login_page.show_password_btn.last.click()
     expect(login_page.repeat_password_input).to_have_attribute("type", "text")
+
 
 # M2M-6 Remind user password ------------------------------------------------
 @mark.testomatio('@Tttttttt6')
@@ -317,6 +315,3 @@ def test_create_new_user(page: Page):
 @pytest.mark.skip("Not implemented")
 def test_login_new_user(page: Page):
     pass
-
-    
-

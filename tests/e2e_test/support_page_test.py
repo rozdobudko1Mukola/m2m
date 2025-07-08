@@ -1,7 +1,5 @@
-import pytest
 from pytest import mark
 from pages.e2e.support_page import SupportPage
-from pages.e2e.base_page import BasePage
 from playwright.sync_api import Page, expect
 
 
@@ -80,7 +78,10 @@ def test_contact_info(client_user: Page):
     # Перевіряємо, чи дані з contact_info відповідають expected_dict
     for key, expected_value in expected_dict.items():
         actual_value = contact_info.get(key, "")
-        assert actual_value == expected_value, f"Невірне значення для '{key}': очікувалось '{expected_value}', але отримано '{actual_value}'"
+        assert actual_value == expected_value, (
+            f"Невірне значення для '{key}': очікувалось '{expected_value}', "
+            f"але отримано '{actual_value}'"
+        )
 
 
 @mark.support_page
