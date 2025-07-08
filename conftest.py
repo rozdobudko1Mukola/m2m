@@ -1,8 +1,9 @@
 import pytest
 import os
+from typing import Tuple
 from pathlib import Path
 from dotenv import load_dotenv
-from playwright.sync_api import sync_playwright, Browser, Page
+from playwright.sync_api import Browser, Page
 from pages.e2e.login import LoginPage
 
 LOCALE = 'uk-UA'
@@ -58,15 +59,29 @@ def setup_env(pytestconfig):
     """Завантаження конфігурації середовища перед запуском тестів."""
     env = pytestconfig.getoption("--env") or "staging"
     load_env(env)
- 
+
+
+def get_user_credentials(user_type: str) -> Tuple[str, str, str]:
+    """Отримати base_url, email та пароль користувача з перевіркою."""
+    base_url = os.getenv("BASE_URL")
+    user_email = os.getenv(f"{user_type}_USER_EMAIL")
+    user_password = os.getenv(f"{user_type}_USER_PASSWORD")
+
+    if not base_url:
+        raise ValueError("BASE_URL не задано у змінних середовища")
+    if not user_email or not user_password:
+        raise ValueError(f"Email або пароль для {user_type} не задано у змінних середовища")
+
+    return base_url, user_email, user_password
+
+
 # Environment setup fixture
 @pytest.fixture()
 def client_user(browser: Browser, request):
     """Використовується для створення авторизації для конкретного типу користувача."""
     user_type = "CLIENT"
-    base_url = os.getenv("BASE_URL")
-    user_email = os.getenv(f"{user_type}_USER_EMAIL")
-    user_password = os.getenv(f"{user_type}_USER_PASSWORD")
+
+    base_url, user_email, user_password = get_user_credentials(user_type)
 
     auth_storage_path = get_auth_storage_path(base_url, user_type.lower())
 
@@ -111,9 +126,8 @@ def client_user(browser: Browser, request):
 def admin_user(browser: Browser, request):
     """Використовується для створення авторизації для конкретного типу користувача."""
     user_type = "ADMIN"
-    base_url = os.getenv("BASE_URL")
-    user_email = os.getenv(f"{user_type}_USER_EMAIL")
-    user_password = os.getenv(f"{user_type}_USER_PASSWORD")
+
+    base_url, user_email, user_password = get_user_credentials(user_type)
 
     auth_storage_path = get_auth_storage_path(base_url, user_type.lower())
 
@@ -158,9 +172,8 @@ def admin_user(browser: Browser, request):
 def selfreg_user(browser: Browser, request):
     """Використовується для створення авторизації для конкретного типу користувача."""
     user_type = "SELFREG"
-    base_url = os.getenv("BASE_URL")
-    user_email = os.getenv(f"{user_type}_USER_EMAIL")
-    user_password = os.getenv(f"{user_type}_USER_PASSWORD")
+
+    base_url, user_email, user_password = get_user_credentials(user_type)
 
     auth_storage_path = get_auth_storage_path(base_url, user_type.lower())
 
@@ -205,9 +218,8 @@ def selfreg_user(browser: Browser, request):
 def freebill_user(browser: Browser, request):
     """Використовується для створення авторизації для конкретного типу користувача."""
     user_type = "FREEBILL"
-    base_url = os.getenv("BASE_URL")
-    user_email = os.getenv(f"{user_type}_USER_EMAIL")
-    user_password = os.getenv(f"{user_type}_USER_PASSWORD")
+
+    base_url, user_email, user_password = get_user_credentials(user_type)
 
     auth_storage_path = get_auth_storage_path(base_url, user_type.lower())
 
@@ -252,9 +264,8 @@ def freebill_user(browser: Browser, request):
 def search_units(browser: Browser, request):
     """Використовується для створення авторизації для конкретного типу користувача."""
     user_type = "SEARCHUNIT"
-    base_url = os.getenv("BASE_URL")
-    user_email = os.getenv(f"{user_type}_USER_EMAIL")
-    user_password = os.getenv(f"{user_type}_USER_PASSWORD")
+
+    base_url, user_email, user_password = get_user_credentials(user_type)
 
     auth_storage_path = get_auth_storage_path(base_url, user_type.lower())
 
@@ -295,7 +306,6 @@ def search_units(browser: Browser, request):
     context.close()
 
 
-
 # гпт універсальна фікстура яку треба перевірити
 @pytest.fixture(scope="function")
 def user_page(browser: Browser, request) -> Page:
@@ -304,9 +314,9 @@ def user_page(browser: Browser, request) -> Page:
     Сесія зберігається або створюється заново при потребі.
     """
     user_type = request.param.upper()
-    base_url = os.getenv("BASE_URL")
-    user_email = os.getenv(f"{user_type}_USER_EMAIL")
-    user_password = os.getenv(f"{user_type}_USER_PASSWORD")
+
+    base_url, user_email, user_password = get_user_credentials(user_type)
+
     auth_storage_path = get_auth_storage_path(base_url, user_type.lower())
 
     if not auth_storage_path.exists():
@@ -371,6 +381,3 @@ def pytest_addoption(parser):
         default="staging",
         help="Вибір середовища для тестів (prod, staging, dev)",
     )
-
-
-

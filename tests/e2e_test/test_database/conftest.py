@@ -1,13 +1,12 @@
 import pytest
-from typing import List
 from pages.api.wastebin_api import WastebinAPI
-from playwright.sync_api import APIRequestContext 
+from playwright.sync_api import APIRequestContext
 from playwright.sync_api import expect
 from pages.api.devices_api import DeviceAPI
 from pages.api.device_groups_api import DeviceGroupsAPI
 
 
-#### -----Fixtures with use in APi ------------------------------------------------
+# -----Fixtures with use in APi ------------------------------------------------
 # # Units Fixtures --------------------------------------------------------------
 
 
@@ -20,7 +19,7 @@ def test_data():
 @pytest.fixture
 def remove_units_by_api(api_context: APIRequestContext, token: str, test_data):
     """Фікстура для видалення пристроїв через API після кожного тесту."""
-    
+
     yield
 
     wastebin_api = WastebinAPI(api_context, token)
@@ -36,7 +35,7 @@ def remove_units_by_api(api_context: APIRequestContext, token: str, test_data):
             # Перевіряємо, чи співпадає creatorName
             if device.get("creatorName") == "m2m.test.auto@gmail.com [m2m.test.auto@gmail.com]":
                 test_data["device_id"] = device["id"]
-                
+
                 # Переміщаємо пристрій в кошик та видаляємо його
                 response = wastebin_api.move_device_to_wastebin(test_data["device_id"])
                 if response.status == 200:  # Якщо пристрій успішно переміщено в кошик
@@ -52,7 +51,7 @@ def remove_units_by_api(api_context: APIRequestContext, token: str, test_data):
 def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, test_data, request):
     """Фікстура для створення та видалення пристроїв через API після кожного тесту.
     Кількість пристроїв визначається параметром request.param."""
-    
+
     device_api = DeviceAPI(api_context, token)
     wastebin_api = WastebinAPI(api_context, token)
 
@@ -71,10 +70,10 @@ def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, t
         expect(response).to_be_ok()
         test_data["device_ids"].append(response.json().get("id"))
         test_data["uniqueId"].append(response.json().get("uniqueId"))
-    
+
     # Передаємо список створених ID у тест
     yield test_data["device_ids"]
-    
+
     # Після виконання тесту видаляємо пристрої
         # Отримуємо всі ID з усіх трьох джерел
     active_ids = {
@@ -101,7 +100,7 @@ def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, t
     for device_id in deleted_ids.union(active_ids).union(paused_ids):
         delete_response = wastebin_api.device_permanent_delete(device_id)
         expect(delete_response).to_be_ok()
-    
+
     # Очищення test_data
     test_data.pop("device_ids", None)
 
@@ -115,10 +114,10 @@ def create_and_del_device_groups(api_context, token, test_data, request):
     Кількість визначається параметром request.param (наприклад: @pytest.mark.parametrize(create_and_del_device_groups, [3], indirect=True)).
     """
     device_groups_api = DeviceGroupsAPI(api_context, token)
-    
+
     # Список ID створених груп
     test_data["device_group_ids"] = []
-    
+
     # Кількість груп для створення
     num_groups = request.param if hasattr(request, "param") else 1
 
@@ -191,7 +190,7 @@ def test_data():
 def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: str, test_data, request):
     """Фікстура для створення та видалення пристроїв через API після кожного тесту.
     Кількість пристроїв визначається параметром request.param."""
-    
+
     device_api = DeviceAPI(api_context, token)
     wastebin_api = WastebinAPI(api_context, token)
 
@@ -225,7 +224,7 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
             phone2=phone2
         )
         expect(response).to_be_ok()
-        
+
         test_data["unit_id"] = response.json().get("id")
 
         test_data["device_ids"].append(response.json().get("id"))
@@ -242,7 +241,7 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
             phone2=phone2,
             model=model
         )
-    
+
         expect(response).to_be_ok()
         test_data["uniqueId"].append(response.json().get("uniqueId"))
         test_data["phone"].append(response.json().get("phone"))
@@ -251,7 +250,7 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
 
     # Передаємо список створених ID у тест
     yield test_data
-    
+
     # Отримуємо всі ID з усіх трьох джерел
     active_ids = {
         device["id"]
@@ -276,7 +275,7 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
     # Видаляємо усе, що в кошику
     for device_id in deleted_ids.union(active_ids).union(paused_ids):
         delete_response = wastebin_api.device_permanent_delete(device_id)
-        expect(delete_response).to_be_ok()  
+        expect(delete_response).to_be_ok()
 
     # Очищення test_data
     test_data.pop("device_ids", None)
