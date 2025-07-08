@@ -25,7 +25,7 @@ def get_token_from_email(page: Page):
         try:
             button_next = page.get_by_role("button", name="Далі")
             button_next.click()
-        except:
+        except Exception:
             button_next = page.get_by_role("button", name="Next")
             button_next.click()
 
@@ -36,7 +36,7 @@ def get_token_from_email(page: Page):
         try:
             button_next = page.get_by_role("button", name="Далі")
             button_next.click()
-        except:
+        except Exception:
             button_next = page.get_by_role("button", name="Next")
             button_next.click()
 

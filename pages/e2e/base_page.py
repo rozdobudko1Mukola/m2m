@@ -4,7 +4,7 @@ from playwright.sync_api import Page, Download
 class BasePage:
     def __init__(self, page: Page):
         self.page = page
-        
+
         # Елементи меню
         self.support_menu_btn = self.page.get_by_role("link", name="Підтримка")
         self.doc_menu_btn = self.page.get_by_role("link", name="Документація")
@@ -28,15 +28,14 @@ class BasePage:
 
         # Помилки
         self.red_fild_color = self.page.locator("fieldset")  # Червоний колір полів
-        self.mandatory_fields_msg = self.page.locator("form p") # Повідомлення про обов'язкові поля
+        self.mandatory_fields_msg = self.page.locator("form p")  # Повідомлення про обов'язкові поля
 
-        self.color_of_red = "rgb(211, 47, 47)" # Червоний колір
+        self.color_of_red = "rgb(211, 47, 47)"  # Червоний колір
 
         self.export_links = {
             "first": self.page.locator("li[role='menuitem']").nth(1),
             "second": self.page.locator("li[role='menuitem']").nth(2),
         }
-
 
     def trigger_download(self, locator: str) -> Download:
         """Клікає по елементу та очікує завантаження файлу."""

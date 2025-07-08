@@ -7,11 +7,11 @@ class CustomAdminFieldsPage:
         self.page = page
         self.page.goto("/units")
 
-
         self.save_btn = self.page.locator("button[type='submit']")
         self.del_btn = self.page.locator("form button[type='button']")
-        
-        self.empty_fields = self.page.locator("form input[value='']") # nth(0) - first empty name field nth(1) - second empty value field
+
+        # nth(0) - first empty name field nth(1) - second empty value field
+        self.empty_fields = self.page.locator("form input[value='']")
 
         self.error = {
             "msg": self.page.locator("form p"),
@@ -25,9 +25,15 @@ class CustomAdminFieldsPage:
             "save_btn": self.page.locator("div[role='dialog']").nth(1).locator("button").nth(1),
         }
 
+        self.buttons = {
+            "save": self.save_btn,
+            "delete": self.del_btn,
+            # Add more button mappings as needed
+        }
+
     def get_field(self, field_type, index):
         return self.page.locator(f"form input[name='pairs.{index}.{field_type}']")
-    
+
     def fill_field(self, field_type: str, value: str):
         self.page.locator(f"form input[name='{field_type}']").fill(value)
 

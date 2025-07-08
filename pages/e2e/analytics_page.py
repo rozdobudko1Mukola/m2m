@@ -1,6 +1,7 @@
 from playwright.sync_api import Page
 from pages.e2e.base_page import BasePage
 
+
 class AnalyticsPage:
 
     def __init__(self, page: Page):
@@ -13,9 +14,11 @@ class AnalyticsPage:
         self.week_tab = self.page.locator("button#simple-tab-2")
 
         self.dashbords = self.page.locator("//div[@id='simple-tabpanel-0']/div/div/div/div/div/div/span")
-        
+
         # pop-up locators
-        self.settings_btn = self.page.locator("//div[@id='simple-tabpanel-0']/div/div/div/div/div/div/span/following-sibling::div")
+        self.settings_btn = self.page.locator(
+            "//div[@id='simple-tabpanel-0']/div/div/div/div/div/div/span/following-sibling::div"
+        )
         self.search_input = self.page.locator("input#outlined-basic")
         self.unit_list = self.page.locator("//div[@role='list']/div")
         self.submit_btn = self.page.locator("//button[@type='submit']")
@@ -23,7 +26,7 @@ class AnalyticsPage:
         self.previos_page_btn = self.page.get_by_title("Go to previous page")
         self.next_page_btn = self.page.get_by_title("Go to next page")
         self.device_of_devices_text = self.page.locator("form p")
-        
+
         self.device_in_diagram = self.page.locator("g.apexcharts-yaxis.apexcharts-xaxis-inversed g title")
 
     def add_device_to_diagram(self, grafic) -> list:
@@ -55,7 +58,7 @@ class AnalyticsPage:
         self.search_input.fill(search_text)
         self.page.wait_for_timeout(1000)
 
-    def change_device_list(self, number: int) -> int:
+    def change_device_list(self, number: int) -> list:
         device_list = []
         self.settings_btn.nth(2).click()
         self.row_per_page_dd.click()

@@ -6,7 +6,7 @@ class SupportPage:
 
     def __init__(self, page: Page):
         self.page = page
-        self.base_page = BasePage(page) 
+        self.base_page = BasePage(page)
         self.page.goto("/support")
 
         # Лінки на форум і документацію
@@ -15,7 +15,6 @@ class SupportPage:
 
         # Локатор для даних
         self.data_list = self.page.locator("main div p")
-
 
     def click_exit_button(self):
         self.base_page.exit_menu_btn.click()

@@ -5,6 +5,7 @@ from playwright.sync_api import Page, expect
 from pages.e2e.database.objects import ObjectsPage
 from pages.e2e.base_page import BasePage
 from pages.e2e.database.on_pause import onPausePage
+import time
 
 
 VEHICLE_DEVICE = {
@@ -31,7 +32,7 @@ stage_expect_deactivate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'Р�
 stage_expect_activate_column = ['', '№', "ОБ'ЄКТИ", 'НАЗВА', 'РЕДАГУВАТИ', 'ТИП ОБ’ЄКТУ', 'IMEI', 'SIM 1', 'SIM 2', 'ДАТА СТВОРЕННЯ ОБ’ЄКТА', 'РЕЄСТРАЦІЙНИЙ НОМЕР', 'ОСТАННЄ ПОВІДОМЛЕННЯ ОБ’ЄКТА', 'Пауза']
 
 expect_deactivate_column = ['', '№', "ОБ'ЄКТИ", "ІМ'Я", 'РЕДАГУВАТИ']
-expect_activate_column = ['', '№', "ОБ'ЄКТИ", "ІМ'Я", 'РЕДАГУВАТИ', 'ТИП ОБ’ЄКТУ', 'ОБЛІКОВИЙ ЗАПИС', 'МОДЕЛЬ ТРЕКЕРУ', 'УНІКАЛЬНИЙ ID', 'SIM 1', 'SIM 2', 'ДАТА СТВОРЕННЯ', 'РЕЄСТРАЦІЙНИЙ НОМЕР', 'ОСТАННЄ ПОВІДОМЛЕННЯ', 'Пауза', 'Видалити']
+expect_activate_column = ['', '№', "ОБ'ЄКТИ", "ІМ'Я", 'РЕДАГУВАТИ', 'ТИП ОБ’ЄКТУ', 'ОБЛІКОВИЙ ЗАПИС', 'МОДЕЛЬ ТРЕКЕРУ', 'УНІКАЛЬНИЙ ID', 'SIM 1', 'SIM 2', 'ДАТА СТВОРЕННЯ', 'РЕЄСТРАЦІЙНИЙ НОМЕР', 'ОСТАННЄ ПОВІДОМЛЕННЯ', 'КОПІЮВАТИ', 'Пауза', 'Видалити']
 
 # Objects-------------------------------------------------------------------------------------------------------------------------------------
 
@@ -184,9 +185,25 @@ def test_pause_the_object_m2m_394(user_page, test_data, create_and_remove_units_
 
     objects_page = ObjectsPage(user_page)
 
-    objects_page.pause_all_object()
-    user_page.goto("/on-pause")
-    expect(user_page.locator("table tbody tr").nth(0)).to_contain_text(test_data['uniqueId'])
+    #Натиснути кнопку "Пауза"
+    objects_page.unit_table["pause_btn"].click()
+    #Expected: * З'являється вікно підтвердження переведення об'єкта на паузу.
+    expect(objects_page.popap_btn["popap_title"]).to_contain_text("Підтвердження видалення")
+
+    # Натиснути кнопку "підтвердити паузу"
+    objects_page.popap_btn["confirm_del"].click(timeout=1000)
+    time.sleep(1)  # Чекаємо 1 секунду, щоб дати час на обробку запиту
+    
+    # Expected: * Dікно підтвердження переведення об'єкта на паузу закривається
+    expect(objects_page.popap_btn["popap_title"]).not_to_be_visible()
+    user_page.reload()  # Перезавантажуємо сторінку, щоб оновити таблицю об'єктів
+    # Expected: * Об'єкт не відображається на панелі
+    expect(objects_page.unit_table["body_row"]).not_to_be_visible()
+    
+    # Expected: * Об'єкт відображається на сторінці "На паузі"
+    onPause_Page = onPausePage(user_page)
+    expect(onPause_Page.ob_tablet_body).to_contain_text(test_data['uniqueId'])
+
 
 
 # M2M-395 Скасувати переведення об'єкта на паузу
@@ -198,16 +215,22 @@ def test_cancel_pause_the_object_m2m_395(user_page, test_data, create_and_remove
     """ ||M2M-395|| Скасувати переведення об'єкта на паузу """
 
     objects_page = ObjectsPage(user_page)
-    objects_page.unit_table["head_column"].nth(0).click(timeout=1000)
-    objects_page.unit_table["head_column"].nth(14).click(timeout=1000)
-    objects_page.popap_btn["cancel_del"].click()
-    user_page.wait_for_timeout(1000)
-    expect(user_page.locator("table tbody tr").nth(0)).to_contain_text(test_data['uniqueId'])
 
-    # Check if the object was not paused
-    user_page.goto("/on-pause")
-    expect(user_page.locator("table tbody tr").nth(0)).not_to_be_visible()
+    #Натиснути кнопку "Пауза"
+    objects_page.unit_table["pause_btn"].click()
+    #Expected: * З'являється вікно підтвердження переведення об'єкта на паузу.
+    expect(objects_page.popap_btn["popap_title"]).to_contain_text("Підтвердження видалення")
 
+    # Натиснути кнопку "ні, залишити"
+    objects_page.popap_btn["cancel_del"].click(timeout=1000)
+    time.sleep(1)  # Чекаємо 1 секунду, щоб дати час на обробку запиту
+    
+    # Expected: * Dікно підтвердження переведення об'єкта на паузу закривається
+    expect(objects_page.popap_btn["popap_title"]).not_to_be_visible()
+    user_page.reload()  # Перезавантажуємо сторінку, щоб оновити таблицю об'єктів
+    # Expected: * Об'єкт не відображається на панелі
+    expect(objects_page.unit_table["body_row"]).to_contain_text(test_data['uniqueId'])
+    
 
 
 # Group of objects----------------------------------------------------------------------------------------------------------------------------
@@ -519,6 +542,7 @@ class TestInteractionWithObjects:
 
         objects_page = ObjectsPage(user_page)
         objects_page.unit_table["btns_in_row"].nth(0).click() # Open object settings window
+        expect(objects_page.object_main_popap_inputs["model"]).to_have_value("M2M Mobile Tracker")
         for tab in ["main", "access", "sensors", "custom_f", "admin_f", "char", "commands", "drive_detection"]:
             objects_page.object_popap_tablist[tab].click()
             expect(objects_page.object_popap_tabpanel[tab]).not_to_be_hidden()
@@ -598,37 +622,39 @@ class TestInteractionWithObjects:
         expect(user_page.locator("//div[@id='display-tabpanel-0']//tbody/tr[2]/td[1]//input")).to_be_checked()
 
 
-    # Здійснити експорт списку об'єктів в форматі CSV / XLS
-    @mark.objects
-    @mark.unit
-    @mark.testomatio('@Ttttt1957')
-    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [25], indirect=True)
-    @pytest.mark.parametrize("chose_item, expected_format", [("second", ".csv"), ("first", ".xls")], ids=["CSV", "XLS"])
-    def test_export_objects_in_file_m2m_Ttttt1957(self, user_page, chose_item: str, expected_format: str, full_unit_create_and_remove_by_api):
-        """ ||M2M-1957|| Здійснити експорт списку об'єктів в форматі CSV """
+# Сест видалено так як він не відповідає умові тесткейса. Тест терба переписати згідно нових умов
+
+    # # Здійснити експорт списку об'єктів в форматі CSV / XLS
+    # @mark.objects
+    # @mark.unit
+    # @mark.testomatio('@Ttttt1957')
+    # @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    # @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [25], indirect=True)
+    # @pytest.mark.parametrize("chose_item, expected_format", [("second", ".csv"), ("first", ".xls")], ids=["CSV", "XLS"])
+    # def test_export_objects_in_file_m2m_Ttttt1957(self, user_page, chose_item: str, expected_format: str, full_unit_create_and_remove_by_api):
+    #     """ ||M2M-1957|| Здійснити експорт списку об'єктів в форматі CSV """
         
-        base_page = BasePage(user_page)
-        objects_page = ObjectsPage(user_page)
+    #     base_page = BasePage(user_page)
+    #     objects_page = ObjectsPage(user_page)
 
-        objects_page.head_menu_unit_locators["export"].click()
+    #     objects_page.head_menu_unit_locators["export"].click()
 
-        # Викликаємо функцію завантаження
-        download = base_page.trigger_download(chose_item)
+    #     # Викликаємо функцію завантаження
+    #     download = base_page.trigger_download(chose_item)
 
-        # Перевіряємо, що файл справді завантажився
-        assert download is not None, "Файл не завантажився!"
-        filename = f"downloads/{download.suggested_filename}"
-        print(f"Файл завантажено: {filename}")
-        assert filename.lower().endswith(expected_format), f"Файл має неправильне розширення: {filename}"
+    #     # Перевіряємо, що файл справді завантажився
+    #     assert download is not None, "Файл не завантажився!"
+    #     filename = f"downloads/{download.suggested_filename}"
+    #     print(f"Файл завантажено: {filename}")
+    #     assert filename.lower().endswith(expected_format), f"Файл має неправильне розширення: {filename}"
 
-        # Зберігаємо файл
-        download.save_as(filename)
+    #     # Зберігаємо файл
+    #     download.save_as(filename)
 
-        # Очищення після тесту
-        if os.path.exists(filename):
-            os.remove(filename)
-            print(f"Файл {filename} видалено.")
+    #     # Очищення після тесту
+    #     if os.path.exists(filename):
+    #         os.remove(filename)
+    #         print(f"Файл {filename} видалено.")
 
     
     # Здійснити пошук об'єктів в вікні створення групи об'єктів з повною валідною назвою

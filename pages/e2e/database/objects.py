@@ -12,7 +12,7 @@ class ObjectsPage:
 
 # Dev locators(only for dev) ------------------------------------------------
 
-    # unit head menu locators    
+    # unit head menu locators
         self.page_tab_buttons = {
             "objects": self.page.locator("#simple-tab-0").nth(1),
             "groups": self.page.locator("#simple-tab-1").nth(0)
@@ -47,7 +47,8 @@ class ObjectsPage:
             "confirm_del": self.page.locator("div[role='dialog'] button").nth(0),
             "cancel_del": self.page.locator("div[role='dialog'] button").nth(1),
             "err_msg": self.page.locator("//form/span"),
-            "search_unit_in_group_pop": self.page.locator("form input#outlined-basic")
+            "search_unit_in_group_pop": self.page.locator("form input#outlined-basic"),
+            "popap_title": self.page.locator("div[role='dialog'] h2")
         }
 
         self.popap_groups = {
@@ -55,7 +56,6 @@ class ObjectsPage:
             "list_of_units": self.page.locator("div[role='list'] li"),
             "group_checkboxes": self.page.locator("form input[type='checkbox']")
             }
-
 
         self.transfer_popap = {
             "input_search_account": self.page.locator("div[role='presentation'] input#outlined-basic").nth(0),
@@ -71,7 +71,6 @@ class ObjectsPage:
             "cancel": self.page.locator("div[role='presentation'] button").nth(7),
             "err_msg": self.page.locator(".MuiTypography-reg16").last
         }
-
 
         self.object_popap_tablist = {
             "new_object_tabs": self.page.locator("div[role='dialog'] div[role='tablist'] button"),
@@ -131,7 +130,7 @@ class ObjectsPage:
             "groups_total_p": self.page.locator("#display-tabpanel-1 .MuiTablePagination-displayedRows"),
             "unit_dd_btn_2": self.page.get_by_role("combobox").nth(1)
         }
-        
+
     # group head menu locators
         self.head_menu_group_locators = {
             "add_group": self.page.locator(".MuiGrid-container div > button:nth-child(1)").nth(1),
@@ -146,7 +145,7 @@ class ObjectsPage:
             "edit_btn": self.page.locator("button[role='edit']"),
             "pause_btn": self.page.locator("button[role='remove']"),
         }
-        
+
         self.group_table = {
             "head_column": self.page.locator("#display-tabpanel-1 table thead tr th"),
             "body_row": self.page.locator("#display-tabpanel-1 table tbody tr"),
@@ -158,13 +157,11 @@ class ObjectsPage:
 
 # -----------------------------------------------------------------------------
 
-
     def unique_id(self):
         unique_id = ''.join(random.choices('0123456789', k=random.randint(5, 20)))
         return unique_id
 
-
-    def add_new_object(self, name: str, phone_1: str, phone_2: str, model: str, device_type: str): # dev-staging
+    def add_new_object(self, name: str, phone_1: str, phone_2: str, model: str, device_type: str):  # dev-staging
         """device_type = VEHICLE, FUEL_VEHICLE, PERSONAL_TRACKER, BEACON"""
         unique_id = self.unique_id()
         self.head_menu_unit_locators["add_unit"].click()
@@ -173,11 +170,10 @@ class ObjectsPage:
         self.object_main_popap_inputs["phone_2"].fill(phone_2)
         if device_type:
             self.object_main_popap_inputs["unique_id"].fill(unique_id)
-            self.object_main_popap_inputs["device_type"].click()  
+            self.object_main_popap_inputs["device_type"].click()
             self.types_of_objects[device_type].click()
         self.object_main_popap_inputs["model"].fill(model)
 
-        
     def pause_all_object(self):
         self.page.wait_for_timeout(1000)
         if self.unit_table["body_row"].nth(0).is_visible():
@@ -187,8 +183,7 @@ class ObjectsPage:
             self.popap_btn["confirm_del"].click()
             self.page.wait_for_timeout(1000)
 
-
-    def move_to_trash_all_object(self): # dev-staging
+    def move_to_trash_all_object(self):  # dev-staging
         self.page.wait_for_timeout(1000)
         if self.unit_table["body_row"].nth(0).is_visible():
             self.unit_table["head_column"].nth(0).click()
@@ -197,19 +192,17 @@ class ObjectsPage:
             self.popap_btn["confirm_del"].click()
             self.page.wait_for_timeout(1000)
 
-    
     def edit_unit_column_table(self):
         checkbox = self.head_menu_unit_locators["customize_panel"]
         for index in range(checkbox.count()):
             checkbox.nth(index).click()
 
-
-    def precondition_add_multiple_objects(self, count: int, name: str, phone_1: str, phone_2: str, model: str, device_type: str):
+    def precondition_add_multiple_objects(
+            self, count: int, name: str, phone_1: str, phone_2: str, model: str, device_type: str):
         for _ in range(count):
             self.add_new_object(name, phone_1, phone_2, model, device_type)
             self.popap_btn["ok"].click()
             self.page.wait_for_timeout(1000)
-
 
     def search_object(self, filter: str, query: str):
         self.head_menu_unit_locators["filter"].click()
@@ -217,28 +210,25 @@ class ObjectsPage:
         self.head_menu_unit_locators["unit_search_input"].fill(query)
         self.page.wait_for_timeout(1000)
 
-
     def check_pagelist(self, arrow_btn: str, total_expect):
         self.row_on_page[arrow_btn].click()
         self.page.wait_for_timeout(1000)
 
         return self.row_on_page[total_expect]
 
-
     # Unit on the page 10 25 50 100
     def increase_decrease_the_number(self, number: str):
         self.row_on_page["unit_dd_btn_2"].click()
         self.row_on_page[number].click()
         self.page.wait_for_timeout(1000)
-        
-        return self.unit_table["body_row"]
 
+        return self.unit_table["body_row"]
 
     # Group on the page 10 25 50 100
     def increase_decrease_the_number_group(self, number: str):
-        if self.row_on_page["groups_dd_btn"].is_visible(): # if obgects is present in the list of objects
+        if self.row_on_page["groups_dd_btn"].is_visible():  # if obgects is present in the list of objects
             self.row_on_page["groups_dd_btn"].click()
-        elif self.row_on_page["unit_dd_btn"].is_visible(): # if obgects is not present in the list of objects
+        elif self.row_on_page["unit_dd_btn"].is_visible():  # if obgects is not present in the list of objects
             self.row_on_page["unit_dd_btn"].click()
 
         self.row_on_page[number].click()
@@ -246,23 +236,20 @@ class ObjectsPage:
 
         return self.group_table["body_row"]
 
-
     # Unit in group popup 10 25 50 100
     def increase_decrease_unit_in_grpop_pop(self, number: str):
-    
+
         self.row_on_page["unit_in_group_dd"].click()
         self.row_on_page[number].click()
         self.page.wait_for_timeout(1000)
-        
-        return self.popap_groups["list_of_units"]
 
+        return self.popap_groups["list_of_units"]
 
     def check_pagelist_unit_in_group(self, arrow_btn: str):
         self.row_on_page[arrow_btn].click()
         self.page.wait_for_timeout(1000)
 
         return self.row_on_page["unit_total_p"].nth(1)
-      
 
     def add_new_group(self, name: str, units: int):
         self.head_menu_group_locators["add_group"].click()
@@ -273,8 +260,7 @@ class ObjectsPage:
 
     def remove_group(self):
         self.group_table["del_btn_in_row"].click()
-        self.popap_btn["confirm_del"].click() 
-
+        self.popap_btn["confirm_del"].click()
 
     def search_unit_in_group(self, query: str):
         self.page_tab_buttons["groups"].click()
@@ -290,7 +276,6 @@ class ObjectsPage:
         self.transfer_popap[search_input].fill(query)
         self.page.wait_for_timeout(1000)
 
-    
     def increase_decrease_the_number_transfer(self, dd, number: str, lists):
         self.transfer_popap[dd].click()
         self.row_on_page[number].click()
@@ -298,13 +283,8 @@ class ObjectsPage:
 
         return self.transfer_popap[lists]
 
-
-    def check_pagelist_transfer(self, arrow_btn: str, table_arrow, table_total): 
+    def check_pagelist_transfer(self, arrow_btn: str, table_arrow, table_total):
         self.transfer_popap[arrow_btn].nth(table_arrow).click()
         self.page.locator("span[role='progressbar']").wait_for(state="hidden")
 
         return self.transfer_popap["total_p"].nth(table_total)
-
-
-
-
