@@ -184,13 +184,13 @@ def delete_device_groups_after_test(api_context, token, test_data):
 # Searshcing fixtures -------------------------------------------------------------
 
 @pytest.fixture(scope="class")
-def data_test_class():
+def class_test_data():
     """Фікстура для збереження даних між тестами class."""
     return {}
 
 
 @pytest.fixture(scope="class")
-def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: str, data_test_class, request):
+def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: str, class_test_data, request):
     """Фікстура для створення та видалення пристроїв через API після кожного тесту.
     Кількість пристроїв визначається параметром request.param."""
 
@@ -199,14 +199,14 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
 
     # Визначаємо кількість пристроїв для створення (за замовчуванням 1)
     num_devices = request.param if hasattr(request, "param") else 1
-    data_test_class["device_ids"] = []
-    data_test_class["uniqueId"] = []
-    data_test_class["customFields"] = []
-    data_test_class["adminFields"] = []
-    data_test_class["phone"] = []
-    data_test_class["phone2"] = []
-    data_test_class["device_name"] = []
-    data_test_class["model"] = []
+    class_test_data["device_ids"] = []
+    class_test_data["uniqueId"] = []
+    class_test_data["customFields"] = []
+    class_test_data["adminFields"] = []
+    class_test_data["phone"] = []
+    class_test_data["phone2"] = []
+    class_test_data["device_name"] = []
+    class_test_data["model"] = []
 
     # Створюємо пристрої та зберігаємо їхні ID
     for i in range(1, num_devices + 1):
@@ -232,18 +232,18 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
         )
         expect(response).to_be_ok()
 
-        data_test_class["unit_id"] = response.json().get("id")
+        class_test_data["unit_id"] = response.json().get("id")
 
-        data_test_class["device_ids"].append(response.json().get("id"))
-        data_test_class["customFields"].append(response.json().get("customFields"))
-        data_test_class["adminFields"].append(response.json().get("adminFields"))
-        data_test_class["device_name"].append(response.json().get("name"))
+        class_test_data["device_ids"].append(response.json().get("id"))
+        class_test_data["customFields"].append(response.json().get("customFields"))
+        class_test_data["adminFields"].append(response.json().get("adminFields"))
+        class_test_data["device_name"].append(response.json().get("name"))
 
         # Для парної кількості обʼєктів ми запвнюємо поле model як TK104, для непарної - M2M Mobile Tracker.
         model = "M2M Mobile Tracker" if i % 2 != 0 else "TK104"
 
         response = device_api.update_connection_parameters(
-            device_id=data_test_class["unit_id"],
+            device_id=class_test_data["unit_id"],
             uniqueId=device_api.unique_id(),
             phone=phone,
             phone2=phone2,
@@ -251,13 +251,13 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
         )
 
         expect(response).to_be_ok()
-        data_test_class["uniqueId"].append(response.json().get("uniqueId"))
-        data_test_class["phone"].append(response.json().get("phone"))
-        data_test_class["phone2"].append(response.json().get("phone2"))
-        data_test_class["model"].append(response.json().get("model"))
+        class_test_data["uniqueId"].append(response.json().get("uniqueId"))
+        class_test_data["phone"].append(response.json().get("phone"))
+        class_test_data["phone2"].append(response.json().get("phone2"))
+        class_test_data["model"].append(response.json().get("model"))
 
     # Передаємо список створених ID у тест
-    yield data_test_class
+    yield class_test_data
 
     # Отримуємо всі ID з усіх трьох джерел
     active_ids = {
@@ -289,7 +289,7 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
         expect(delete_response).to_be_ok()
 
     # Очищення test_data
-    data_test_class.pop("device_ids", None)
+    class_test_data.pop("device_ids", None)
 
 
 # @pytest.fixture(scope="class")

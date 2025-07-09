@@ -10,10 +10,11 @@ from pages.e2e.database.objects import ObjectsPage
 
 
 @pytest.fixture()
-def revove_custom_filds(api_context: APIRequestContext, token: str, test_data):
+def revove_custom_filds(api_context: APIRequestContext, token: str, class_test_data):
     """Видалити кастомні поля"""
     device_api = DeviceAPI(api_context, token)
-    device_ids = test_data.get("device_ids", [])
+    device_ids = class_test_data.get("device_ids", [])
+
     if device_ids:
         response = device_api.update_custom_fields_for_device(
             device_id=device_ids[0], customFields="{}"
@@ -39,6 +40,7 @@ class TestCustomFields:
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
         """||T56f7967a|| Відкрити вкладку "Довільні поля" в попапі налаштування обʼєкту"""
+
         objects_page = ObjectsPage(user_page)
         custom_fields_page = CustomAdminFieldsPage(user_page)
 
@@ -46,7 +48,6 @@ class TestCustomFields:
         expect(objects_page.object_main_popap_inputs["model"]).not_to_be_empty()
 
         objects_page.object_popap_tablist["custom_f"].click()
-
         expect(objects_page.object_popap_tablist["custom_f"]).to_be_visible()
         expect(custom_fields_page.empty_fields.nth(0)).to_be_enabled()
         expect(custom_fields_page.empty_fields.nth(1)).to_be_enabled()
