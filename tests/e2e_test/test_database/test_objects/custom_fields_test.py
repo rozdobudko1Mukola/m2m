@@ -35,7 +35,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T56f7967a')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_open_custom_fields_tab(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
@@ -57,7 +57,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@Tbd40696c')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_custom_fields_tab(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
@@ -84,7 +84,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T53fa39e0')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_custom_fields_tab_max(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
@@ -118,7 +118,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T34f0b7cc')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [2], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_remove_custom_fields(
         self, user_page, full_unit_create_and_remove_by_api
     ):
@@ -142,7 +142,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T053fd448')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_only_name_fild(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
@@ -166,7 +166,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T3a44f6cc')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_only_value_fild(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
@@ -234,7 +234,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@Tc7eef2e0')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_check_modal_window(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
@@ -261,7 +261,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@Te9322835')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_check_modal_window_close_popap(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
@@ -295,7 +295,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T3a7c1543')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_check_modal_window_using_valid_data(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
@@ -322,7 +322,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T7cad8ff8')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_custom_fields_tab_invalid_length(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
@@ -355,7 +355,7 @@ class TestCustomFields:
     @mark.custom_fields
     @mark.testomatio('@T30141880')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_add_multiple_custom_fields(
         self, user_page, full_unit_create_and_remove_by_api, revove_custom_filds
     ):
