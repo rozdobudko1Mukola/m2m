@@ -75,7 +75,7 @@ def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, t
     yield test_data["device_ids"]
 
     # Після виконання тесту видаляємо пристрої
-        # Отримуємо всі ID з усіх трьох джерел
+    # Отримуємо всі ID з усіх трьох джерел
     active_ids = {
         device["id"]
         for device in device_api.retrieve_list_of_devices_with_pagination(page=1, per_page=50).json().get("items", [])
@@ -83,12 +83,15 @@ def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, t
 
     paused_ids = {
         device["id"]
-        for device in wastebin_api.retrieve_a_list_of_paused_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+        for device in wastebin_api.retrieve_a_list_of_paused_devices_with_pagination(
+            page=1, per_page=50
+        ).json().get("items", [])
     }
 
     deleted_ids = {
         device["id"]
-        for device in wastebin_api.retrieve_list_of_deleted_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+        for device in wastebin_api.retrieve_list_of_deleted_devices_with_pagination
+        (page=1, per_page=50).json().get("items", [])
     }
 
     # Переміщаємо все, що ще не в кошику
@@ -105,13 +108,14 @@ def create_and_remove_units_by_api(api_context: APIRequestContext, token: str, t
     test_data.pop("device_ids", None)
 
 
-# Group Fixtures ----------------------------------------------------------------------------------------------------------------------------------------
+# Group Fixtures ---------------------------------------------------------------
 
 @pytest.fixture(scope="function")
 def create_and_del_device_groups(api_context, token, test_data, request):
     """
     Фікстура для створення заданої кількості груп пристроїв перед тестом та їх видалення після.
-    Кількість визначається параметром request.param (наприклад: @pytest.mark.parametrize(create_and_del_device_groups, [3], indirect=True)).
+    Кількість визначається параметром
+    request.param (наприклад: @pytest.mark.parametrize(create_and_del_device_groups, [3], indirect=True)).
     """
     device_groups_api = DeviceGroupsAPI(api_context, token)
 
@@ -177,17 +181,16 @@ def delete_device_groups_after_test(api_context, token, test_data):
     test_data.pop("device_group_ids", None)
 
 
-
-### Searshcing fixtures -------------------------------------------------------------
+# Searshcing fixtures -------------------------------------------------------------
 
 @pytest.fixture(scope="class")
-def test_data():
+def data_test_class():
     """Фікстура для збереження даних між тестами class."""
     return {}
 
 
 @pytest.fixture(scope="class")
-def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: str, test_data, request):
+def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: str, data_test_class, request):
     """Фікстура для створення та видалення пристроїв через API після кожного тесту.
     Кількість пристроїв визначається параметром request.param."""
 
@@ -196,14 +199,14 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
 
     # Визначаємо кількість пристроїв для створення (за замовчуванням 1)
     num_devices = request.param if hasattr(request, "param") else 1
-    test_data["device_ids"] = []
-    test_data["uniqueId"] = []
-    test_data["customFields"] = []
-    test_data["adminFields"] = []
-    test_data["phone"] = []
-    test_data["phone2"] = []
-    test_data["device_name"] = []
-    test_data["model"] = []
+    data_test_class["device_ids"] = []
+    data_test_class["uniqueId"] = []
+    data_test_class["customFields"] = []
+    data_test_class["adminFields"] = []
+    data_test_class["phone"] = []
+    data_test_class["phone2"] = []
+    data_test_class["device_name"] = []
+    data_test_class["model"] = []
 
     # Створюємо пристрої та зберігаємо їхні ID
     for i in range(1, num_devices + 1):
@@ -211,7 +214,11 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
         phone = "+380123456789" if i % 2 != 0 else ""
         phone2 = "" if i % 2 != 0 else "+380980000000"
 
-        customFields = "{\"custom Field Name\":\"custom Field value\"}" if i % 2 != 0 else "{\"name 123\":\" value 123\"}"
+        customFields = (
+            "{\"custom Field Name\":\"custom Field value\"}"
+            if i % 2 != 0
+            else "{\"name 123\":\" value 123\"}"
+        )
         adminFields = "{\"name 123\":\"value 123\"}" if i % 2 != 0 else "{\"admin Field name\":\"admin Field value\"}"
 
         response = device_api.create_new_device(
@@ -225,17 +232,18 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
         )
         expect(response).to_be_ok()
 
-        test_data["unit_id"] = response.json().get("id")
+        data_test_class["unit_id"] = response.json().get("id")
 
-        test_data["device_ids"].append(response.json().get("id"))
-        test_data["customFields"].append(response.json().get("customFields"))
-        test_data["adminFields"].append(response.json().get("adminFields"))
-        test_data["device_name"].append(response.json().get("name"))
+        data_test_class["device_ids"].append(response.json().get("id"))
+        data_test_class["customFields"].append(response.json().get("customFields"))
+        data_test_class["adminFields"].append(response.json().get("adminFields"))
+        data_test_class["device_name"].append(response.json().get("name"))
 
-        model = "M2M Mobile Tracker" if i % 2 != 0 else "TK104" # Для парної кількості обʼєктів ми запвнюємо поле model як TK104, для непарної - M2M Mobile Tracker.
+        # Для парної кількості обʼєктів ми запвнюємо поле model як TK104, для непарної - M2M Mobile Tracker.
+        model = "M2M Mobile Tracker" if i % 2 != 0 else "TK104"
 
         response = device_api.update_connection_parameters(
-            device_id=test_data["unit_id"],
+            device_id=data_test_class["unit_id"],
             uniqueId=device_api.unique_id(),
             phone=phone,
             phone2=phone2,
@@ -243,13 +251,13 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
         )
 
         expect(response).to_be_ok()
-        test_data["uniqueId"].append(response.json().get("uniqueId"))
-        test_data["phone"].append(response.json().get("phone"))
-        test_data["phone2"].append(response.json().get("phone2"))
-        test_data["model"].append(response.json().get("model"))
+        data_test_class["uniqueId"].append(response.json().get("uniqueId"))
+        data_test_class["phone"].append(response.json().get("phone"))
+        data_test_class["phone2"].append(response.json().get("phone2"))
+        data_test_class["model"].append(response.json().get("model"))
 
     # Передаємо список створених ID у тест
-    yield test_data
+    yield data_test_class
 
     # Отримуємо всі ID з усіх трьох джерел
     active_ids = {
@@ -259,12 +267,15 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
 
     paused_ids = {
         device["id"]
-        for device in wastebin_api.retrieve_a_list_of_paused_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+        for device in wastebin_api.retrieve_a_list_of_paused_devices_with_pagination(
+            page=1, per_page=50
+        ).json().get("items", [])
     }
 
     deleted_ids = {
         device["id"]
-        for device in wastebin_api.retrieve_list_of_deleted_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+        for device in wastebin_api.retrieve_list_of_deleted_devices_with_pagination
+        (page=1, per_page=50).json().get("items", [])
     }
 
     # Переміщаємо все, що ще не в кошику
@@ -278,7 +289,7 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
         expect(delete_response).to_be_ok()
 
     # Очищення test_data
-    test_data.pop("device_ids", None)
+    data_test_class.pop("device_ids", None)
 
 
 # @pytest.fixture(scope="class")
@@ -295,12 +306,14 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
 
 #     paused_ids = {
 #         device["id"]
-#         for device in wastebin_api.retrieve_a_list_of_paused_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+#         for device in wastebin_api.retrieve_a_list_of_paused_devices_with_pagination
+#           (page=1, per_page=50).json().get("items", [])
 #     }
 
 #     deleted_ids = {
 #         device["id"]
-#         for device in wastebin_api.retrieve_list_of_deleted_devices_with_pagination(page=1, per_page=50).json().get("items", [])
+#         for device in wastebin_api.retrieve_list_of_deleted_devices_with_pagination
+#           (page=1, per_page=50).json().get("items", [])
 #     }
 
 #     # Переміщаємо все, що ще не в кошику

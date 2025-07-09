@@ -1,9 +1,9 @@
 import pytest
 import os
-from typing import Tuple
+from typing import Tuple, Generator
 from pathlib import Path
 from dotenv import load_dotenv
-from playwright.sync_api import Browser, Page
+from playwright.sync_api import Browser
 from pages.e2e.login import LoginPage
 
 LOCALE = 'uk-UA'
@@ -308,7 +308,7 @@ def search_units(browser: Browser, request):
 
 # гпт універсальна фікстура яку треба перевірити
 @pytest.fixture(scope="function")
-def user_page(browser: Browser, request) -> Page:
+def user_page(browser: Browser, request) -> Generator:
     """
     Авторизує користувача із заданою роллю через параметр request.param.
     Сесія зберігається або створюється заново при потребі.
@@ -351,7 +351,8 @@ def user_page(browser: Browser, request) -> Page:
     page.close()
     context.close()
 
-#---------------------------------------------
+# ---------------------------------------------
+
 
 @pytest.fixture()
 def page(browser: Browser, request):
