@@ -292,6 +292,22 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
     class_test_data.pop("device_ids", None)
 
 
+@pytest.fixture(scope="class")
+def move_created_devices_to_pause(api_context, token, class_test_data):
+    device_api = DeviceAPI(api_context, token)
+    for device_id in class_test_data["device_ids"]:
+        response = device_api.move_device_to_pause(device_id)
+        expect(response).to_be_ok()
+
+
+@pytest.fixture(scope="class")
+def move_created_devices_to_wastebin(api_context, token, class_test_data):
+    wastebin_api = WastebinAPI(api_context, token)
+    for device_id in class_test_data["device_ids"]:
+        response = wastebin_api.move_device_to_wastebin(device_id)
+        expect(response).to_be_ok()
+
+
 # @pytest.fixture(scope="class")
 # def cleanup_devices():
 
