@@ -179,7 +179,7 @@ class ObjectsPage:
         if self.unit_table["body_row"].nth(0).is_visible():
             self.unit_table["head_column"].nth(0).click()
             self.page.wait_for_timeout(1000)
-            self.unit_table["head_column"].nth(14).click()
+            self.unit_table["head_column"].nth(15).click()
             self.popap_btn["confirm_del"].click()
             self.page.wait_for_timeout(1000)
 
