@@ -578,7 +578,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
         user_page,
         class_test_data,
         full_unit_create_and_remove_by_api,
-        move_created_devices_wastebin
+        move_created_devices_to_wastebin
     ):
         self.search_by_name_full(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
