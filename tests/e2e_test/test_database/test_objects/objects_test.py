@@ -4,7 +4,7 @@ from pytest import mark
 from playwright.sync_api import Page, expect
 
 from pages.e2e.database.objects import ObjectsPage
-from pages.e2e.base_page import BasePage
+from pages.e2e.base_page import BasePage, IncreaseDecrease
 
 VEHICLE_DEVICE = {
     "name": "Auto_Test",
@@ -560,7 +560,7 @@ class TestInteractionWithObjects:
     @mark.unit
     @mark.testomatio('@Tttttt393')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
-    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [25], indirect=True)
     def test_open_object_settings_window_m2m_393(self, user_page, full_unit_create_and_remove_by_api):
         """ ||M2M-393|| Відкрити вікно налаштування об'єкта """
 
@@ -599,12 +599,12 @@ class TestInteractionWithObjects:
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [25], indirect=True)
     def test_display_the_next_and_previous_page_m2m_390(self, user_page, full_unit_create_and_remove_by_api):
         """ ||M2M-390|| Відобразити наступну та попередню сторінку зі списку об'єктів. """
-        objects_page = ObjectsPage(user_page)
-        objects_page.increase_decrease_the_number('10')
+        inc_dec = IncreaseDecrease(user_page)
+        user_page.goto("/units")  # Navigate to the units page
 
-        expect(objects_page.check_pagelist("next_page", "unit_total_p")).to_contain_text("11-20")
-        user_page.wait_for_timeout(1000)
-        expect(objects_page.check_pagelist("previous_page", "unit_total_p")).to_contain_text("1-10")
+        expect(inc_dec.next_previous("next")).to_have_count(10)
+        expect(inc_dec.next_previous("next")).to_have_count(5)
+        expect(inc_dec.next_previous("previous")).to_have_count(10)
 
     # M2M-391 Збільшити/зменшити кількість об'єктів, які відображаються на сторінці
     @mark.objects
@@ -615,9 +615,11 @@ class TestInteractionWithObjects:
     def test_increase_decrease_the_number_of_objects_m2m_391(self, user_page, full_unit_create_and_remove_by_api):
         """ ||M2M-391|| Збільшити/зменшити кількість об'єктів, які відображаються на сторінці """
 
-        objects_page = ObjectsPage(user_page)
-        for count in ["10", "25"]:
-            expect(objects_page.increase_decrease_the_number(count)).to_have_count(int(count))
+        inc_dec = IncreaseDecrease(user_page)
+        user_page.goto("/units")  # Navigate to the units page
+
+        expect(inc_dec.increase_decrease_element("25")).to_have_count(25)
+        expect(inc_dec.increase_decrease_element("10")).to_have_count(10)
 
     # M2M-392 Вибрати всі/один об'єкт(и) на панелі
     @mark.testomatio('@Tttttt392')
