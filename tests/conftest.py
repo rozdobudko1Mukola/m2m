@@ -10,10 +10,6 @@ from playwright.sync_api import APIRequestContext, Playwright, expect
 def load_env(env):
     """Завантаження `.env` файлу для вибраного середовища."""
 
-    # Якщо вибране середовище — 'dev', використовуємо конфігурацію 'staging'
-    if env == "dev":
-        env = "staging"
-
     env_file = f".env.{env}"
     if not Path(env_file).exists():
         raise FileNotFoundError(f"Environment file '{env_file}' not found")
@@ -30,7 +26,7 @@ def setup_env(pytestconfig):
 @pytest.fixture(scope="session")
 def api_context(playwright: Playwright) -> Generator[APIRequestContext, None, None]:
     """Створює Playwright API контекст з базовим URL."""
-    base_url = os.getenv("BASE_URL")
+    base_url = os.getenv("API_BASE_URL")
     request_context = playwright.request.new_context(base_url=base_url)
     yield request_context
     request_context.dispose()
