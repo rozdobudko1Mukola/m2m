@@ -55,7 +55,7 @@ class TestAdminFields:
     # Заповнити дані вкладки "Довільні поля" мінімально допустимими значеннями в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@Tbd40696c')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_admin_fields_tab(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -81,7 +81,7 @@ class TestAdminFields:
     # Заповнити дані вкладки "Довільні поля" максимально допустимими значеннями в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@T53fa39e0')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_admin_fields_tab_max(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -112,7 +112,7 @@ class TestAdminFields:
     # Видалення рядку з даними вкладки "Довільні поля" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@T34f0b7cc')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_remove_admin_fields(self, user_page, full_unit_create_and_remove_by_api):
@@ -135,7 +135,7 @@ class TestAdminFields:
     # Створити рядок в вкладці "Довільні поля" заповнивши тільки поле "Імʼя" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@T053fd448')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_only_name_fild(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -158,7 +158,7 @@ class TestAdminFields:
     # Створити рядок в вкладці "Довільні поля" заповнивши тільки поле "Значення" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@T3a44f6cc')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_only_value_fild(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -180,7 +180,7 @@ class TestAdminFields:
     # Редагування рядку з даними вкладки "Довільні поля" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@T30777dcd')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_edit_admin_fields(self, user_page, full_unit_create_and_remove_by_api):
@@ -201,7 +201,7 @@ class TestAdminFields:
     # Редагування рядку з даними вкладки "Довільні поля" вказавши пусті поля "Значення" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@T4652de4e')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_edit_admin_fields_empty_value(self, user_page, full_unit_create_and_remove_by_api):
@@ -226,7 +226,7 @@ class TestAdminFields:
     # Перевірка появи модального вікна при переході на іншу вкладку якшо є не збережені дані у вкладці "Довільні поля"
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@Tc7eef2e0')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_check_modal_window(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -252,7 +252,7 @@ class TestAdminFields:
     # Перевірка появи вікна при закриті попапу налаштування обʼєкту якшо є не збережені дані у вкладці "Довільні поля"
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@Te9322835')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_check_modal_window_close_popap(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -286,7 +286,7 @@ class TestAdminFields:
     # Перевірка появи модального вікна при переході на іншу вкладку якшо дані збережені у вкладці "Довільні поля"
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@T3a7c1543')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_check_modal_window_using_valid_data(
@@ -314,7 +314,7 @@ class TestAdminFields:
     # Заповнити дані вкладки "Довільні поля" вказавши НЕ валідну довжину симовлів в поя вводу в попапі налаштування
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@T7cad8ff8')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_admin_fields_tab_invalid_length(
@@ -352,7 +352,7 @@ class TestAdminFields:
     # Додавання декількох рядків з однаковими даними у вкладці "Довільні поля" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('@T30141880')
+    @mark.testomatio('')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_add_multiple_admin_fields(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
