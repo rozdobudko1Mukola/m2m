@@ -188,10 +188,10 @@ class TestProfilePage:
         expect(self.profile_page.switch_beatween_tabs('map_tab')).to_be_visible()
         expect(
             self.profile_page.enter_google_maps_key(
-                "AIzaSyD4N49OO07gLL4P5GZWHGG6PjTlsBymqi4"
+                "D4N49OO07gLL4P5GZWHGG6PjTlsBymqi4"
             )
         ).to_have_value(
-            "AIzaSyD4N49OO07gLL4P5GZWHGG6PjTlsBymqi4"
+            "D4N49OO07gLL4P5GZWHGG6PjTlsBymqi4"
         )
 
     @mark.profile_page
