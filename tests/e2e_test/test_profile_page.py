@@ -67,6 +67,7 @@ class TestProfilePage:
     def open_profile_page(self, user_page):
         user_page.goto("/user")
         self.profile_page = ProfilePage(user_page)
+        user_page.wait_for_load_state("load")
 
     @mark.profile_page
     @mark.testomatio('@Ttttttt22')
@@ -228,7 +229,7 @@ class TestSetiingUp:
 
     # M2M-15 Change the background color of the site
     @mark.profile_page
-    @mark.testomatio('')
+    @mark.testomatio('@Ttttttt15')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     def test_bg_color_switcher_m2m_15(self):
         self.setting_up.switch_bg_color()
@@ -240,7 +241,7 @@ class TestSetiingUp:
 
     # M2M-781 Open the notification window
     @mark.profile_page
-    @mark.testomatio('')
+    @mark.testomatio('@Tttttt781')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     def test_open_close_notifications_m2m_781(self):
 
@@ -254,7 +255,7 @@ class TestSetiingUp:
 
     # M2M-16 The time displayed in the system is up to date
     @mark.profile_page
-    @mark.testomatio('')
+    @mark.testomatio('@Ttttttt16')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     def test_current_time_m2m_16(self):
         current_time_on_site = self.setting_up.get_time_on_site()
@@ -265,7 +266,7 @@ class TestSetiingUp:
 
     # M2M-17 Customize the menu
     @mark.profile_page
-    @mark.testomatio('')
+    @mark.testomatio('@Ttttttt17')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     def test_customize_menu_m2m_17(self):
 
@@ -284,7 +285,7 @@ class TestSetiingUp:
 
     # M2M-783 Open the "User window"
     @mark.profile_page
-    @mark.testomatio('')
+    @mark.testomatio('@Tttttt783')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     def test_open_user_window_m2m_783(self):
 
@@ -294,7 +295,7 @@ class TestSetiingUp:
 
     # M2M-786 Use the user window to go to the "User Profile" page
     @mark.profile_page
-    @mark.testomatio('')
+    @mark.testomatio('@Tttttt786')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     def test_go_to_the_user_profile_page_m2m_786(self):
 
@@ -304,7 +305,7 @@ class TestSetiingUp:
 
     # M2M-787 Use the user window to log out of your account
     @mark.profile_page
-    @mark.testomatio('')
+    @mark.testomatio('@Tttttt787')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     def test_logout_from_account_m2m_787(self):
 

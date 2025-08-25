@@ -78,6 +78,7 @@ class ProfilePage:
             "input": page.locator("div[role='dialog'] input"),
             "cancel_btn": page.locator("div[role='dialog'] button").first,
             "ok_btn": page.locator("div[role='dialog'] button").last,
+            "popup": page.locator("div[role='dialog'] h2[id='alert-dialog-title']"),
         }
 
         self.errors = {
@@ -90,6 +91,7 @@ class ProfilePage:
         Заповнює поле у вкладці 'Загальні' тестовим значенням, зберігає зміни
         та повертає локатор цього поля для подальшої перевірки.
         """
+        self.page.wait_for_load_state("networkidle")
         self.general_tab[input_name].clear()
         self.general_tab[input_name].fill(test_value)
         self.general_tab["save_btn"].click()
@@ -103,6 +105,7 @@ class ProfilePage:
         option are "en", "ua", "ru" for language and "kiev", "london" for timezone
         """
         self.general_tab[dd_name].click()
+        self.page.wait_for_timeout(500)  # Wait for the dropdown to open
 
         if dd_name == "language_dropdown":
             self.language_lists[option].click()
@@ -200,7 +203,7 @@ class ProfilePage:
             expect(self.errors["err_msg"].nth(2)).to_have_text("Максимальне значення 18")
 
     def google_maps_checkbox(self):
-        self.map_tab["google_maps_checkbox"].click()
+        self.map_tab["google_maps_checkbox"].click(force=True)
         self.map_tab["save_btn"].click()
         self.pop_confirm_btn["confirm_btn"].click()
         self.map_tab["map_tab_btn"].click()
@@ -211,17 +214,23 @@ class ProfilePage:
         Enters the Google Maps API key in the popup dialog.
         """
         if self.map_tab["google_privat_key_radio"].is_visible():
-            self.map_tab["google_maps_checkbox"].click()
+            self.map_tab["google_maps_checkbox"].click(force=True)
             time.sleep(1)
-            self.map_tab["google_maps_checkbox"].click()
+            self.map_tab["google_maps_checkbox"].click(force=True)
             self.privet_key_google_pop["input"].fill(key)
             self.privet_key_google_pop["ok_btn"].click()
             time.sleep(1)  # Дочекаємось появи попапу
             self.map_tab["save_btn"].click()
             self.pop_confirm_btn["confirm_btn"].click()
             self.map_tab["map_tab_btn"].click()
-            self.map_tab["google_maps_checkbox"].click()
-            self.map_tab["google_maps_checkbox"].click()
+            time.sleep(1)
+            if self.map_tab["google_privat_key_radio"].is_visible():
+                self.map_tab["google_maps_checkbox"].click(force=True)
+                time.sleep(1)
+                self.map_tab["google_maps_checkbox"].click(force=True)
+                time.sleep(1)
+            else:
+                self.map_tab["google_maps_checkbox"].click(force=True)
             return self.privet_key_google_pop["input"]
         else:
             # Якщо чекбокс не видимий, то повертаємо помилку
