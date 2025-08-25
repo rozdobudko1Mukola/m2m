@@ -186,6 +186,30 @@ class TestSearchOnUnits(BaseTestSearchObjectByFilters):
     def test_custom_field_invalid(self, user_page, full_unit_create_and_remove_by_api):
         self.search_by_custom_field_invalid(user_page, full_unit_create_and_remove_by_api)
 
+    @mark.objects
+    @mark.search_unit
+    @mark.testomatio('@T948123a0')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_sensors_full_name(self, user_page, class_test_data, full_unit_create_and_remove_by_api):
+        self.search_by_sensors_full_name(user_page, class_test_data, full_unit_create_and_remove_by_api)
+
+    @mark.objects
+    @mark.search_unit
+    @mark.testomatio('@T214065d4')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_sensors_name_partial(self, user_page, class_test_data, full_unit_create_and_remove_by_api):
+        self.search_by_sensors_partial_name(user_page, class_test_data, full_unit_create_and_remove_by_api)
+
+    @mark.objects
+    @mark.search_unit
+    @mark.testomatio('@T0e0a36a1')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_sensors_name_invalid(self, user_page, full_unit_create_and_remove_by_api):
+        self.search_by_sensors_invalid_name(user_page, full_unit_create_and_remove_by_api)
+
 
 @mark.usefixtures("user_page")
 class TestSearchOnMonitoring(BaseTestSearchObjectByFilters):
@@ -369,6 +393,30 @@ class TestSearchOnMonitoring(BaseTestSearchObjectByFilters):
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_custom_field_invalid(self, user_page, full_unit_create_and_remove_by_api):
         self.search_by_custom_field_invalid(user_page, full_unit_create_and_remove_by_api)
+
+    @mark.monitoring
+    @mark.search_unit
+    @mark.testomatio('@T948123a0')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_sensors_full_name(self, user_page, class_test_data, full_unit_create_and_remove_by_api):
+        self.search_by_sensors_full_name(user_page, class_test_data, full_unit_create_and_remove_by_api)
+
+    @mark.monitoring
+    @mark.search_unit
+    @mark.testomatio('@T214065d4')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_sensors_name_partial(self, user_page, class_test_data, full_unit_create_and_remove_by_api):
+        self.search_by_sensors_partial_name(user_page, class_test_data, full_unit_create_and_remove_by_api)
+
+    @mark.monitoring
+    @mark.search_unit
+    @mark.testomatio('@T0e0a36a1')
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
+    def test_sensors_name_invalid(self, user_page, full_unit_create_and_remove_by_api):
+        self.search_by_sensors_invalid_name(user_page, full_unit_create_and_remove_by_api)
 
 
 @mark.usefixtures("user_page")

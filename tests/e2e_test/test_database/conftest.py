@@ -1,9 +1,12 @@
 import pytest
+
 from pages.api.wastebin_api import WastebinAPI
-from playwright.sync_api import APIRequestContext
-from playwright.sync_api import expect
+from pages.api.sensors_api import SensorsAPI
 from pages.api.devices_api import DeviceAPI
 from pages.api.device_groups_api import DeviceGroupsAPI
+
+from playwright.sync_api import APIRequestContext
+from playwright.sync_api import expect
 
 
 # -----Fixtures with use in APi ------------------------------------------------
@@ -196,6 +199,7 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
 
     device_api = DeviceAPI(api_context, token)
     wastebin_api = WastebinAPI(api_context, token)
+    sensors_api = SensorsAPI(api_context, token)
 
     # Визначаємо кількість пристроїв для створення (за замовчуванням 1)
     num_devices = request.param if hasattr(request, "param") else 1
@@ -207,6 +211,7 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
     class_test_data["phone2"] = []
     class_test_data["device_name"] = []
     class_test_data["model"] = []
+    class_test_data["sensors_name"] = []   # <--- додав список сенсорів
 
     # Створюємо пристрої та зберігаємо їхні ID
     for i in range(1, num_devices + 1):
@@ -255,6 +260,18 @@ def full_unit_create_and_remove_by_api(api_context: APIRequestContext, token: st
         class_test_data["phone"].append(response.json().get("phone"))
         class_test_data["phone2"].append(response.json().get("phone2"))
         class_test_data["model"].append(response.json().get("model"))
+
+        # === Додаємо створення сенсора для кожного пристрою ===
+        sensor_response = sensors_api.create_new_sensor(
+            device_id=class_test_data["unit_id"],
+            name=f"Test sensor {i}",
+            type="CUSTOM_SENSOR",
+            property="can_fls"
+        )
+        expect(sensor_response).to_be_ok()
+
+        # зберігаємо тільки name сенсора
+        class_test_data["sensors_name"].append(sensor_response.json().get("name"))
 
     # Передаємо список створених ID у тест
     yield class_test_data

@@ -21,6 +21,7 @@ class FilterSearch:
             "model": self.page.locator("ul[role='listbox'] > li[data-value='MODEL']"),
             "custom_field": self.page.locator("ul[role='listbox'] > li[data-value='CUSTOM_FIELDS']"),
             "admin_field": self.page.locator("ul[role='listbox'] > li[data-value='ADMIN_FIELDS']"),
+            "sensor_name": self.page.locator("ul[role='listbox'] > li[data-value='SENSOR_NAME']"),
         }
 
     def search_object(self, filter_itm: str, query: str):
@@ -33,6 +34,7 @@ class FilterSearch:
         - model
         - custom_field
         - admin_field
+        - sensor_name
         """
         self.head_menu_unit_locators["filter"].click()
         text_filter_name = self.filter_list[filter_itm].inner_text()
@@ -175,3 +177,19 @@ class BaseTestSearchObjectByFilters:
     def search_by_custom_field_invalid(self, page, _):
         filter_search = FilterSearch(page)
         expect(filter_search.search_object("custom_field", "qwerty 123")).to_have_count(0)
+
+    def search_by_sensors_full_name(self, page, test_data, _):
+        filter_search = FilterSearch(page)
+        expect(filter_search.search_object("sensor_name", test_data["sensors_name"][0])).to_have_count(1)
+        row = filter_search.head_menu_unit_locators["table result"].nth(0)
+        expect(row).to_contain_text(test_data["device_name"][0])
+
+    def search_by_sensors_partial_name(self, page, test_data, _):
+        filter_search = FilterSearch(page)
+        expect(filter_search.search_object("sensor_name", "2")).to_have_count(1)
+        row = filter_search.head_menu_unit_locators["table result"].nth(0)
+        expect(row).to_contain_text(test_data["device_name"][1])
+
+    def search_by_sensors_invalid_name(self, page, _):
+        filter_search = FilterSearch(page)
+        expect(filter_search.search_object("sensor_name", "qwerty123")).to_have_count(0)
