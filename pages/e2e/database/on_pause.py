@@ -1,29 +1,55 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, Locator
 
 
-class onPausePage:
-
+class OnPausePage:
     def __init__(self, page: Page):
         self.page = page
-        self.page.goto("/on-pause")
 
-    # Objects lable locators
-        self.ob_tablet_head = self.page.locator("table thead tr th")
-        self.ob_tablet_body = self.page.locator("table tbody tr")
-
-    # Edit objectd popap locators
-        self.popap_btn = {
-            "cancel": self.page.locator("form button[tabindex='0']").nth(0),
-            "ok": self.page.locator("form button[tabindex='0']").nth(1),
-            "confirm_del": self.page.locator("div[role='dialog'] button").nth(0),
-            "cancel_del": self.page.locator("div[role='dialog'] button").nth(1)
+        # Popup buttons
+        self.popup_btn = {
+            "confirm": self.page.get_by_role("presentation").locator("button").nth(0),
+            "reject": self.page.get_by_role("presentation").locator("button").nth(1),
         }
 
-    def all_unit_move_to_trash(self):
-        """Переміщає об'єкт в корзину."""
+        # Thead buttons
+        self.thead_btns = {
+            "on_pause_all": self.page.locator("thead").get_by_test_id("restore"),
+            "delete_all": self.page.locator("thead").get_by_test_id("remove"),
+            "checkbox_all": self.page.locator("thead input"),
+        }
+
+    def role_btn_tbody(self, row: int, btn_role: str) -> Locator:
+        """row - номер рядка в таблиці, починаючи з 0
+        btn_role - remove або restore
+        """
+        return self.page.locator("tbody").get_by_test_id(btn_role).nth(row)
+
+    def checkbox_tbody(self, row: int) -> Locator:
+        """row - номер рядка в таблиці, починаючи з 0"""
+        return self.page.locator("tbody input").nth(row)
+
+    def restore_one(self, row: int, popup_btn: str):
+        """row - номер рядка в таблиці
+        popup_btn - confirm або reject
+        """
+        self.role_btn_tbody(row, "restore").click()
+        self.popup_btn[popup_btn].click()
+
+    def remove_one(self, row: int, popup_btn: str):
+        self.role_btn_tbody(row, "remove").click()
+        self.popup_btn[popup_btn].click()
+
+    def restore_all(self, popup_btn: str):
+        self.thead_btns["checkbox_all"].click()
+        self.thead_btns["on_pause_all"].click()
+        self.popup_btn[popup_btn].click()
+        self.page.wait_for_load_state("load")
         self.page.wait_for_timeout(1000)
-        while self.ob_tablet_body.count() > 0:
-            self.ob_tablet_head.first.click()
-            self.ob_tablet_head.last.click()
-            self.popap_btn["confirm_del"].click()
-            self.page.wait_for_timeout(1000)
+
+    def remove_all(self, popup_btn: str):
+        self.thead_btns["checkbox_all"].click()
+        self.thead_btns["delete_all"].click()
+        self.popup_btn[popup_btn].click()
+        self.page.wait_for_load_state("load")
+        self.page.wait_for_timeout(1000)
+
