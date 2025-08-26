@@ -32,7 +32,7 @@ class LoginPage:
         self.term_popup = self.page.get_by_role("dialog")
         self.login_as_list = self.page.locator("ul")
         self.login_as_input = self.page.locator("input#outlined-basic")
-        self.close_login_as_popap = self.page.locator("h2 div")
+        self.close_login_as_popap = self.page.locator("h2 div > svg")
 
         self.user_email_profile_input = self.page.get_by_label("Логін/email")
 

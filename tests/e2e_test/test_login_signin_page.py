@@ -1,6 +1,4 @@
-import pytest
 from pytest import mark
-import random
 import os
 from playwright.sync_api import Page, expect
 from pages.e2e.login import LoginPage
@@ -294,24 +292,3 @@ def test_restore_password(page: Page):
 
     login_page.email_input.fill(email_for_restore)
     login_page.accept_btn.click()
-
-
-# M2M-9 Create a new user ------------------------------------------------
-@pytest.mark.skip("generate a lot of users/ Need to add post condition")
-def test_create_new_user(page: Page):
-    login_page = LoginPage(page)
-    random_number = random.sample(range(10000), 10000).pop()
-
-    login_page.sign_up_btn.click()
-    login_page.sign_up(f"test_email+{random_number}@gmail.com", "123456", "123456", "ua")
-
-    login_page.i_agree_checkbox.check()
-    login_page.accept_btn.click()
-
-    expect(page.locator("body h1")).to_have_text("Реєстрацію завершено")
-
-
-# M2M-1603 Authorisation with new user data
-@pytest.mark.skip("Not implemented")
-def test_login_new_user(page: Page):
-    pass

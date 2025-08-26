@@ -52,4 +52,3 @@ class OnPausePage:
         self.popup_btn[popup_btn].click()
         self.page.wait_for_load_state("load")
         self.page.wait_for_timeout(1000)
-
