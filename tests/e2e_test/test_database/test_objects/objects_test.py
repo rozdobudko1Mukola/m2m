@@ -566,6 +566,7 @@ class TestInteractionWithObjects:
 
         objects_page = ObjectsPage(user_page)
         objects_page.unit_table["btns_in_row"].nth(0).click()  # Open object settings window
+        user_page.wait_for_load_state("networkidle")
         for tab in ["main", "access", "sensors", "custom_f", "admin_f", "char", "commands", "drive_detection"]:
             objects_page.object_popap_tablist[tab].click()
             expect(objects_page.object_popap_tabpanel[tab]).not_to_be_hidden()
