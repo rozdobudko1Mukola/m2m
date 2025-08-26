@@ -188,7 +188,7 @@ class TestSearchOnUnits(BaseTestSearchObjectByFilters):
 
     @mark.objects
     @mark.search_unit
-    @mark.testomatio('@T948123a0')
+    @mark.testomatio('@Tc70a0d71')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_sensors_full_name(self, user_page, class_test_data, full_unit_create_and_remove_by_api):
@@ -196,7 +196,7 @@ class TestSearchOnUnits(BaseTestSearchObjectByFilters):
 
     @mark.objects
     @mark.search_unit
-    @mark.testomatio('@T214065d4')
+    @mark.testomatio('@T4e2c7214')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_sensors_name_partial(self, user_page, class_test_data, full_unit_create_and_remove_by_api):
@@ -204,7 +204,7 @@ class TestSearchOnUnits(BaseTestSearchObjectByFilters):
 
     @mark.objects
     @mark.search_unit
-    @mark.testomatio('@T0e0a36a1')
+    @mark.testomatio('@Tff8d2fa5')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_sensors_name_invalid(self, user_page, full_unit_create_and_remove_by_api):
@@ -426,6 +426,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     def open_on_pause_page(self, user_page):
         user_page.goto("/on-pause")
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1987')
@@ -440,6 +441,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_name_full(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1991')
@@ -454,6 +456,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_name_partial(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1992')
@@ -468,6 +471,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_name_invalid(user_page, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1990')
@@ -482,6 +486,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_device_id_full(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1996')
@@ -496,6 +501,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_device_id_partial(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1986')
@@ -510,6 +516,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_device_id_invalid(user_page, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1993')
@@ -524,6 +531,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_phone_full(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1994')
@@ -538,6 +546,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_phone_sim2(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1995')
@@ -552,6 +561,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_phone_partial(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Tb78c4077')
@@ -566,6 +576,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_phone_invalid(user_page, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1997')
@@ -580,6 +591,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_account_full(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1988')
@@ -594,6 +606,7 @@ class TestSearchOnPause(BaseTestSearchObjectByFilters):
     ):
         self.search_by_account_partial(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.on_pause
     @mark.search_unit
     @mark.testomatio('@Ttttt1989')
@@ -616,6 +629,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     def open_monitoring_page(self, user_page):
         user_page.goto("/recycle-bin")
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@T71baaac6')
@@ -630,6 +644,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_name_full(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@Tad16f89b')
@@ -644,6 +659,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_name_partial(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@Tf82873a3')
@@ -658,6 +674,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_name_invalid(user_page, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@T8c292698')
@@ -672,6 +689,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_device_id_full(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@T6c903870')
@@ -686,6 +704,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_device_id_partial(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@T341ac93f')
@@ -700,6 +719,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_device_id_invalid(user_page, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@Td1473e3e')
@@ -714,6 +734,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_phone_full(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@Tf2535bc3')
@@ -728,6 +749,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_phone_sim2(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@T587f7b08')
@@ -742,6 +764,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_phone_partial(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@T34552b0e')
@@ -756,6 +779,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_phone_invalid(user_page, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@T2b5c83d5')
@@ -770,6 +794,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_account_full(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@Tdc852363')
@@ -784,6 +809,7 @@ class TestSearchOnWastebin(BaseTestSearchObjectByFilters):
     ):
         self.search_by_account_partial(user_page, class_test_data, full_unit_create_and_remove_by_api)
 
+    @mark.objects
     @mark.wastebin
     @mark.search_unit
     @mark.testomatio('@T4d675d0c')
