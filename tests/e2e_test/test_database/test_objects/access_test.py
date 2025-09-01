@@ -336,3 +336,317 @@ class TestAccessModule:
         ]
         # Виклик функції, що робить усі перевірки
         self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@T07158238")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_view_sensors_permission(self):
+        # Клікнути на чекбокс "Перегляд датчиків"
+        self.access.click_on_permission("VIEW_SENSORS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_SENSORS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2022")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_sensors_menegement_permission(self):
+        # Клікнути на чекбокс "Створення та редагування датчиків"
+        self.access.click_on_permission("SENSORS_MANAGEMENT")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "SENSORS_MANAGEMENT",
+            "VIEW_SENSORS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2023")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_del_sensors_permission(self):
+        # Клікнути на чекбокс "Видалення датчиків"
+        self.access.click_on_permission("DELETE_SENSORS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_SENSORS",
+            "DELETE_SENSORS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2024")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_custom_fields_view_permission(self):
+        # Клікнути на чекбокс "Перегляд довільних полів"
+        self.access.click_on_permission("CUSTOM_FIELDS_VIEW")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "CUSTOM_FIELDS_VIEW"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2025")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_custom_fields_edit_permission(self):
+        # Клікнути на чекбокс "Редагування довільних полів"
+        self.access.click_on_permission("CUSTOM_FIELDS_EDIT")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "CUSTOM_FIELDS_VIEW",
+            "CUSTOM_FIELDS_EDIT"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2026")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_create_custom_fields_permission(self):
+        # Клікнути на чекбокс "Створення довільних полів"
+        self.access.click_on_permission("CREATE_CUSTOM_FIELDS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "CUSTOM_FIELDS_VIEW",
+            "CREATE_CUSTOM_FIELDS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2027")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_del_custom_fields_permission(self):
+        # Клікнути на чекбокс "Видалення довільних полів"
+        self.access.click_on_permission("DELETE_CUSTOM_FIELDS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "CUSTOM_FIELDS_VIEW",
+            "DELETE_CUSTOM_FIELDS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2028")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_admin_fields_view_permission(self):
+        # Клікнути на чекбокс "Перегляд адміністративних полів"
+        self.access.click_on_permission("ADMIN_FIELDS_VIEW")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "ADMIN_FIELDS_VIEW"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2029")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_admin_fields_edit_permission(self):
+        # Клікнути на чекбокс "Редагування адміністративних полів"
+        self.access.click_on_permission("ADMIN_FIELDS_EDIT")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "ADMIN_FIELDS_VIEW",
+            "ADMIN_FIELDS_EDIT"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2030")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_create_admin_fields_permission(self):
+        # Клікнути на чекбокс "Створення адміністративних полів"
+        self.access.click_on_permission("CREATE_ADMIN_FIELDS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "ADMIN_FIELDS_VIEW",
+            "CREATE_ADMIN_FIELDS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2031")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_del_admin_fields_permission(self):
+        # Клікнути на чекбокс "Видалення адміністративних полів"
+        self.access.click_on_permission("DELETE_ADMIN_FIELDS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "ADMIN_FIELDS_VIEW",
+            "DELETE_ADMIN_FIELDS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2032")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_view_characteristics_permission(self):
+        # Клікнути на чекбокс "Перегляд характеристик"
+        self.access.click_on_permission("VIEW_CHARACTERISTICS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_CHARACTERISTICS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2033")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_edit_characteristics_permission(self):
+        # Клікнути на чекбокс "Редагування характеристик"
+        self.access.click_on_permission("EDIT_CHARACTERISTICS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_CHARACTERISTICS",
+            "EDIT_CHARACTERISTICS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2034")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_view_commands_permission(self):
+        # Клікнути на чекбокс "Перегляд команд"
+        self.access.click_on_permission("VIEW_COMMANDS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_COMMANDS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2035")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_create_commands_permission(self):
+        # Клікнути на чекбокс "Створення команд"
+        self.access.click_on_permission("CREATE_COMMANDS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_COMMANDS",
+            "CREATE_COMMANDS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2036")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_edit_commands_permission(self):
+        # Клікнути на чекбокс "Редагування команд"
+        self.access.click_on_permission("EDIT_COMMANDS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_COMMANDS",
+            "EDIT_COMMANDS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2037")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_execute_commands_permission(self):
+        # Клікнути на чекбокс "Виконання команд"
+        self.access.click_on_permission("EXECUTE_COMMANDS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "EXECUTE_COMMANDS",
+            "VIEW_COMMANDS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2038")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_del_commands_permission(self):
+        # Клікнути на чекбокс "Видалення команд"
+        self.access.click_on_permission("DELETE_COMMANDS")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_COMMANDS",
+            "DELETE_COMMANDS"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2039")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_view_tripdetector_permission(self):
+        # Клікнути на чекбокс "Перегляд детектору поїздок"
+        self.access.click_on_permission("VIEW_TRIPDETECTOR")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_TRIPDETECTOR"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
+
+    @mark.testomatio("@Ttttt2040")
+    @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
+    @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [1], indirect=True)
+    def test_edit_tripdetector_permission(self):
+        # Клікнути на чекбокс "Редагування детектору поїздок"
+        self.access.click_on_permission("EDIT_TRIPDETECTOR")
+
+        # Очікувані активні права
+        expected_active = [
+            "VIEW_ELEMENT",
+            "VIEW_TRIPDETECTOR",
+            "EDIT_TRIPDETECTOR"
+        ]
+        # Виклик функції, що робить усі перевірки
+        self.access.expect_permissions_state(expected_active)
