@@ -1,4 +1,4 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, Locator
 from pages.e2e.base_page import BasePage
 import random
 
@@ -155,6 +155,12 @@ class ObjectsPage:
             "alert_msg": self.page.locator("div[role='tabpanel'] div[role='alert']")
         }
 
+    # Table body locators
+    def role_btn_tbody(self, row: int, btn_role: str) -> Locator:
+        """row - номер рядка в таблиці, починаючи з 0
+        btn_role - remove, restore, edit, copy, pause
+        """
+        return self.page.locator("tbody").get_by_test_id(btn_role).nth(row)
 # -----------------------------------------------------------------------------
 
     def unique_id(self):
