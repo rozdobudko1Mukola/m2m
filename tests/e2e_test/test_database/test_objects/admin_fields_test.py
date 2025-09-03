@@ -31,14 +31,14 @@ class TestAdminFields:
     err_msg_100_symbols = "Максимум 100 символів"  # Error message for max length of 100 symbols
     form_err_text = "Поле з таким іменем вже існує. Змініть ім'я для поля"  # Error message for duplicate field name
 
-    # Відкрити вкладку "Довільні поля" в попапі налаштування обʼєкту
+    # Відкрити вкладку "Адміністративні поля" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T53f3d14d')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_open_admin_fields_tab(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
-        """ ||T56f7967a|| Відкрити вкладку "Довільні поля" в попапі налаштування обʼєкту """
+        """ ||T56f7967a|| Відкрити вкладку "Адміністративні поля" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         admin_fields_page = CustomAdminFieldsPage(user_page)
 
@@ -52,10 +52,10 @@ class TestAdminFields:
         expect(admin_fields_page.empty_fields.nth(1)).to_be_enabled()
         expect(admin_fields_page.save_btn).to_be_disabled()  # Check the save button is disabled
 
-    # Заповнити дані вкладки "Довільні поля" мінімально допустимими значеннями в попапі налаштування обʼєкту
+    # Заповнити дані вкладки "Адміністративні поля" мінімально допустимими значеннями в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@Tdec05439')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_admin_fields_tab(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -78,10 +78,10 @@ class TestAdminFields:
         expect(admin_fields_page.save_btn).to_be_disabled()  # Check the save button is disabled
         expect(admin_fields_page.del_btn.nth(0)).to_be_enabled()  # Check the delete button is enabled
 
-    # Заповнити дані вкладки "Довільні поля" максимально допустимими значеннями в попапі налаштування обʼєкту
+    # Заповнити дані вкладки "Адміністративні поля" максимально допустимими значеннями в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T61168d26')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_admin_fields_tab_max(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -109,14 +109,14 @@ class TestAdminFields:
         expect(admin_fields_page.save_btn).to_be_disabled()  # Check the save button is disabled
         expect(admin_fields_page.del_btn.nth(0)).to_be_enabled()  # Check the delete button is enabled
 
-    # Видалення рядку з даними вкладки "Довільні поля" в попапі налаштування обʼєкту
+    # Видалення рядку з даними вкладки "Адміністративні поля" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T61168d26')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_remove_admin_fields(self, user_page, full_unit_create_and_remove_by_api):
-        """ ||@T34f0b7cc|| Видалення рядку з даними вкладки "Довільні поля" в попапі налаштування обʼєкту """
+        """ ||@T34f0b7cc|| Видалення рядку з даними вкладки "Адміністративні поля" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         admin_fields_page = CustomAdminFieldsPage(user_page)
 
@@ -132,14 +132,14 @@ class TestAdminFields:
         expect(admin_fields_page.save_btn).to_be_disabled()  # Check the save button is disabled
         expect(admin_fields_page.del_btn).not_to_be_visible()  # Check the delete button is not visible
 
-    # Створити рядок в вкладці "Довільні поля" заповнивши тільки поле "Імʼя" в попапі налаштування обʼєкту
+    # Створити рядок в вкладці "Адміністративні поля" заповнивши тільки поле "Імʼя" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T42313539')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_only_name_fild(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
-        """ Створити рядок в вкладці "Довільні поля" заповнивши тільки поле "Імʼя" в попапі налаштування обʼєкту """
+        """ Створити рядок в вкладці "Адміністративні поля" заповнивши тільки поле "Імʼя" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         admin_fields_page = CustomAdminFieldsPage(user_page)
 
@@ -155,10 +155,10 @@ class TestAdminFields:
 
         expect(admin_fields_page.save_btn).to_be_disabled()
 
-    # Створити рядок в вкладці "Довільні поля" заповнивши тільки поле "Значення" в попапі налаштування обʼєкту
+    # Створити рядок в вкладці "Адміністративні поля" заповнивши тільки поле "Значення" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@Tfaedc31d')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_only_value_fild(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -177,14 +177,14 @@ class TestAdminFields:
 
         expect(admin_fields_page.save_btn).to_be_disabled()
 
-    # Редагування рядку з даними вкладки "Довільні поля" в попапі налаштування обʼєкту
+    # Редагування рядку з даними вкладки "Адміністративні поля" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T99e425a9')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_edit_admin_fields(self, user_page, full_unit_create_and_remove_by_api):
-        """ ||T30777dcd|| Редагування рядку з даними вкладки "Довільні поля" в попапі налаштування обʼєкту """
+        """ ||T30777dcd|| Редагування рядку з даними вкладки "Адміністративні поля" в попапі налаштування обʼєкту """
         objects_page = ObjectsPage(user_page)
         admin_fields_page = CustomAdminFieldsPage(user_page)
 
@@ -198,10 +198,10 @@ class TestAdminFields:
 
         expect(admin_fields_page.get_field("value", 0)).to_have_value("test")
 
-    # Редагування рядку з даними вкладки "Довільні поля" вказавши пусті поля "Значення" в попапі налаштування обʼєкту
+    # Редагування рядку з даними вкладки "Адміністративні поля" вказавши пусті поля "Значення" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T1d48a7ae')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_edit_admin_fields_empty_value(self, user_page, full_unit_create_and_remove_by_api):
@@ -223,10 +223,10 @@ class TestAdminFields:
         expect(admin_fields_page.error["msg"]).to_have_text(self.err_text_msg)
         expect(admin_fields_page.error["msg"]).to_have_css("color", self.err_color_msg)
 
-    # Перевірка появи модального вікна при переході на іншу вкладку якшо є не збережені дані у вкладці "Довільні поля"
+    # Перевірка появи модального вікна при переході на іншу вкладку якшо є не збережені дані у вкладці "Адміністративні поля"
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T5818fe3b')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_check_modal_window(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -249,10 +249,10 @@ class TestAdminFields:
         expect(admin_fields_page.get_field("name", 0)).to_have_value("test_name")
         expect(admin_fields_page.get_field("value", 0)).to_have_value("test_value")
 
-    # Перевірка появи вікна при закриті попапу налаштування обʼєкту якшо є не збережені дані у вкладці "Довільні поля"
+    # Перевірка появи вікна при закриті попапу налаштування обʼєкту якшо є не збережені дані у вкладці "Адміністративні поля"
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T649e0741')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_check_modal_window_close_popap(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
@@ -283,10 +283,10 @@ class TestAdminFields:
         expect(admin_fields_page.get_field("name", 0)).to_have_value("test_name")
         expect(admin_fields_page.get_field("value", 0)).to_have_value("test_value")
 
-    # Перевірка появи модального вікна при переході на іншу вкладку якшо дані збережені у вкладці "Довільні поля"
+    # Перевірка появи модального вікна при переході на іншу вкладку якшо дані збережені у вкладці "Адміністративні поля"
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T24a136b1')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_check_modal_window_using_valid_data(
@@ -311,10 +311,10 @@ class TestAdminFields:
         expect(admin_fields_page.get_field("name", 0)).to_have_value("test_name")
         expect(admin_fields_page.get_field("value", 0)).to_have_value("test_value")
 
-    # Заповнити дані вкладки "Довільні поля" вказавши НЕ валідну довжину симовлів в поя вводу в попапі налаштування
+    # Заповнити дані вкладки "Адміністративні поля" вказавши НЕ валідну довжину симовлів в поя вводу в попапі налаштування
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@T6fa8c745')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_fill_admin_fields_tab_invalid_length(
@@ -349,10 +349,10 @@ class TestAdminFields:
         expect(admin_fields_page.error["msg"].nth(0)).to_have_text(self.err_msg_100_symbols)
         expect(admin_fields_page.error["msg"].nth(1)).to_have_text(self.err_msg_100_symbols)
 
-    # Додавання декількох рядків з однаковими даними у вкладці "Довільні поля" в попапі налаштування обʼєкту
+    # Додавання декількох рядків з однаковими даними у вкладці "Адміністративні поля" в попапі налаштування обʼєкту
     @mark.objects
     @mark.admin_fields
-    @mark.testomatio('')
+    @mark.testomatio('@Tce84cf0a')
     @pytest.mark.parametrize("user_page", ["SELFREG"], indirect=True)
     @pytest.mark.parametrize("full_unit_create_and_remove_by_api", [3], indirect=True)
     def test_add_multiple_admin_fields(self, user_page, full_unit_create_and_remove_by_api, revove_admin_filds):
